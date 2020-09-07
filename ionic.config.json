@@ -1,0 +1,7 @@
+{
+  "name": "movieviz-react",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
