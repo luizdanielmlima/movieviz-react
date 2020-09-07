@@ -1,0 +1,7 @@
+.header .app-logo {
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  max-height: 22px;
+  fill: white;
+}
