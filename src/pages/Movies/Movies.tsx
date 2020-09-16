@@ -27,6 +27,9 @@ import MovieList from '../../components/MovieList/MovieList';
 class Movies extends Component {
   state = {
     movies: [],
+    query_genre: 'all',
+    query_sortBy: 'revenue.desc',
+    query_year: '2020-01-01',
     posterParams: null,
   };
 
@@ -35,29 +38,26 @@ class Movies extends Component {
   };
 
   componentDidMount() {
-    this.setMDBImgConfig();
-    this.fetchMovies();
+    this.setMDBImgConfig().then((res) => {
+      console.log('res: ', res);
+      this.setState({ posterParams: res });
+      this.fetchMovies();
+    });
   }
 
   fetchMovies = () => {
-    // const apiKey = '891a2d7d763b8e20d78ae746c8986811';
-    const genre = '12';
-    const sortBy = 'revenue.desc';
-    const year = '2019-02-02';
-    // set query values
     let genreQuery: string;
-    genreQuery = `with_genres=${genre}`;
-    // if (genre === 'all') {
-    //   genreQuery = ''; // all genres was selected
-    // } else {
-    //   genreQuery = `with_genres=${genre}`;
-    // }
+    if (this.state.query_genre === 'all') {
+      genreQuery = ''; // all genres was selected
+    } else {
+      genreQuery = `with_genres=${this.state.query_genre}`;
+    }
 
-    const yearOnlyString = year.substring(0, 4);
+    const yearOnlyString = this.state.query_year.substring(0, 4);
     const yearFromQuery = `primary_release_date.gte=${yearOnlyString}-01-01`;
     const yearToQuery = `primary_release_date.lte=${yearOnlyString}-12-30`;
 
-    const sortByQuery = `sort_by=${sortBy}`;
+    const sortByQuery = `sort_by=${this.state.query_sortBy}`;
 
     axios
       .get(
@@ -72,31 +72,53 @@ class Movies extends Component {
       });
   };
 
-  setMDBImgConfig() {
-    axios
+  handleChange(event: any, from: string) {
+    const updatedValue = event.detail.value;
+    switch (from) {
+      case 'genre':
+        this.setState({ query_genre: updatedValue });
+        break;
+      case 'sortBy':
+        this.setState({ query_sortBy: updatedValue });
+        break;
+      case 'year':
+        this.setState({ query_year: updatedValue });
+        break;
+      default:
+      // do nothing
+    }
+  }
+
+  async setMDBImgConfig() {
+    const posterParams = await axios
       .get(
         `https://api.themoviedb.org/3/configuration?api_key=${this.apiKey()}&language=en-US`,
       )
       .then((response) => {
         console.log(response);
         const imgConfig = response.data.images;
-        const posterParams = {
+        const posterData = {
           baseURL: imgConfig.secure_base_url,
           hiRes: imgConfig.poster_sizes[5],
           lowRes: imgConfig.poster_sizes[2],
         };
-        console.log('posterParams: ', posterParams);
-        this.setState({ posterParams: posterParams });
+        return posterData;
+        // console.log('posterParams: ', posterParams);
+        // this.setState({ posterParams: posterParams });
       })
       .catch((error) => {
         console.log(error);
+        return error;
       });
+    return posterParams;
   }
 
   render() {
-    const selectOptions = genres.map((genre) => {
+    const genreOptions = genres.map((genre) => {
       return (
-        <IonSelectOption key={genre.id}>{genre.name}</IonSelectOption>
+        <IonSelectOption key={genre.id} value={genre.id}>
+          {genre.name}
+        </IonSelectOption>
       );
     });
 
@@ -147,8 +169,14 @@ class Movies extends Component {
                           <IonLabel position="floating">
                             Genre
                           </IonLabel>
-                          <IonSelect name="genre">
-                            {selectOptions}
+                          <IonSelect
+                            name="genre"
+                            value={this.state.query_genre}
+                            onIonChange={(evt) =>
+                              this.handleChange(evt, 'genre')
+                            }
+                          >
+                            {genreOptions}
                           </IonSelect>
                         </IonItem>
                       </IonCol>
@@ -157,7 +185,13 @@ class Movies extends Component {
                           <IonLabel position="floating">
                             Order By:
                           </IonLabel>
-                          <IonSelect name="sortBy">
+                          <IonSelect
+                            name="sortBy"
+                            value={this.state.query_sortBy}
+                            onIonChange={(evt) =>
+                              this.handleChange(evt, 'sortBy')
+                            }
+                          >
                             <IonSelectOption value="popularity.desc">
                               Popularity
                             </IonSelectOption>
@@ -179,6 +213,10 @@ class Movies extends Component {
                             Year
                           </IonLabel>
                           <IonDatetime
+                            value={this.state.query_year}
+                            onIonChange={(evt) =>
+                              this.handleChange(evt, 'year')
+                            }
                             display-format="YYYY"
                             picker-format="YYYY"
                             display-timezone="utc"
@@ -194,9 +232,9 @@ class Movies extends Component {
                         offset-md="4"
                       >
                         <IonButton
-                          type="submit"
                           color="primary"
                           expand="block"
+                          onClick={() => this.fetchMovies()}
                         >
                           FILTER
                         </IonButton>

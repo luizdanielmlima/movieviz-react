@@ -65,31 +65,33 @@ const MovieList = (props: any) => {
   if (props.movies) {
     movies = props.movies.map((movie: any) => {
       return (
-        <IonList className="movie-list" lines="none">
-          <IonItem className="ion-no-padding movie-info-area">
-            <IonThumbnail slot="start" className="movie-thumbnail">
-              <img
-                className="movie-img"
-                src={getFullImgPath(
-                  'poster',
-                  'low',
-                  movie.poster_path,
-                )}
-                alt="movie cover"
-              />
-            </IonThumbnail>
-            <div className="movie-info">
-              <p className="movie-info--number">2</p>
-              <p className="movie-info---title">{movie.title}</p>
-              <IonNote>{getYear(movie.release_date)}</IonNote>
-              <div className="movie-info--rating">
-                <span
-                  style={{ width: getMovieRatingPct(movie) }}
-                ></span>
+        <div key={movie.id}>
+          <IonList className="movie-list" lines="none">
+            <IonItem className="ion-no-padding movie-info-area">
+              <IonThumbnail slot="start" className="movie-thumbnail">
+                <img
+                  className="movie-img"
+                  src={getFullImgPath(
+                    'poster',
+                    'low',
+                    movie.poster_path,
+                  )}
+                  alt="movie cover"
+                />
+              </IonThumbnail>
+              <div className="movie-info">
+                <p className="movie-info--number">2</p>
+                <p className="movie-info---title">{movie.title}</p>
+                <IonNote>{getYear(movie.release_date)}</IonNote>
+                <div className="movie-info--rating">
+                  <span
+                    style={{ width: getMovieRatingPct(movie) }}
+                  ></span>
+                </div>
               </div>
-            </div>
-          </IonItem>
-        </IonList>
+            </IonItem>
+          </IonList>
+        </div>
       );
     });
   }
