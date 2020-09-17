@@ -38,6 +38,7 @@ import './theme/variables.css';
 /* Other */
 import Movies from './pages/Movies/Movies';
 import Actors from './pages/Actors/Actors';
+import Actor from './components/Actor/Actor';
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
@@ -49,6 +50,11 @@ const App: React.FC = () => (
           <IonRouterOutlet>
             <Route path="/movies" component={Movies} exact={true} />
             <Route path="/actors" component={Actors} exact={true} />
+            <Route
+              path="/actors/:id"
+              component={Actor}
+              exact={true}
+            />
             <Route
               path="/"
               render={() => <Redirect to="/movies" />}

@@ -1,0 +1,6 @@
+@import '../../theme/variables.css';
+
+.md ion-segmention-segment-button {
+  --indicator-color: var(--ion-color-secondary);
+  --color-checked: var(--ion-color-secondary);
+}
