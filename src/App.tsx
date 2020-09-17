@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
-  IonIcon,
   IonLabel,
   IonRouterOutlet,
   IonTabBar,
@@ -37,8 +36,7 @@ import './theme/variables.css';
 
 /* Other */
 import Movies from './pages/Movies/Movies';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import Actors from './pages/Actors/Actors';
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
@@ -49,8 +47,7 @@ const App: React.FC = () => (
         <IonTabs>
           <IonRouterOutlet>
             <Route path="/movies" component={Movies} exact={true} />
-            <Route path="/tab2" component={Tab2} exact={true} />
-            <Route path="/tab3" component={Tab3} />
+            <Route path="/actors" component={Actors} exact={true} />
             <Route
               path="/"
               render={() => <Redirect to="/movies" />}
@@ -61,12 +58,8 @@ const App: React.FC = () => (
             <IonTabButton tab="movies" href="/movies">
               <IonLabel>MOVIES</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab2" href="/tab2">
+            <IonTabButton tab="actors" href="/actors">
               <IonLabel>ACTORS</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab3" href="/tab3">
-              {/* <IonIcon icon={square} /> */}
-              <IonLabel>WATCHLIST</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

@@ -64,7 +64,7 @@ class Movies extends Component {
         `https://api.themoviedb.org/3/discover/movie?api_key=${this.apiKey()}&language=en-US&${sortByQuery}&include_adult=false&include_video=false&page=1&${genreQuery}&${yearFromQuery}&${yearToQuery}`,
       )
       .then((response) => {
-        console.log(response.data.results);
+        // console.log(response.data.results);
         this.setState({ movies: response.data.results });
       })
       .catch((error) => {
@@ -95,7 +95,7 @@ class Movies extends Component {
         `https://api.themoviedb.org/3/configuration?api_key=${this.apiKey()}&language=en-US`,
       )
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         const imgConfig = response.data.images;
         const posterData = {
           baseURL: imgConfig.secure_base_url,
@@ -104,7 +104,6 @@ class Movies extends Component {
         };
         return posterData;
         // console.log('posterParams: ', posterParams);
-        // this.setState({ posterParams: posterParams });
       })
       .catch((error) => {
         console.log(error);
@@ -121,14 +120,6 @@ class Movies extends Component {
         </IonSelectOption>
       );
     });
-
-    // let movies: any;
-    // movies = <p>No movies loaded</p>;
-    // if (this.state.movies) {
-    //   movies = this.state.movies.map((movie: any) => {
-    //     return <p key={movie.id}> {movie.original_title}</p>;
-    //   });
-    // }
 
     return (
       <IonPage>
@@ -257,6 +248,7 @@ class Movies extends Component {
   }
 }
 
+// TODO: do Redux stuff later....
 const mapStateToProps = (state: any) => {
   return {
     movies: state.movies,

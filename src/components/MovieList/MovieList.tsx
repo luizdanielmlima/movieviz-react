@@ -4,7 +4,6 @@ import {
   IonList,
   IonItem,
   IonThumbnail,
-  IonImg,
   IonNote,
 } from '@ionic/react';
 
@@ -62,8 +61,8 @@ const MovieList = (props: any) => {
 
   let movies: any;
   movies = <p>No movies loaded</p>;
-  if (props.movies) {
-    movies = props.movies.map((movie: any) => {
+  if (props.movies && props.posterParams) {
+    movies = props.movies.map((movie: any, index: number) => {
       return (
         <div key={movie.id}>
           <IonList className="movie-list" lines="none">
@@ -80,7 +79,7 @@ const MovieList = (props: any) => {
                 />
               </IonThumbnail>
               <div className="movie-info">
-                <p className="movie-info--number">2</p>
+                <p className="movie-info--number">{index + 1}</p>
                 <p className="movie-info---title">{movie.title}</p>
                 <IonNote>{getYear(movie.release_date)}</IonNote>
                 <div className="movie-info--rating">

@@ -1,0 +1,12 @@
+.app-logo {
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  max-height: 22px;
+  fill: white;
+}
+
+.main-segment {
+  position: relative;
+  background-color: black;
+}
