@@ -12,6 +12,14 @@ http://ionicframework.com/docs/theming/ */
     0px 1px 5px 0px rgba(0, 0, 0, 0.08);
   --ratingSize: 110px;
 
+  --margin-sm: 0.6rem;
+  --margin-md: 1rem;
+  --margin-lg: 2rem;
+
+  --padding-lg: 1rem 2rem;
+  --padding-md: 2rem;
+  --padding-sm: 1rem;
+
   /* IONIC STUFF */
   /** primary **/
   --ion-font-family: 'Montserrat', sans-serif;

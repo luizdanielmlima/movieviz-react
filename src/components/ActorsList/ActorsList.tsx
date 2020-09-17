@@ -21,6 +21,41 @@ const ActorsList = (props: any) => {
     return fullImgPath;
   };
 
+  const getKnownMovies = (actor: any) => {
+    const knownMovies = actor.known_for.filter(
+      (item: any) => item.media_type === 'movie',
+    );
+    if (knownMovies && knownMovies.length === 1) {
+      return (
+        <div>
+          <p className="light-text">Known for:</p>
+          <p>
+            <span>{getKnownMoviesOnly(actor)[0].title}</span>
+          </p>
+        </div>
+      );
+    } else if (knownMovies && knownMovies.length > 1) {
+      return (
+        <div>
+          <p className="light-text">Known for:</p>
+          <p>
+            <span>{getKnownMoviesOnly(actor)[0].title}</span>
+            <span className="light-text ml-sm mr-sm">and</span>
+            <span>{getKnownMoviesOnly(actor)[1].title}</span>
+          </p>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  const getKnownMoviesOnly = (actor: any) => {
+    return actor.known_for.filter(
+      (item: any) => item.media_type === 'movie',
+    );
+  };
+
   let actors: any;
   actors = <p>...</p>;
   if (props.actors && props.imgParams) {
@@ -40,11 +75,9 @@ const ActorsList = (props: any) => {
                   alt="actor"
                 />
               </IonThumbnail>
-              <div className="actor-text-items">
-                <p>{actor.name}</p>
-                <div>
-                  <p className="light-text">Known for:</p>
-                </div>
+              <div>
+                <p className="actor-title">{actor.name}</p>
+                {getKnownMovies(actor)}
               </div>
             </IonItem>
           </IonList>

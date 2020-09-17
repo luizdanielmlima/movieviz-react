@@ -26,6 +26,8 @@ import {
 // }
 
 const MovieList = (props: any) => {
+  console.log(props);
+
   const getFullImgPath = (
     type: string,
     res: string,

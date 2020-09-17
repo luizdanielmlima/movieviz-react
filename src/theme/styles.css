@@ -1,0 +1,69 @@
+@import './variables.css';
+
+ion-title {
+  font-weight: 900;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+/* MARGINS */
+.mh-sm {
+  margin-left: var(--margin-sm);
+  margin-right: var(--margin-sm);
+}
+
+.mh-md {
+  margin-left: var(--margin-md);
+  margin-right: var(--margin-md);
+}
+
+.mh-lg {
+  margin-left: var(--margin-lg);
+  margin-right: var(--margin-lg);
+}
+
+.mv-sm {
+  margin-top: var(--margin-sm);
+  margin-bottom: var(--margin-sm);
+}
+
+.mv-md {
+  margin-top: var(--margin-md);
+  margin-bottom: var(--margin-md);
+}
+
+.mv-lg {
+  margin-top: var(--margin-lg);
+  margin-bottom: var(--margin-lg);
+}
+
+.mr-sm {
+  margin-right: var(--margin-sm);
+}
+
+.mr-md {
+  margin-right: var(--margin-md);
+}
+
+.mr-lg {
+  margin-right: var(--margin-lg);
+}
+
+.ml-sm {
+  margin-left: var(--margin-sm);
+}
+
+.ml-md {
+  margin-left: var(--margin-md);
+}
+
+.ml-lg {
+  margin-left: var(--margin-lg);
+}

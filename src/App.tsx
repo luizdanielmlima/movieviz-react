@@ -31,7 +31,8 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
-/* Theme variables */
+/* CSS, Theme variables */
+import './theme/styles.css';
 import './theme/variables.css';
 
 /* Other */

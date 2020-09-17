@@ -13,3 +13,12 @@ ion-thumbnail {
   position: relative;
   background-color: black;
 }
+
+.actor-title {
+  color: var(--ion-color-secondary);
+  font-weight: 700;
+}
+
+.light-text {
+  color: #aaa;
+}
