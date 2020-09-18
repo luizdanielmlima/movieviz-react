@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import axios from 'axios';
 
 import {
@@ -24,6 +25,7 @@ import {
 } from 'ionicons/icons';
 
 import './Actor.css';
+import ActorGallery from '../ActorGallery/ActorGallery';
 
 interface Movie {
   budget?: number;
@@ -81,7 +83,7 @@ interface ActorState {
 export default class Actor extends Component<ActorProps, ActorState> {
   constructor(props: ActorProps) {
     super(props);
-    console.log(props.match.params.id);
+    console.log(props);
     this.state = {
       showMode: 'main',
       profileImgSize: 'w185',
@@ -102,7 +104,7 @@ export default class Actor extends Component<ActorProps, ActorState> {
       console.log('actorData: ', actorData);
       this.setState({ actor: actorData });
       console.log(this.state);
-      // this.fetchActorImages();
+      this.fetchActorImages();
     });
   }
 
@@ -135,8 +137,11 @@ export default class Actor extends Component<ActorProps, ActorState> {
         }/images?api_key=${this.apiKey()}&language=en-US`,
       )
       .then((response) => {
-        console.log(response.data);
-        this.setState({ actorImages: response.data });
+        console.log(
+          'fetchActorImages()|images:',
+          response.data.profiles,
+        );
+        this.setState({ actorImages: response.data.profiles });
       })
       .catch((error) => {
         console.log(error);
@@ -157,7 +162,7 @@ export default class Actor extends Component<ActorProps, ActorState> {
   };
 
   render() {
-    let { showMode } = this.state;
+    let { showMode, actorImages } = this.state;
     let actorContent: any;
     actorContent = <p>Loading data</p>;
 
@@ -245,11 +250,12 @@ export default class Actor extends Component<ActorProps, ActorState> {
           <IonToolbar>
             <IonButtons slot="start">
               <IonBackButton defaultHref="/actors"></IonBackButton>
-              <IonTitle>ACTOR´S NAME</IonTitle>
+              <IonTitle>
+                {this.state.actor ? this.state.actor.name : ''}
+              </IonTitle>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-
         <IonContent>
           <IonSegment
             color="secondary"
@@ -269,6 +275,12 @@ export default class Actor extends Component<ActorProps, ActorState> {
             </IonSegmentButton>
           </IonSegment>
 
+          <Route
+            path={this.props.match.url + '/gallery'}
+            render={(props: any) => (
+              <ActorGallery {...props} images={actorImages} />
+            )}
+          />
           {actorContent}
         </IonContent>
       </IonPage>
