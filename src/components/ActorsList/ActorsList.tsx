@@ -1,9 +1,13 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { IonList, IonItem, IonThumbnail } from '@ionic/react';
 
 import './ActorsList.css';
 
 const ActorsList = (props: any) => {
+  console.log(props);
+  const history = useHistory();
+
   const getFullImgPath = (
     type: string,
     res: string,
@@ -56,6 +60,10 @@ const ActorsList = (props: any) => {
     );
   };
 
+  const navToActor = (actorID: string) => {
+    history.push('/actors/' + actorID);
+  };
+
   let actors: any;
   actors = <p>...</p>;
   if (props.actors && props.imgParams) {
@@ -63,7 +71,7 @@ const ActorsList = (props: any) => {
       return (
         <div key={actor.id}>
           <IonList className="actors-list" lines="none">
-            <IonItem>
+            <IonItem onClick={() => navToActor(actor.id)}>
               <IonThumbnail slot="start">
                 <img
                   className="actor-thumb"

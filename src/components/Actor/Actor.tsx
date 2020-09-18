@@ -23,6 +23,8 @@ import {
   imagesOutline,
 } from 'ionicons/icons';
 
+import './Actor.css';
+
 interface Movie {
   budget?: number;
   genre_ids?: any[];
@@ -60,22 +62,18 @@ interface Cast {
   place_of_birth?: string;
 }
 
-interface Params {
-  baseURL?: string;
-  hiRes?: string;
-  lowRes?: string;
-}
-
 interface ActorProps {
-  name: string;
+  history: any;
+  location: any;
+  match: any;
 }
 
 interface ActorState {
-  showMode?: string;
+  showMode?: any;
+  profileImgSize?: string;
+  baseURL?: string;
+  actorId?: string;
   actor?: Cast;
-  profileParams?: Params;
-  posterParams?: Params;
-  backdropParams?: Params;
   actorImages?: any[];
   movieCredits?: any[];
 }
@@ -83,66 +81,29 @@ interface ActorState {
 export default class Actor extends Component<ActorProps, ActorState> {
   constructor(props: ActorProps) {
     super(props);
+    console.log(props.match.params.id);
     this.state = {
       showMode: 'main',
+      profileImgSize: 'w185',
+      baseURL: 'https://image.tmdb.org/t/p/',
       actor: {
         profile_path: 'nonono',
       },
-      profileParams: {
-        baseURL: 'a',
-        hiRes: 'a',
-        lowRes: 'a',
-      },
-      posterParams: {
-        baseURL: 'a',
-        hiRes: 'a',
-        lowRes: 'a',
-      },
-      backdropParams: {
-        baseURL: 'a',
-        hiRes: 'a',
-        lowRes: 'a',
-      },
+      actorId: props.match.params.id,
       actorImages: [],
       movieCredits: [],
     };
   }
-  actorId = '192';
+  // To test: Morgan Freeman id : '192';
 
   componentDidMount() {
     console.log('componentDidMount()|state:', this.state);
-    this.setMDBImgConfig().then((res) => {
-      this.setState({ profileParams: res });
-      this.setState({ posterParams: res });
-      this.setState({ backdropParams: res });
-      this.fetchActor().then((actorData: any) => {
-        console.log('actorData: ', actorData);
-        this.setState({ actor: actorData });
-        console.log(this.state);
-        // this.fetchActorImages();
-      });
+    this.fetchActor().then((actorData: any) => {
+      console.log('actorData: ', actorData);
+      this.setState({ actor: actorData });
+      console.log(this.state);
+      // this.fetchActorImages();
     });
-  }
-
-  async setMDBImgConfig() {
-    const profileImgParams = await axios
-      .get(
-        `https://api.themoviedb.org/3/configuration?api_key=${this.apiKey()}&language=en-US`,
-      )
-      .then((response) => {
-        const imgConfig = response.data.images;
-        const profileData = {
-          baseURL: imgConfig.secure_base_url,
-          hiRes: imgConfig.profile_sizes[2],
-          lowRes: imgConfig.profile_sizes[1],
-        };
-        return profileData;
-      })
-      .catch((error) => {
-        console.log(error);
-        return error;
-      });
-    return profileImgParams;
   }
 
   apiKey = () => {
@@ -153,7 +114,7 @@ export default class Actor extends Component<ActorProps, ActorState> {
     const actorData = await axios
       .get(
         `https://api.themoviedb.org/3/person/${
-          this.actorId
+          this.state.actorId
         }/?api_key=${this.apiKey()}&language=en-US`,
       )
       .then((response) => {
@@ -170,7 +131,7 @@ export default class Actor extends Component<ActorProps, ActorState> {
     axios
       .get(
         `https://api.themoviedb.org/3/person/${
-          this.actorId
+          this.state.actorId
         }/images?api_key=${this.apiKey()}&language=en-US`,
       )
       .then((response) => {
@@ -182,40 +143,6 @@ export default class Actor extends Component<ActorProps, ActorState> {
       });
   }
 
-  getFullImgPath(type: string, res: string, filePath: string) {
-    console.log(`type:${type} , res:${res} , filePath:${filePath}`);
-    let fullImgPath = '';
-    if (filePath === null) {
-      fullImgPath = '../../../../assets/placeholder.png';
-    }
-    // else {
-    //   let baseURL = '';
-    //   let size = '';
-    //   if (type === 'profile') {
-    //     baseURL = this.state.profileParams.baseURL;
-    //     size =
-    //       res === 'hi'
-    //         ? this.state.profileParams.hiRes
-    //         : this.state.profileParams.lowRes;
-    //   } else if (type === 'poster') {
-    //     baseURL = this.posterParams.baseURL;
-    //     size =
-    //       res === 'hi'
-    //         ? this.state.posterParams.hiRes
-    //         : this.state.posterParams.lowRes;
-    //   } else if (type === 'backdrop') {
-    //     baseURL = this.state.backdropParams.baseURL;
-    //     size =
-    //       res === 'hi'
-    //         ? this.state.backdropParams.hiRes
-    //         : this.state.backdropParams.lowRes;
-    //   }
-    //   fullImgPath = `${baseURL}${size}${filePath}`;
-    // }
-    // console.log(`actor-detail|fullImgPath: ${fullImgPath}`);
-    return fullImgPath;
-  }
-
   onSegmentChange = (type: any) => {
     console.log(`onSegmentChange()|type: ${type}`);
     if (type === 'main') {
@@ -225,19 +152,18 @@ export default class Actor extends Component<ActorProps, ActorState> {
     } else if (type === 'gallery') {
       this.setState({ showMode: 'gallery' });
     }
+    console.log('onSegmentChange()|state:', this.state);
     // SAVE CURRENT ACTOR SOMEWHERE?
   };
 
   render() {
-    let actorMainInfo: any;
-    actorMainInfo = <p>Loading data</p>;
-    if (
-      this.state.actor &&
-      this.state.profileParams &&
-      this.state.posterParams &&
-      this.state.backdropParams
-    ) {
-      actorMainInfo = (
+    let { showMode } = this.state;
+    let actorContent: any;
+    actorContent = <p>Loading data</p>;
+
+    // HTML for Actor Main Info
+    if (this.state.actor && showMode === 'main') {
+      actorContent = (
         <div className="main-segment">
           <IonGrid className="actor-main-area ion-no-padding">
             <IonRow>
@@ -250,11 +176,7 @@ export default class Actor extends Component<ActorProps, ActorState> {
                 offset-md="3"
               >
                 <img
-                  src={this.getFullImgPath(
-                    'profile',
-                    'hi',
-                    this.state.actor.profile_path,
-                  )}
+                  src={`${this.state.baseURL}${this.state.profileImgSize}${this.state.actor.profile_path}`}
                   alt="actor pic"
                 />
               </IonCol>
@@ -290,13 +212,31 @@ export default class Actor extends Component<ActorProps, ActorState> {
               >
                 <div className="biography">
                   <h4>Biography</h4>
-                  <p>{this.state.actor.biography}</p>
+                  <p className="biography-text">
+                    {this.state.actor.biography}
+                  </p>
                 </div>
               </IonCol>
             </IonRow>
           </IonGrid>
         </div>
       );
+      // HTML for Actor Filmography
+      if (showMode === 'credits') {
+        actorContent = (
+          <div>
+            <p>FILMOGRAPHY HERE</p>
+          </div>
+        );
+      }
+      // HTML for Actor Gallery
+      if (showMode === 'gallery') {
+        actorContent = (
+          <div>
+            <p>GALLERY HERE</p>
+          </div>
+        );
+      }
     }
 
     return (
@@ -329,7 +269,7 @@ export default class Actor extends Component<ActorProps, ActorState> {
             </IonSegmentButton>
           </IonSegment>
 
-          {actorMainInfo}
+          {actorContent}
         </IonContent>
       </IonPage>
     );

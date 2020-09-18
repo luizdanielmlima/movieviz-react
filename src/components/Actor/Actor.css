@@ -4,3 +4,118 @@
   --indicator-color: var(--ion-color-secondary);
   --color-checked: var(--ion-color-secondary);
 }
+
+.ios ion-segment {
+  padding: 8px;
+}
+
+.ios ion-segment-button {
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  --color-checked: var(--ion-color-dark);
+}
+
+.ios ion-item {
+  padding: 10px;
+}
+
+ion-thumbnail {
+  width: 80px;
+  height: 120px;
+}
+
+.main-segment {
+  position: relative;
+  background-color: black;
+  height: 320px;
+}
+
+.actor-main-area {
+  background-color: var(--ion-color-dark);
+}
+
+.main-info-area {
+  position: absolute;
+  background-color: white;
+  padding: 8px 16px;
+  top: 300px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.actor-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.actor-stat-item {
+  padding: 0;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+.actor-stat-item p,
+.actor-stat-item h6 {
+  padding: 0;
+  margin: 0;
+}
+
+.actor-stat-item p {
+  font-size: 0.8rem;
+  color: var(--ion-color-light);
+}
+
+.actor-stat-item h6 {
+  margin-top: 8px;
+  color: var(--ion-color-primary);
+}
+
+.actor-stat-item h6 {
+  font-size: 0.8rem;
+}
+
+.biography {
+  background-color: white;
+  padding: 16px 24px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.biography-text {
+  line-height: 1.5;
+}
+
+.actor-filmography-item p:first-child {
+  color: var(--ion-color-secondary);
+}
+
+.actor-filmography-item p:last-child {
+  font-size: 0.8rem;
+}
+
+.actor-filmography-item ion-thumbnail {
+  width: 80px;
+  height: 120px;
+}
+
+.actor-filmography-item ion-img {
+  border-radius: 10px;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.actor-text-items {
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
+.actor-text-items p {
+  padding: 0;
+  margin: 0;
+}
