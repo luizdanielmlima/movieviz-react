@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Redirect, Route, Router } from 'react-router-dom';
 import axios from 'axios';
 
 import {
@@ -13,9 +13,6 @@ import {
   IonTitle,
   IonToolbar,
   IonPage,
-  IonGrid,
-  IonRow,
-  IonCol,
 } from '@ionic/react';
 
 import {
@@ -26,6 +23,8 @@ import {
 
 import './Actor.css';
 import ActorGallery from '../ActorGallery/ActorGallery';
+import ActorMain from '../ActorMain/ActorMain';
+import { IonReactRouter } from '@ionic/react-router';
 
 interface Movie {
   budget?: number;
@@ -101,9 +100,8 @@ export default class Actor extends Component<ActorProps, ActorState> {
   componentDidMount() {
     console.log('componentDidMount()|state:', this.state);
     this.fetchActor().then((actorData: any) => {
-      console.log('actorData: ', actorData);
+      // console.log('actorData: ', actorData);
       this.setState({ actor: actorData });
-      console.log(this.state);
       this.fetchActorImages();
     });
   }
@@ -120,7 +118,7 @@ export default class Actor extends Component<ActorProps, ActorState> {
         }/?api_key=${this.apiKey()}&language=en-US`,
       )
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         return response.data;
       })
       .catch((error) => {
@@ -137,10 +135,10 @@ export default class Actor extends Component<ActorProps, ActorState> {
         }/images?api_key=${this.apiKey()}&language=en-US`,
       )
       .then((response) => {
-        console.log(
-          'fetchActorImages()|images:',
-          response.data.profiles,
-        );
+        // console.log(
+        //   'fetchActorImages()|images:',
+        //   response.data.profiles,
+        // );
         this.setState({ actorImages: response.data.profiles });
       })
       .catch((error) => {
@@ -151,98 +149,23 @@ export default class Actor extends Component<ActorProps, ActorState> {
   onSegmentChange = (type: any) => {
     console.log(`onSegmentChange()|type: ${type}`);
     if (type === 'main') {
+      // this.props.history.push(`/actors/${this.state.actorId}`);
       this.setState({ showMode: 'main' });
     } else if (type === 'credits') {
+      // this.props.history.push(
+      //   `/actors/${this.state.actorId}/credits`,
+      // );
       this.setState({ showMode: 'credits' });
     } else if (type === 'gallery') {
+      // this.props.history.push(
+      //   `/actors/${this.state.actorId}/gallery`,
+      // );
       this.setState({ showMode: 'gallery' });
     }
-    console.log('onSegmentChange()|state:', this.state);
-    // SAVE CURRENT ACTOR SOMEWHERE?
   };
 
   render() {
-    let { showMode, actorImages } = this.state;
-    let actorContent: any;
-    actorContent = <p>Loading data</p>;
-
-    // HTML for Actor Main Info
-    if (this.state.actor && showMode === 'main') {
-      actorContent = (
-        <div className="main-segment">
-          <IonGrid className="actor-main-area ion-no-padding">
-            <IonRow>
-              {/* ACTOR´s PHOTO */}
-              <IonCol
-                className="ion-no-padding"
-                size="7"
-                size-sm="7"
-                size-md="3"
-                offset-md="3"
-              >
-                <img
-                  src={`${this.state.baseURL}${this.state.profileImgSize}${this.state.actor.profile_path}`}
-                  alt="actor pic"
-                />
-              </IonCol>
-
-              {/* ACTOR´s STATS */}
-              <IonCol
-                className="actor-stats"
-                size="5"
-                size-sm="5"
-                size-md="3"
-              >
-                <div className="actor-stat-item">
-                  <p>Popularity</p>
-                  <h6>{this.state.actor.popularity}</h6>
-                </div>
-                <div className="actor-stat-item">
-                  <p>Birthday</p>
-                  <h6>{this.state.actor.birthday}</h6>
-                </div>
-                <div className="actor-stat-item">
-                  <p>Place of Birth</p>
-                  <h6>{this.state.actor.place_of_birth}</h6>
-                </div>
-              </IonCol>
-
-              {/* ACTOR´s BIOGRAPHY */}
-              <IonCol
-                className="ion-no-padding"
-                size="12"
-                size-sm="12"
-                size-md="8"
-                offset-md="2"
-              >
-                <div className="biography">
-                  <h4>Biography</h4>
-                  <p className="biography-text">
-                    {this.state.actor.biography}
-                  </p>
-                </div>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
-        </div>
-      );
-      // HTML for Actor Filmography
-      if (showMode === 'credits') {
-        actorContent = (
-          <div>
-            <p>FILMOGRAPHY HERE</p>
-          </div>
-        );
-      }
-      // HTML for Actor Gallery
-      if (showMode === 'gallery') {
-        actorContent = (
-          <div>
-            <p>GALLERY HERE</p>
-          </div>
-        );
-      }
-    }
+    let { actor, actorImages } = this.state;
 
     return (
       <IonPage>
@@ -274,14 +197,25 @@ export default class Actor extends Component<ActorProps, ActorState> {
               <IonIcon icon={imagesOutline}></IonIcon>
             </IonSegmentButton>
           </IonSegment>
-
           <Route
+            path={`/actors/${this.state.actorId}`}
+            render={(props: any) => (
+              <ActorMain
+                {...props}
+                actor={actor}
+                images={actorImages}
+                showMode={this.state.showMode}
+              />
+            )}
+            exact={true}
+          />
+          {/* <Route
             path={this.props.match.url + '/gallery'}
             render={(props: any) => (
               <ActorGallery {...props} images={actorImages} />
             )}
-          />
-          {actorContent}
+            exact={true}
+          /> */}
         </IonContent>
       </IonPage>
     );

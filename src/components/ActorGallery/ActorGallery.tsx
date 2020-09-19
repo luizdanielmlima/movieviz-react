@@ -10,8 +10,6 @@ function ActorGallery(props: any) {
   let gallery: any;
   gallery = <p>Loading gallery...</p>;
 
-  console.log(props);
-
   if (props.images) {
     gallery = props.images.map((image: any, index: number) => {
       return (
