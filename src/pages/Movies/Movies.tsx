@@ -235,10 +235,7 @@ class Movies extends Component {
                 </form>
               </IonCol>
               <IonCol size="12" size-md="8">
-                <MovieList
-                  movies={this.state.movies}
-                  posterParams={this.state.posterParams}
-                />
+                <MovieList movies={this.state.movies} />
               </IonCol>
             </IonRow>
           </IonGrid>

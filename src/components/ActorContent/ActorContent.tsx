@@ -1,13 +1,14 @@
-import { IonCol, IonGrid, IonImg, IonRow } from '@ionic/react';
+import { IonCol, IonGrid, IonRow } from '@ionic/react';
 import React from 'react';
 
-import './ActorMain.css';
+import './ActorContent.css';
+import MovieList from '../MovieList/MovieList';
 
-function ActorMain(props: any) {
-  const profileImgSize = 'w185';
+function ActorContent(props: any) {
+  const profileSizes = ['w45', 'w185', 'h632', 'original'];
   const baseURL = 'https://image.tmdb.org/t/p/';
 
-  let { actor, showMode, images } = props;
+  let { actor, showMode, images, filmography } = props;
   let actorContent: any;
   actorContent = <p>Loading actor´s info</p>;
 
@@ -27,7 +28,7 @@ function ActorMain(props: any) {
                 offset-md="3"
               >
                 <img
-                  src={`${baseURL}${profileImgSize}${actor.profile_path}`}
+                  src={`${baseURL}${profileSizes[1]}${actor.profile_path}`}
                   alt="actor pic"
                 />
               </IonCol>
@@ -71,30 +72,25 @@ function ActorMain(props: any) {
         </div>
       );
     } else if (showMode === 'credits') {
-      actorContent = <p>Credits content here</p>;
+      actorContent = <MovieList movies={filmography} />;
     } else if (showMode === 'gallery') {
-      actorContent = props.images.map((image: any, index: number) => {
-        return (
-          <div key={index}>
-            <IonGrid className="ion-no-padding">
-              <IonCol
-                size="6"
-                size-md="4"
-                size-sm="2"
+      const allImages = props.images.map(
+        (image: any, index: number) => {
+          return (
+            <div key={index}>
+              <img
                 className="ion-no-padding"
-              >
-                <IonImg
-                  className="ion-no-padding"
-                  src={`${baseURL}${profileImgSize}${image.file_path}`}
-                ></IonImg>
-              </IonCol>
-            </IonGrid>
-          </div>
-        );
-      });
+                src={`${baseURL}${profileSizes[2]}${image.file_path}`}
+                alt="actor pic"
+              />
+            </div>
+          );
+        },
+      );
+      actorContent = <div className="gallery">{allImages}</div>;
     }
   }
   return <div>{actorContent}</div>;
 }
 
-export default ActorMain;
+export default ActorContent;

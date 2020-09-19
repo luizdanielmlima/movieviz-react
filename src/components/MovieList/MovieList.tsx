@@ -26,27 +26,16 @@ import {
 // }
 
 const MovieList = (props: any) => {
-  console.log(props);
-
-  const getFullImgPath = (
-    type: string,
-    res: string,
-    filePath: string,
-  ) => {
-    let fullImgPath: string;
-    if (filePath === null) {
-      fullImgPath = '../../../../assets/placeholder.png';
-    } else {
-      const baseURL = props.posterParams.baseURL;
-      const size =
-        res === 'hi'
-          ? props.posterParams.hiRes
-          : props.posterParams.lowRes;
-      fullImgPath = `${baseURL}/${size}${filePath}`;
-    }
-    // console.log(fullImgPath);
-    return fullImgPath;
-  };
+  const baseURL = 'https://image.tmdb.org/t/p/';
+  const posterSizes = [
+    'w92',
+    'w154',
+    'w185',
+    'w342',
+    'w500',
+    'w780',
+    'original',
+  ];
 
   const getMovieRatingPct = (movie: any) => {
     return movie.vote_average * 10 + '%';
@@ -63,7 +52,7 @@ const MovieList = (props: any) => {
 
   let movies: any;
   movies = <p>No movies loaded</p>;
-  if (props.movies && props.posterParams) {
+  if (props.movies) {
     movies = props.movies.map((movie: any, index: number) => {
       return (
         <div key={movie.id}>
@@ -72,11 +61,7 @@ const MovieList = (props: any) => {
               <IonThumbnail slot="start" className="movie-thumbnail">
                 <img
                   className="movie-img"
-                  src={getFullImgPath(
-                    'poster',
-                    'low',
-                    movie.poster_path,
-                  )}
+                  src={`${baseURL}${posterSizes[2]}${movie.poster_path}`}
                   alt="movie cover"
                 />
               </IonThumbnail>

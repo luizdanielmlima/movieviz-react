@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Route, Router } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import axios from 'axios';
 
 import {
@@ -22,9 +22,7 @@ import {
 } from 'ionicons/icons';
 
 import './Actor.css';
-import ActorGallery from '../ActorGallery/ActorGallery';
-import ActorMain from '../ActorMain/ActorMain';
-import { IonReactRouter } from '@ionic/react-router';
+import ActorContent from '../ActorContent/ActorContent';
 
 interface Movie {
   budget?: number;
@@ -71,12 +69,11 @@ interface ActorProps {
 
 interface ActorState {
   showMode?: any;
-  profileImgSize?: string;
   baseURL?: string;
   actorId?: string;
   actor?: Cast;
-  actorImages?: any[];
-  movieCredits?: any[];
+  gallery?: any[];
+  filmography?: any[];
 }
 
 export default class Actor extends Component<ActorProps, ActorState> {
@@ -85,24 +82,23 @@ export default class Actor extends Component<ActorProps, ActorState> {
     console.log(props);
     this.state = {
       showMode: 'main',
-      profileImgSize: 'w185',
       baseURL: 'https://image.tmdb.org/t/p/',
       actor: {
         profile_path: 'nonono',
       },
       actorId: props.match.params.id,
-      actorImages: [],
-      movieCredits: [],
+      gallery: [],
+      filmography: [],
     };
   }
   // To test: Morgan Freeman id : '192';
 
   componentDidMount() {
-    console.log('componentDidMount()|state:', this.state);
     this.fetchActor().then((actorData: any) => {
       // console.log('actorData: ', actorData);
       this.setState({ actor: actorData });
       this.fetchActorImages();
+      this.fetchFilmography();
     });
   }
 
@@ -139,33 +135,60 @@ export default class Actor extends Component<ActorProps, ActorState> {
         //   'fetchActorImages()|images:',
         //   response.data.profiles,
         // );
-        this.setState({ actorImages: response.data.profiles });
+        this.setState({ gallery: response.data.profiles });
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
+  fetchFilmography() {
+    axios
+      .get(
+        `https://api.themoviedb.org/3/person/${
+          this.state.actorId
+        }/movie_credits?api_key=${this.apiKey()}&language=en-US`,
+      )
+      .then((response) => {
+        const orderedFilmography = response.data.cast
+          .filter((item: any) => item.poster_path !== null)
+          .sort((a: any, b: any) => {
+            return (
+              this.dateToNum(a.release_date) -
+              this.dateToNum(b.release_date)
+            );
+          })
+          .reverse();
+        this.setState({ filmography: orderedFilmography });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  dateToNum(date: string) {
+    let dateAsNumber: number;
+    if (!date) {
+      dateAsNumber = 0;
+    } else {
+      dateAsNumber = Number(date.replace(/-/g, ''));
+    }
+    return dateAsNumber;
+  }
+
   onSegmentChange = (type: any) => {
     console.log(`onSegmentChange()|type: ${type}`);
     if (type === 'main') {
-      // this.props.history.push(`/actors/${this.state.actorId}`);
       this.setState({ showMode: 'main' });
     } else if (type === 'credits') {
-      // this.props.history.push(
-      //   `/actors/${this.state.actorId}/credits`,
-      // );
       this.setState({ showMode: 'credits' });
     } else if (type === 'gallery') {
-      // this.props.history.push(
-      //   `/actors/${this.state.actorId}/gallery`,
-      // );
       this.setState({ showMode: 'gallery' });
     }
   };
 
   render() {
-    let { actor, actorImages } = this.state;
+    let { actor, gallery, filmography } = this.state;
 
     return (
       <IonPage>
@@ -179,8 +202,9 @@ export default class Actor extends Component<ActorProps, ActorState> {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
+        <IonContent className="container">
           <IonSegment
+            className="navpanel"
             color="secondary"
             onIonChange={(evt) =>
               this.onSegmentChange(evt.detail.value)
@@ -197,25 +221,21 @@ export default class Actor extends Component<ActorProps, ActorState> {
               <IonIcon icon={imagesOutline}></IonIcon>
             </IonSegmentButton>
           </IonSegment>
-          <Route
-            path={`/actors/${this.state.actorId}`}
-            render={(props: any) => (
-              <ActorMain
-                {...props}
-                actor={actor}
-                images={actorImages}
-                showMode={this.state.showMode}
-              />
-            )}
-            exact={true}
-          />
-          {/* <Route
-            path={this.props.match.url + '/gallery'}
-            render={(props: any) => (
-              <ActorGallery {...props} images={actorImages} />
-            )}
-            exact={true}
-          /> */}
+          <div className="content">
+            <Route
+              path={`/actors/${this.state.actorId}`}
+              render={(props: any) => (
+                <ActorContent
+                  {...props}
+                  actor={actor}
+                  images={gallery}
+                  filmography={filmography}
+                  showMode={this.state.showMode}
+                />
+              )}
+              exact={true}
+            />
+          </div>
         </IonContent>
       </IonPage>
     );
