@@ -64,7 +64,7 @@ class Movies extends Component {
         `https://api.themoviedb.org/3/discover/movie?api_key=${this.apiKey()}&language=en-US&${sortByQuery}&include_adult=false&include_video=false&page=1&${genreQuery}&${yearFromQuery}&${yearToQuery}`,
       )
       .then((response) => {
-        // console.log(response.data.results);
+        console.log('fetched movies:', response.data.results);
         this.setState({ movies: response.data.results });
       })
       .catch((error) => {
@@ -235,7 +235,10 @@ class Movies extends Component {
                 </form>
               </IonCol>
               <IonCol size="12" size-md="8">
-                <MovieList movies={this.state.movies} />
+                <MovieList
+                  movies={this.state.movies}
+                  isRanking={true}
+                />
               </IonCol>
             </IonRow>
           </IonGrid>

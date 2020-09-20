@@ -1,4 +1,4 @@
-import { IonCol, IonGrid, IonRow } from '@ionic/react';
+import { IonCol, IonGrid, IonImg, IonRow } from '@ionic/react';
 import React from 'react';
 
 import './ActorContent.css';
@@ -72,17 +72,21 @@ function ActorContent(props: any) {
         </div>
       );
     } else if (showMode === 'credits') {
-      actorContent = <MovieList movies={filmography} />;
+      /* ACTOR´s FILMOGRAPHY */
+      actorContent = (
+        <MovieList movies={filmography} isRanking={false} />
+      );
     } else if (showMode === 'gallery') {
+      /* ACTOR´s GALLERY */
       const allImages = props.images.map(
         (image: any, index: number) => {
           return (
             <div key={index}>
-              <img
+              <IonImg
                 className="ion-no-padding"
                 src={`${baseURL}${profileSizes[2]}${image.file_path}`}
                 alt="actor pic"
-              />
+              ></IonImg>
             </div>
           );
         },

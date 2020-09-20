@@ -21,45 +21,9 @@ import {
   imagesOutline,
 } from 'ionicons/icons';
 
-import './Actor.css';
-import ActorContent from '../ActorContent/ActorContent';
-
-interface Movie {
-  budget?: number;
-  genre_ids?: any[];
-  id: string;
-  media_type?: string;
-  original_language?: string;
-  overview?: string;
-  popularity?: number;
-  backdrop_path?: string;
-  poster_path?: string;
-  release_date?: string;
-  revenue?: number;
-  runtime?: string;
-  title: string;
-  vote_average?: number;
-  vote_count?: number;
-}
-
-interface Cast {
-  biography?: string;
-  birthday?: string;
-  known_for?: Movie[];
-  cast_id?: number;
-  character?: string;
-  credit_id?: string;
-  deathday?: string;
-  gender?: any;
-  homepage?: string;
-  id?: number;
-  imdb_id?: string;
-  name?: string;
-  order?: number;
-  profile_path: string;
-  popularity?: number;
-  place_of_birth?: string;
-}
+import './ActorDetail.css';
+import ActorContent from '../../components/ActorContent/ActorContent';
+import { Cast } from '../../shared/models';
 
 interface ActorProps {
   history: any;
@@ -68,7 +32,7 @@ interface ActorProps {
 }
 
 interface ActorState {
-  showMode?: any;
+  showMode?: string;
   baseURL?: string;
   actorId?: string;
   actor?: Cast;
@@ -177,7 +141,6 @@ export default class Actor extends Component<ActorProps, ActorState> {
   }
 
   onSegmentChange = (type: any) => {
-    console.log(`onSegmentChange()|type: ${type}`);
     if (type === 'main') {
       this.setState({ showMode: 'main' });
     } else if (type === 'credits') {
@@ -192,7 +155,7 @@ export default class Actor extends Component<ActorProps, ActorState> {
 
     return (
       <IonPage>
-        <IonHeader className="header">
+        <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
               <IonBackButton defaultHref="/actors"></IonBackButton>

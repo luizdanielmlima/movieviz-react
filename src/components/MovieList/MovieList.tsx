@@ -5,6 +5,7 @@ import {
   IonItem,
   IonThumbnail,
   IonNote,
+  IonImg,
 } from '@ionic/react';
 
 // interface MovieProps {
@@ -55,18 +56,20 @@ const MovieList = (props: any) => {
   if (props.movies) {
     movies = props.movies.map((movie: any, index: number) => {
       return (
-        <div key={movie.id}>
+        <div key={movie.id} className="movies">
           <IonList className="movie-list" lines="none">
             <IonItem className="ion-no-padding movie-info-area">
               <IonThumbnail slot="start" className="movie-thumbnail">
-                <img
+                <IonImg
                   className="movie-img"
                   src={`${baseURL}${posterSizes[2]}${movie.poster_path}`}
                   alt="movie cover"
-                />
+                ></IonImg>
               </IonThumbnail>
               <div className="movie-info">
-                <p className="movie-info--number">{index + 1}</p>
+                {props.isRanking ? (
+                  <p className="movie-info--number">{index + 1}</p>
+                ) : null}
                 <p className="movie-info---title">{movie.title}</p>
                 <IonNote>{getYear(movie.release_date)}</IonNote>
                 <div className="movie-info--rating">
@@ -82,7 +85,7 @@ const MovieList = (props: any) => {
     });
   }
 
-  return <div>{movies}</div>;
+  return <div className="container">{movies}</div>;
 };
 
 export default MovieList;

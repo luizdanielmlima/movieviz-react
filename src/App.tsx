@@ -37,8 +37,9 @@ import './theme/variables.css';
 
 /* Other */
 import Movies from './pages/Movies/Movies';
+import MovieDetail from './pages/MovieDetail/MovieDetail';
 import Actors from './pages/Actors/Actors';
-import Actor from './components/Actor/Actor';
+import ActorDetail from './pages/ActorDetail/ActorDetail';
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
@@ -49,8 +50,9 @@ const App: React.FC = () => (
         <IonTabs>
           <IonRouterOutlet>
             <Route path="/movies" component={Movies} exact={true} />
+            <Route path="/movies/:id" component={MovieDetail} />
             <Route path="/actors" component={Actors} exact={true} />
-            <Route path="/actors/:id" component={Actor} />
+            <Route path="/actors/:id" component={ActorDetail} />
             <Route
               path="/"
               render={() => <Redirect to="/movies" />}

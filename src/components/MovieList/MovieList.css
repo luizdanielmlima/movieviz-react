@@ -1,5 +1,10 @@
 @import '../../theme/variables.css';
 
+.movies {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .movie-info-area {
   position: relative;
   margin: 8px 12px 16px 12px;
