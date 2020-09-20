@@ -1,5 +1,6 @@
 import React from 'react';
-import './MovieList.css';
+import { useHistory } from 'react-router-dom';
+
 import {
   IonList,
   IonItem,
@@ -8,25 +9,10 @@ import {
   IonImg,
 } from '@ionic/react';
 
-// interface MovieProps {
-//   budget?: number;
-//   genre_ids?: any[];
-//   id: string;
-//   media_type?: string;
-//   original_language?: string;
-//   overview?: string;
-//   popularity?: number;
-//   backdrop_path?: string;
-//   poster_path?: string;
-//   release_date?: string;
-//   revenue?: number;
-//   runtime?: string;
-//   title: string;
-//   vote_average?: number;
-//   vote_count?: number;
-// }
+import './MovieList.css';
 
 const MovieList = (props: any) => {
+  const history = useHistory();
   const baseURL = 'https://image.tmdb.org/t/p/';
   const posterSizes = [
     'w92',
@@ -51,6 +37,10 @@ const MovieList = (props: any) => {
     }
   };
 
+  const navToMovie = (movieID: string) => {
+    history.push('/movies/' + movieID);
+  };
+
   let movies: any;
   movies = <p>No movies loaded</p>;
   if (props.movies) {
@@ -58,7 +48,10 @@ const MovieList = (props: any) => {
       return (
         <div key={movie.id} className="movies">
           <IonList className="movie-list" lines="none">
-            <IonItem className="ion-no-padding movie-info-area">
+            <IonItem
+              className="ion-no-padding movie-info-area"
+              onClick={() => navToMovie(movie.id)}
+            >
               <IonThumbnail slot="start" className="movie-thumbnail">
                 <IonImg
                   className="movie-img"
@@ -72,7 +65,7 @@ const MovieList = (props: any) => {
                 ) : null}
                 <p className="movie-info---title">{movie.title}</p>
                 <IonNote>{getYear(movie.release_date)}</IonNote>
-                <div className="movie-info--rating">
+                <div className="rating">
                   <span
                     style={{ width: getMovieRatingPct(movie) }}
                   ></span>

@@ -3,27 +3,12 @@ import { useHistory } from 'react-router-dom';
 import { IonList, IonItem, IonThumbnail } from '@ionic/react';
 
 import './ActorsList.css';
+import configuration from '../../shared/configuration';
 
 const ActorsList = (props: any) => {
-  console.log(props);
   const history = useHistory();
-
-  const getFullImgPath = (
-    type: string,
-    res: string,
-    filePath: string,
-  ) => {
-    let fullImgPath: string;
-    if (filePath === null) {
-      fullImgPath = '../../../../assets/placeholder.png';
-    } else {
-      const baseURL = props.imgParams.baseURL;
-      const size =
-        res === 'hi' ? props.imgParams.hiRes : props.imgParams.lowRes;
-      fullImgPath = `${baseURL}/${size}${filePath}`;
-    }
-    return fullImgPath;
-  };
+  const profileSizes = configuration.images.profile_sizes;
+  const baseURL = configuration.images.base_url;
 
   const getKnownMovies = (actor: any) => {
     const knownMovies = actor.known_for.filter(
@@ -75,11 +60,7 @@ const ActorsList = (props: any) => {
               <IonThumbnail slot="start">
                 <img
                   className="actor-thumb"
-                  src={getFullImgPath(
-                    'profile',
-                    'low',
-                    actor.profile_path,
-                  )}
+                  src={`${baseURL}${profileSizes[1]}${actor.profile_path}`}
                   alt="actor"
                 />
               </IonThumbnail>

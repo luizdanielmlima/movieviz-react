@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router';
 import axios from 'axios';
 
 import {
@@ -21,7 +22,8 @@ import {
   filmOutline,
 } from 'ionicons/icons';
 
-import { Cast, Crew, MovieModel } from '../../shared/models';
+import { Cast, Crew, Movie } from '../../shared/models';
+import MovieContent from '../../components/MovieContent/MovieContent';
 import './MovieDetail.css';
 
 // Props and State Models
@@ -35,7 +37,7 @@ interface MovieState {
   showMode?: string;
   baseURL?: string;
   movieId?: string;
-  movie?: MovieModel;
+  movie?: Movie;
   movieYear?: string;
   cast?: Cast[];
   crew?: Crew[];
@@ -44,7 +46,7 @@ interface MovieState {
   trailers?: any[];
 }
 
-export class Movie extends Component<MovieProps, MovieState> {
+export class MovieDetail extends Component<MovieProps, MovieState> {
   constructor(props: MovieProps) {
     super(props);
     console.log(props);
@@ -94,17 +96,10 @@ export class Movie extends Component<MovieProps, MovieState> {
 
   onSegmentChange = (type: any) => {
     this.setState({ showMode: type });
-    // if (type === 'main') {
-    //   this.setState({ showMode: 'main' });
-    // } else if (type === 'credits') {
-    //   this.setState({ showMode: 'credits' });
-    // } else if (type === 'gallery') {
-    //   this.setState({ showMode: 'gallery' });
-    // }
   };
 
   render() {
-    let { movie, movieYear } = this.state;
+    let { movie, movieId, movieYear, showMode } = this.state;
 
     return (
       <IonPage>
@@ -123,7 +118,7 @@ export class Movie extends Component<MovieProps, MovieState> {
             onIonChange={(evt) =>
               this.onSegmentChange(evt.detail.value)
             }
-            value={this.state.showMode}
+            value={showMode}
           >
             <IonSegmentButton value="main">
               <IonIcon icon={informationCircleOutline}></IonIcon>
@@ -138,10 +133,23 @@ export class Movie extends Component<MovieProps, MovieState> {
               <IonIcon icon={filmOutline}></IonIcon>
             </IonSegmentButton>
           </IonSegment>
+          <div className="content">
+            <Route
+              path={`/movies/${movieId}`}
+              render={(props: any) => (
+                <MovieContent
+                  {...props}
+                  movie={movie}
+                  showMode={showMode}
+                />
+              )}
+              exact={true}
+            />
+          </div>
         </IonContent>
       </IonPage>
     );
   }
 }
 
-export default Movie;
+export default MovieDetail;

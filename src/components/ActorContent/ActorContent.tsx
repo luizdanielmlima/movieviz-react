@@ -3,10 +3,11 @@ import React from 'react';
 
 import './ActorContent.css';
 import MovieList from '../MovieList/MovieList';
+import configuration from '../../shared/configuration';
 
 function ActorContent(props: any) {
-  const profileSizes = ['w45', 'w185', 'h632', 'original'];
-  const baseURL = 'https://image.tmdb.org/t/p/';
+  const profileSizes = configuration.images.profile_sizes;
+  const baseURL = configuration.images.base_url;
 
   let { actor, showMode, images, filmography } = props;
   let actorContent: any;

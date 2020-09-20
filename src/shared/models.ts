@@ -1,4 +1,4 @@
-export interface MovieModel {
+export interface Movie {
   budget?: number;
   genre_ids?: any[];
   id?: string;
@@ -19,7 +19,7 @@ export interface MovieModel {
 export interface Cast {
   biography?: string;
   birthday?: string;
-  known_for?: MovieModel[];
+  known_for?: Movie[];
   cast_id?: number;
   character?: string;
   credit_id?: string;
