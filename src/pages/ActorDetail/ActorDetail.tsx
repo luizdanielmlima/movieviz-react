@@ -141,13 +141,14 @@ export default class Actor extends Component<ActorProps, ActorState> {
   }
 
   onSegmentChange = (type: any) => {
-    if (type === 'main') {
-      this.setState({ showMode: 'main' });
-    } else if (type === 'credits') {
-      this.setState({ showMode: 'credits' });
-    } else if (type === 'gallery') {
-      this.setState({ showMode: 'gallery' });
-    }
+    this.setState({ showMode: type });
+    // if (type === 'main') {
+    //   this.setState({ showMode: 'main' });
+    // } else if (type === 'credits') {
+    //   this.setState({ showMode: 'credits' });
+    // } else if (type === 'gallery') {
+    //   this.setState({ showMode: 'gallery' });
+    // }
   };
 
   render() {
