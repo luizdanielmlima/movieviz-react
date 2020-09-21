@@ -64,10 +64,15 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
 
   componentDidMount() {
     this.fetchMovie().then((movieData: any) => {
-      console.log('movieData: ', movieData);
+      // console.log('movieData: ', movieData);
       this.setState({ movie: movieData });
       this.setState({
         movieYear: movieData.release_date.substring(0, 4),
+      });
+      // Get credits (cast and crew)
+      this.fetchCredits().then((movieCredits: any) => {
+        this.setState({ cast: movieCredits.cast });
+        this.setState({ crew: movieCredits.crew });
       });
     });
   }
@@ -94,12 +99,36 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
     return movieData;
   }
 
+  async fetchCredits() {
+    const movieCredits = await axios
+      .get(
+        `https://api.themoviedb.org/3/movie/${
+          this.state.movieId
+        }/credits?api_key=${this.apiKey()}&language=en-US`,
+      )
+      .then((response) => {
+        const credits = response.data;
+        return credits;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return movieCredits;
+  }
+
   onSegmentChange = (type: any) => {
     this.setState({ showMode: type });
   };
 
   render() {
-    let { movie, movieId, movieYear, showMode } = this.state;
+    let {
+      movie,
+      movieId,
+      movieYear,
+      showMode,
+      cast,
+      crew,
+    } = this.state;
 
     return (
       <IonPage>
@@ -140,6 +169,8 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
                 <MovieContent
                   {...props}
                   movie={movie}
+                  cast={cast}
+                  crew={crew}
                   showMode={showMode}
                 />
               )}

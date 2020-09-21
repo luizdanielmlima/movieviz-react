@@ -27,56 +27,33 @@ class Actors extends Component {
   };
 
   componentDidMount() {
-    this.setMDBImgConfig().then((res) => {
-      //   console.log('setMDBImgConfig()|res: ', res);
-      this.setState({ imgParams: res });
-      this.fetchActors();
+    this.fetchActors().then((actorsData: any) => {
+      this.setState({ actors: actorsData });
+      // console.log('Actors state: ', this.state);
     });
   }
 
-  async setMDBImgConfig() {
-    const profileImgParams = await axios
-      .get(
-        `https://api.themoviedb.org/3/configuration?api_key=${this.apiKey()}&language=en-US`,
-      )
-      .then((response) => {
-        const imgConfig = response.data.images;
-        const profileData = {
-          baseURL: imgConfig.secure_base_url,
-          hiRes: imgConfig.profile_sizes[2],
-          lowRes: imgConfig.profile_sizes[1],
-        };
-        return profileData;
-      })
-      .catch((error) => {
-        console.log(error);
-        return error;
-      });
-    return profileImgParams;
-  }
-
-  fetchActors = () => {
-    axios
+  async fetchActors() {
+    const actors = await axios
       .get(
         `https://api.themoviedb.org/3/person/popular?api_key=${this.apiKey()}&language=en-US`,
       )
       .then((response) => {
-        this.setState({ actors: response.data.results });
+        const data = response.data.results;
+        return data;
       })
       .catch((error) => {
         console.log(error);
       });
-  };
+    return actors;
+  }
 
   render() {
     let actorsList: any;
     actorsList = <p>Loading Actors...</p>;
-    if (this.state.imgParams && this.state.actors) {
+    if (this.state.actors) {
       actorsList = (
-        <ActorsList
-          actors={this.state.actors}
-          imgParams={this.state.imgParams}
-        />
+        <ActorsList actors={this.state.actors} isMovieCast={false} />
       );
     }
     return (

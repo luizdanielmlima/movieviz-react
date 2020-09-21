@@ -11,29 +11,33 @@ const ActorsList = (props: any) => {
   const baseURL = configuration.images.base_url;
 
   const getKnownMovies = (actor: any) => {
-    const knownMovies = actor.known_for.filter(
-      (item: any) => item.media_type === 'movie',
-    );
-    if (knownMovies && knownMovies.length === 1) {
-      return (
-        <div>
-          <p className="light-text">Known for:</p>
-          <p>
-            <span>{getKnownMoviesOnly(actor)[0].title}</span>
-          </p>
-        </div>
+    if (actor.known_for) {
+      const knownMovies = actor.known_for.filter(
+        (item: any) => item.media_type === 'movie',
       );
-    } else if (knownMovies && knownMovies.length > 1) {
-      return (
-        <div>
-          <p className="light-text">Known for:</p>
-          <p>
-            <span>{getKnownMoviesOnly(actor)[0].title}</span>
-            <span className="light-text ml-sm mr-sm">and</span>
-            <span>{getKnownMoviesOnly(actor)[1].title}</span>
-          </p>
-        </div>
-      );
+      if (knownMovies && knownMovies.length === 1) {
+        return (
+          <div>
+            <p className="light-text">Known for:</p>
+            <p>
+              <span>{getKnownMoviesOnly(actor)[0].title}</span>
+            </p>
+          </div>
+        );
+      } else if (knownMovies && knownMovies.length > 1) {
+        return (
+          <div>
+            <p className="light-text">Known for:</p>
+            <p>
+              <span>{getKnownMoviesOnly(actor)[0].title}</span>
+              <span className="light-text ml-sm mr-sm">and</span>
+              <span>{getKnownMoviesOnly(actor)[1].title}</span>
+            </p>
+          </div>
+        );
+      } else {
+        return null;
+      }
     } else {
       return null;
     }
@@ -45,13 +49,31 @@ const ActorsList = (props: any) => {
     );
   };
 
+  // When actors list is presented in the Actors Page, it shows the "known for" below the actors´s name...
+  // ... but when its shown in the movie detail page it must show the character name
+  const getSubText = (actor: any) => {
+    if (props.isMovieCast) {
+      return <p>{actor.character}</p>;
+    } else {
+      return getKnownMovies(actor);
+    }
+  };
+
+  const getProfileImg = (actor: any) => {
+    if (!actor.profile_path || actor.profile_path === '') {
+      return `assets/images/placeholder.png`;
+    } else {
+      return `${baseURL}${profileSizes[1]}${actor.profile_path}`;
+    }
+  };
+
   const navToActor = (actorID: string) => {
     history.push('/actors/' + actorID);
   };
 
   let actors: any;
   actors = <p>...</p>;
-  if (props.actors && props.imgParams) {
+  if (props.actors) {
     actors = props.actors.map((actor: any, index: number) => {
       return (
         <div key={actor.id}>
@@ -60,13 +82,13 @@ const ActorsList = (props: any) => {
               <IonThumbnail slot="start">
                 <img
                   className="actor-thumb"
-                  src={`${baseURL}${profileSizes[1]}${actor.profile_path}`}
+                  src={getProfileImg(actor)}
                   alt="actor"
                 />
               </IonThumbnail>
               <div>
                 <p className="actor-title">{actor.name}</p>
-                {getKnownMovies(actor)}
+                {getSubText(actor)}
               </div>
             </IonItem>
           </IonList>

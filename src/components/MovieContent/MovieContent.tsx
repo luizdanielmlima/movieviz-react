@@ -8,6 +8,7 @@ import {
 import React from 'react';
 
 import configuration from '../../shared/configuration';
+import ActorsList from '../ActorsList/ActorsList';
 import './MovieContent.css';
 
 function MovieContent(props: any) {
@@ -35,7 +36,7 @@ function MovieContent(props: any) {
     }
   };
 
-  let { movie, showMode } = props;
+  let { movie, showMode, cast, crew } = props;
   let movieContent: any;
   movieContent = <p>Loading movie´s info</p>;
 
@@ -142,9 +143,7 @@ function MovieContent(props: any) {
       );
     } else if (showMode === 'cast') {
       movieContent = (
-        <div>
-          <p>Show CAST Content here</p>
-        </div>
+        <ActorsList actors={cast} isMovieCast={true}></ActorsList>
       );
     } else if (showMode === 'gallery') {
       movieContent = (

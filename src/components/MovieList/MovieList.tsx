@@ -41,6 +41,14 @@ const MovieList = (props: any) => {
     history.push('/movies/' + movieID);
   };
 
+  const getPoster = (movie: any) => {
+    if (!movie.poster_path || movie.poster_path === '') {
+      return `assets/images/placeholder.png`;
+    } else {
+      return `${baseURL}${posterSizes[2]}${movie.poster_path}`;
+    }
+  };
+
   let movies: any;
   movies = <p>No movies loaded</p>;
   if (props.movies) {
@@ -55,7 +63,7 @@ const MovieList = (props: any) => {
               <IonThumbnail slot="start" className="movie-thumbnail">
                 <IonImg
                   className="movie-img"
-                  src={`${baseURL}${posterSizes[2]}${movie.poster_path}`}
+                  src={getPoster(movie)}
                   alt="movie cover"
                 ></IonImg>
               </IonThumbnail>
