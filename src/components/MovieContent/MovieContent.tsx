@@ -12,16 +12,8 @@ import ActorsList from '../ActorsList/ActorsList';
 import './MovieContent.css';
 
 function MovieContent(props: any) {
+  console.log(props);
   const posterSizes = configuration.images.poster_sizes;
-  //   const posterSizes = [
-  //     'w92',
-  //     'w154',
-  //     'w185',
-  //     'w342',
-  //     'w500',
-  //     'w780',
-  //     'original',
-  //   ];
   const baseURL = configuration.images.base_url;
 
   const getMovieDuration = (totalMin: number) => {
@@ -37,8 +29,35 @@ function MovieContent(props: any) {
   };
 
   let { movie, showMode, cast, crew } = props;
+  const movieGenres = movie.genres;
   let movieContent: any;
+
   movieContent = <p>Loading movie´s info</p>;
+
+  let crewList;
+  crewList = <p>Loading crew...</p>;
+  if (crew) {
+    crewList = crew.map((person: any, index: number) => {
+      return (
+        <div key={index} className="crew-item">
+          <p>{person.name}</p>
+          <p>......</p>
+          <p>{person.job}</p>
+        </div>
+      );
+    });
+  }
+
+  let genres;
+  if (movieGenres) {
+    genres = movieGenres.map((genre: any) => {
+      return (
+        <IonChip key={genre.id} outline color="dark">
+          <IonLabel color="dark">{genre.name}</IonLabel>
+        </IonChip>
+      );
+    });
+  }
 
   if (movie) {
     if (showMode === 'main') {
@@ -105,36 +124,21 @@ function MovieContent(props: any) {
                 size-lg="6"
               >
                 <IonGrid className="main-info-area ion-no-padding">
-                  {/* <IonRow className="ion-no-padding" *ngIf="genres">
-              <IonCol size="12">
-                <IonChip
-                  outline
-                  color="dark"
-                  *ngFor="let genre of movie.genres"
-                  (click)="setGenreAndNavToMovies(genre)"
-                >
-                  <IonLabel color="dark"
-                    >{ getGenreName(genre.id) }</IonLabel
-                  >
-                </IonChip>
-              </IonCol>
-            </IonRow> */}
+                  <IonRow>
+                    <IonCol size="12">{genres}</IonCol>
+                  </IonRow>
                   <IonRow>
                     <IonCol size="12">
                       <h4>Overview</h4>
                       <p>{movie.overview}</p>
                     </IonCol>
                   </IonRow>
-                  {/* <IonRow>
-              <IonCol size="12">
-                <h4>Featured Crew</h4>
-                <div className="crew-item" *ngFor="let crewMember of movieCrew">
-                  <p>{ crewMember.name }</p>
-                  <p>......</p>
-                  <p>{ crewMember.job }</p>
-                </div>
-              </IonCol>
-            </IonRow> */}
+                  <IonRow>
+                    <IonCol size="12">
+                      <h4>Featured Crew</h4>
+                      {crewList}
+                    </IonCol>
+                  </IonRow>
                 </IonGrid>
               </IonCol>
             </IonRow>

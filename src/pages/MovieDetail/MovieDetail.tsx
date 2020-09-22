@@ -24,6 +24,7 @@ import {
 
 import { Cast, Crew, Movie } from '../../shared/models';
 import MovieContent from '../../components/MovieContent/MovieContent';
+import genres from '../../shared/genres';
 import './MovieDetail.css';
 
 // Props and State Models

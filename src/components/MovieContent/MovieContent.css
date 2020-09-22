@@ -49,3 +49,24 @@
   margin-top: 8px;
   color: var(--ion-color-primary);
 }
+
+.crew-item {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  grid-template-columns: 2fr 40px 2fr;
+}
+
+.crew-item p {
+  margin: 12px 2px;
+}
+
+.crew-item p:first-child {
+  margin-top: 18px;
+  color: var(--ion-color-primary);
+}
+
+.crew-item p:last-child {
+  justify-self: end;
+  text-align: right;
+}
