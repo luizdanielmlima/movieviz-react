@@ -1,19 +1,37 @@
 @import '../../theme/variables.css';
 @import '../../theme/styles.css';
 
-.main-segment {
-  position: relative;
+.wrapper {
   background-color: black;
 }
 
-.main-segment.thumb-container {
+.main-info {
   position: relative;
-  margin: 0;
-  padding: 0;
-  height: 100%;
+  /* background-color: black; */
+  height: 50vh;
+  min-height: 200px;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
 }
 
-.main-segment.thumb-container.thumb {
+.secondary-info {
+  padding: 16px;
+  background-color: #fff;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.thumb-container {
+  margin: 0;
+  padding: 0;
+  width: 50vw;
+  max-width: 300px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.thumb {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -22,9 +40,17 @@
 }
 
 .movie-stats {
+  width: 100%;
+  padding: 12px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.rating-centered {
+  margin: 0 auto !important;
+  margin-bottom: 16px !important;
 }
 
 .movie-stat-item {

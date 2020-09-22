@@ -163,7 +163,7 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
               <IonIcon icon={filmOutline}></IonIcon>
             </IonSegmentButton>
           </IonSegment>
-          <div className="content">
+          <div>
             <Route
               path={`/movies/${movieId}`}
               render={(props: any) => (

@@ -1,10 +1,4 @@
-import {
-  IonChip,
-  IonCol,
-  IonGrid,
-  IonLabel,
-  IonRow,
-} from '@ionic/react';
+import { IonChip, IonLabel } from '@ionic/react';
 import React from 'react';
 
 import configuration from '../../shared/configuration';
@@ -12,7 +6,6 @@ import ActorsList from '../ActorsList/ActorsList';
 import './MovieContent.css';
 
 function MovieContent(props: any) {
-  console.log(props);
   const posterSizes = configuration.images.poster_sizes;
   const baseURL = configuration.images.base_url;
 
@@ -62,87 +55,53 @@ function MovieContent(props: any) {
   if (movie) {
     if (showMode === 'main') {
       movieContent = (
-        <div className="main-segment">
-          <IonGrid className="ion-no-padding">
-            <IonRow>
-              {/* MAIN COVER   */}
-              <IonCol
-                className="ion-no-padding"
-                size="7"
-                size-sm="7"
-                size-lg="4"
-              >
-                <div className="thumb-container">
-                  <img
-                    className="thumb"
-                    src={`${baseURL}${posterSizes[1]}${movie.poster_path}`}
-                    alt="movie poster"
-                  />
+        <div className="wrapper">
+          <div className="main-info">
+            <div className="thumb-container">
+              <img
+                className="thumb"
+                src={`${baseURL}${posterSizes[3]}${movie.poster_path}`}
+                alt="movie poster"
+              />
+            </div>
+            <div className="movie-stats">
+              <div className="movie-stat-item">
+                <p className="movie-stat-title">
+                  Rating {movie.vote_average}
+                </p>
+                <div className="rating rating-centered">
+                  <span></span>
                 </div>
-              </IonCol>
-
-              {/* MAIN STATS   */}
-              <IonCol
-                className="movie-stats ion-no-padding"
-                size="5"
-                size-sm="5"
-                size-lg="2"
-              >
-                <div className="movie-stat-item">
-                  <p className="movie-stat-title">
-                    Rating {movie.vote_average}
-                  </p>
-                  <div className="rating">
-                    <span></span>
-                  </div>
-                </div>
-                <div className="movie-stat-item">
-                  <p className="movie-stat-title">Runtime</p>
-                  <h6 className="movie-stat-value">
-                    {getMovieDuration(movie.runtime)}
-                  </h6>
-                </div>
-                <div className="movie-stat-item">
-                  <p className="movie-stat-title">Budget</p>
-                  <h6 className="movie-stat-value">
-                    $ {movie.budget}
-                  </h6>
-                </div>
-                <div className="movie-stat-item">
-                  <p className="movie-stat-title">Revenue</p>
-                  <h6 className="movie-stat-value">
-                    $ {movie.revenue}
-                  </h6>
-                </div>
-              </IonCol>
-
-              {/* MAIN INFO - Genres, Overview and Crew Members   */}
-              <IonCol
-                className="ion-no-padding"
-                size="12"
-                size-sm="12"
-                size-lg="6"
-              >
-                <IonGrid className="main-info-area ion-no-padding">
-                  <IonRow>
-                    <IonCol size="12">{genres}</IonCol>
-                  </IonRow>
-                  <IonRow>
-                    <IonCol size="12">
-                      <h4>Overview</h4>
-                      <p>{movie.overview}</p>
-                    </IonCol>
-                  </IonRow>
-                  <IonRow>
-                    <IonCol size="12">
-                      <h4>Featured Crew</h4>
-                      {crewList}
-                    </IonCol>
-                  </IonRow>
-                </IonGrid>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
+              </div>
+              <div className="movie-stat-item">
+                <p className="movie-stat-title">Runtime</p>
+                <h6 className="movie-stat-value">
+                  {getMovieDuration(movie.runtime)}
+                </h6>
+              </div>
+              <div className="movie-stat-item">
+                <p className="movie-stat-title">Budget</p>
+                <h6 className="movie-stat-value">$ {movie.budget}</h6>
+              </div>
+              <div className="movie-stat-item">
+                <p className="movie-stat-title">Revenue</p>
+                <h6 className="movie-stat-value">
+                  $ {movie.revenue}
+                </h6>
+              </div>
+            </div>
+          </div>
+          <div className="secondary-info">
+            <div className="genres">{genres}</div>
+            <div className="overview">
+              <h4>Overview</h4>
+              <p>{movie.overview}</p>
+            </div>
+            <div className="crew">
+              <h4>Featured Crew</h4>
+              {crewList}
+            </div>
+          </div>
         </div>
       );
     } else if (showMode === 'cast') {

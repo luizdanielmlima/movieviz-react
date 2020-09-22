@@ -29,7 +29,7 @@ function ActorContent(props: any) {
                 offset-md="3"
               >
                 <img
-                  src={`${baseURL}${profileSizes[1]}${actor.profile_path}`}
+                  src={`${baseURL}${profileSizes[2]}${actor.profile_path}`}
                   alt="actor pic"
                 />
               </IonCol>
