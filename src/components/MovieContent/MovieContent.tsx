@@ -1,11 +1,13 @@
+import React, { useState, useEffect } from 'react';
 import {
-  IonButton,
   IonChip,
+  IonIcon,
   IonImg,
   IonLabel,
   IonModal,
 } from '@ionic/react';
-import React, { useState } from 'react';
+
+import { closeOutline } from 'ionicons/icons';
 
 import configuration from '../../shared/configuration';
 import ActorsList from '../ActorsList/ActorsList';
@@ -16,6 +18,21 @@ const MovieContent = (props: any) => {
   const [showModal, setShowModal] = useState(false);
   const [trailerID, setTrailerID] = useState('');
   const [imagePath, setImagePath] = useState('');
+  const [imageClass, setImageClass] = useState('');
+
+  const [windowWidth, setWindowWidth] = useState(0);
+  const [windowHeight, setWindowHeight] = useState(0);
+
+  let resizeWindow = () => {
+    setWindowWidth(window.innerWidth);
+    setWindowHeight(window.innerHeight);
+  };
+
+  useEffect(() => {
+    resizeWindow();
+    window.addEventListener('resize', resizeWindow);
+    return () => window.removeEventListener('resize', resizeWindow);
+  }, []);
 
   const posterSizes = configuration.images.poster_sizes;
   const backdropSizes = configuration.images.backdrop_sizes;
@@ -40,8 +57,20 @@ const MovieContent = (props: any) => {
     setShowModal(true);
   };
 
-  const setImagePathAndOpenModal = (filepath: string) => {
+  const setImagePathAndOpenModal = (
+    filepath: string,
+    imageRatio: number,
+  ) => {
     setImagePath(filepath);
+
+    // Must check screen ratio and image ratio to add classes accordingly:
+    // imageRatio is 1.77 for gallery images and 0.66 for posters
+    if (imageRatio >= windowWidth / windowHeight) {
+      setImageClass('fit-width');
+    } else {
+      setImageClass('fit-height');
+    }
+
     setShowModal(true);
   };
 
@@ -56,7 +85,6 @@ const MovieContent = (props: any) => {
   } = props;
   const movieGenres = movie.genres;
   let movieContent: any;
-
   movieContent = <p>Loading movie´s info</p>;
 
   let crewList;
@@ -95,7 +123,8 @@ const MovieContent = (props: any) => {
             alt="movie poster"
             onClick={() =>
               setImagePathAndOpenModal(
-                `${baseURL}${posterSizes[3]}${image.file_path}`,
+                `${baseURL}${posterSizes[5]}${image.file_path}`,
+                0.66,
               )
             }
           ></IonImg>
@@ -111,11 +140,12 @@ const MovieContent = (props: any) => {
         <div key={index}>
           <IonImg
             className="ion-no-padding"
-            src={`${baseURL}${backdropSizes[3]}${image.file_path}`}
+            src={`${baseURL}${backdropSizes[1]}${image.file_path}`}
             alt="movie photo"
             onClick={() =>
               setImagePathAndOpenModal(
-                `${baseURL}${backdropSizes[3]}${image.file_path}`,
+                `${baseURL}${backdropSizes[2]}${image.file_path}`,
+                1.77,
               )
             }
           ></IonImg>
@@ -202,13 +232,22 @@ const MovieContent = (props: any) => {
           {moviePosters}
           <IonModal
             isOpen={showModal}
-            cssClass="my-custom-class"
+            cssClass="modal"
             onDidDismiss={() => setShowModal(false)}
           >
-            <img src={imagePath} alt="movie poster" />
-            <IonButton onClick={() => setShowModal(false)}>
-              Close Modal
-            </IonButton>
+            <div className="img-container">
+              <img
+                src={imagePath}
+                alt="movie poster"
+                className={imageClass}
+              />
+            </div>
+            <div className="close">
+              <IonIcon
+                icon={closeOutline}
+                onClick={() => setShowModal(false)}
+              ></IonIcon>
+            </div>
           </IonModal>
         </div>
       );
@@ -218,13 +257,22 @@ const MovieContent = (props: any) => {
           {movieGallery}
           <IonModal
             isOpen={showModal}
-            cssClass="my-custom-class"
+            cssClass="modal"
             onDidDismiss={() => setShowModal(false)}
           >
-            <img src={imagePath} alt="movie poster" />
-            <IonButton onClick={() => setShowModal(false)}>
-              Close Modal
-            </IonButton>
+            <div className="img-container">
+              <img
+                src={imagePath}
+                alt="movie poster"
+                className={imageClass}
+              />
+            </div>
+            <div className="close">
+              <IonIcon
+                icon={closeOutline}
+                onClick={() => setShowModal(false)}
+              ></IonIcon>
+            </div>
           </IonModal>
         </div>
       );
@@ -234,7 +282,7 @@ const MovieContent = (props: any) => {
           {movieTrailers}
           <IonModal
             isOpen={showModal}
-            cssClass="my-custom-class"
+            cssClass="modal"
             onDidDismiss={() => setShowModal(false)}
           >
             <iframe
@@ -244,9 +292,12 @@ const MovieContent = (props: any) => {
               height="315"
               src={`${youtubeURL}${trailerID}${youtubeParams}`}
             ></iframe>
-            <IonButton onClick={() => setShowModal(false)}>
-              Close Modal
-            </IonButton>
+            <div className="close">
+              <IonIcon
+                icon={closeOutline}
+                onClick={() => setShowModal(false)}
+              ></IonIcon>
+            </div>
           </IonModal>
         </div>
       );

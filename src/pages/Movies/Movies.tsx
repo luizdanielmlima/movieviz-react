@@ -64,7 +64,7 @@ class Movies extends Component {
         `https://api.themoviedb.org/3/discover/movie?api_key=${this.apiKey()}&language=en-US&${sortByQuery}&include_adult=false&include_video=false&page=1&${genreQuery}&${yearFromQuery}&${yearToQuery}`,
       )
       .then((response) => {
-        console.log('fetched movies:', response.data.results);
+        // console.log('fetched movies:', response.data.results);
         this.setState({ movies: response.data.results });
       })
       .catch((error) => {
