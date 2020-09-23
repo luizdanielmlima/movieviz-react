@@ -1,0 +1,13 @@
+.ios ion-segment {
+  padding: 8px;
+}
+
+.ios ion-segment-button {
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  --color-checked: var(--ion-color-dark);
+}
+
+.ios ion-item {
+  padding: 10px;
+}

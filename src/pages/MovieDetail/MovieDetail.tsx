@@ -20,11 +20,11 @@ import {
   peopleOutline,
   imagesOutline,
   filmOutline,
+  easelOutline,
 } from 'ionicons/icons';
 
 import { Cast, Crew, Movie } from '../../shared/models';
 import MovieContent from '../../components/MovieContent/MovieContent';
-import genres from '../../shared/genres';
 import './MovieDetail.css';
 
 // Props and State Models
@@ -45,12 +45,12 @@ interface MovieState {
   images?: any[];
   posters?: any[];
   trailers?: any[];
+  dataIsReady?: boolean;
 }
 
 export class MovieDetail extends Component<MovieProps, MovieState> {
   constructor(props: MovieProps) {
     super(props);
-    console.log(props);
     this.state = {
       showMode: 'main',
       baseURL: 'https://image.tmdb.org/t/p/',
@@ -60,6 +60,7 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
       images: [],
       posters: [],
       trailers: [],
+      dataIsReady: false,
     };
   }
 
@@ -74,6 +75,14 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
       this.fetchCredits().then((movieCredits: any) => {
         this.setState({ cast: movieCredits.cast });
         this.setState({ crew: movieCredits.crew });
+
+        // Get gallery
+        this.fetchGallery().then((movieGallery: any) => {
+          this.setState({ images: movieGallery.backdrops });
+          this.setState({ posters: movieGallery.posters });
+          this.setState({ dataIsReady: true });
+          console.log('state with images: ', this.state);
+        });
       });
     });
   }
@@ -117,6 +126,23 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
     return movieCredits;
   }
 
+  async fetchGallery() {
+    const movieGallery = await axios
+      .get(
+        `https://api.themoviedb.org/3/movie/${
+          this.state.movieId
+        }/images?api_key=${this.apiKey()}`,
+      )
+      .then((response) => {
+        const gallery = response.data;
+        return gallery;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return movieGallery;
+  }
+
   onSegmentChange = (type: any) => {
     this.setState({ showMode: type });
   };
@@ -129,7 +155,34 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
       showMode,
       cast,
       crew,
+      images,
+      posters,
+      dataIsReady,
     } = this.state;
+
+    let content;
+    content = <p>Loading movie data...</p>;
+    if (dataIsReady) {
+      content = (
+        <div>
+          <Route
+            path={`/movies/${movieId}`}
+            render={(props: any) => (
+              <MovieContent
+                {...props}
+                movie={movie}
+                cast={cast}
+                crew={crew}
+                images={images}
+                posters={posters}
+                showMode={showMode}
+              />
+            )}
+            exact={true}
+          />
+        </div>
+      );
+    }
 
     return (
       <IonPage>
@@ -145,39 +198,32 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
         </IonHeader>
         <IonContent>
           <IonSegment
+            scrollable
             onIonChange={(evt) =>
               this.onSegmentChange(evt.detail.value)
             }
             value={showMode}
           >
-            <IonSegmentButton value="main">
+            <IonSegmentButton value="main" className="segment-btn">
               <IonIcon icon={informationCircleOutline}></IonIcon>
             </IonSegmentButton>
-            <IonSegmentButton value="cast">
+            <IonSegmentButton value="cast" className="segment-btn">
               <IonIcon icon={peopleOutline}></IonIcon>
             </IonSegmentButton>
-            <IonSegmentButton value="gallery">
+            <IonSegmentButton value="gallery" className="segment-btn">
               <IonIcon icon={imagesOutline}></IonIcon>
             </IonSegmentButton>
-            <IonSegmentButton value="trailers">
+            <IonSegmentButton value="posters" className="segment-btn">
+              <IonIcon icon={easelOutline}></IonIcon>
+            </IonSegmentButton>
+            <IonSegmentButton
+              value="trailers"
+              className="segment-btn"
+            >
               <IonIcon icon={filmOutline}></IonIcon>
             </IonSegmentButton>
           </IonSegment>
-          <div>
-            <Route
-              path={`/movies/${movieId}`}
-              render={(props: any) => (
-                <MovieContent
-                  {...props}
-                  movie={movie}
-                  cast={cast}
-                  crew={crew}
-                  showMode={showMode}
-                />
-              )}
-              exact={true}
-            />
-          </div>
+          {content}
         </IonContent>
       </IonPage>
     );

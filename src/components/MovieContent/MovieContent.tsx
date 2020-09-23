@@ -1,12 +1,14 @@
-import { IonChip, IonLabel } from '@ionic/react';
+import { IonChip, IonImg, IonLabel } from '@ionic/react';
 import React from 'react';
 
 import configuration from '../../shared/configuration';
 import ActorsList from '../ActorsList/ActorsList';
 import './MovieContent.css';
 
-function MovieContent(props: any) {
+const MovieContent = (props: any) => {
+  // console.log('MovieContent|props:', props);
   const posterSizes = configuration.images.poster_sizes;
+  const backdropSizes = configuration.images.backdrop_sizes;
   const baseURL = configuration.images.base_url;
 
   const getMovieDuration = (totalMin: number) => {
@@ -21,7 +23,7 @@ function MovieContent(props: any) {
     }
   };
 
-  let { movie, showMode, cast, crew } = props;
+  let { movie, showMode, cast, crew, images, posters } = props;
   const movieGenres = movie.genres;
   let movieContent: any;
 
@@ -48,6 +50,36 @@ function MovieContent(props: any) {
         <IonChip key={genre.id} outline color="dark">
           <IonLabel color="dark">{genre.name}</IonLabel>
         </IonChip>
+      );
+    });
+  }
+
+  let moviePosters;
+  if (posters) {
+    moviePosters = posters.map((image: any, index: number) => {
+      return (
+        <div key={index}>
+          <IonImg
+            className="ion-no-padding"
+            src={`${baseURL}${posterSizes[3]}${image.file_path}`}
+            alt="movie poster"
+          ></IonImg>
+        </div>
+      );
+    });
+  }
+
+  let movieGallery;
+  if (images) {
+    movieGallery = images.map((image: any, index: number) => {
+      return (
+        <div key={index}>
+          <IonImg
+            className="ion-no-padding"
+            src={`${baseURL}${backdropSizes[3]}${image.file_path}`}
+            alt="movie photo"
+          ></IonImg>
+        </div>
       );
     });
   }
@@ -108,22 +140,20 @@ function MovieContent(props: any) {
       movieContent = (
         <ActorsList actors={cast} isMovieCast={true}></ActorsList>
       );
+    } else if (showMode === 'posters') {
+      movieContent = <div className="gallery">{moviePosters}</div>;
     } else if (showMode === 'gallery') {
-      movieContent = (
-        <div>
-          <p>Show GALLERY Content here</p>
-        </div>
-      );
+      movieContent = <div className="gallery">{movieGallery}</div>;
     } else if (showMode === 'trailers') {
       movieContent = (
         <div>
-          <p>Show TRAILERS Content here</p>
+          <p>Show TRAILERS here</p>
         </div>
       );
     }
   }
 
   return <div>{movieContent}</div>;
-}
+};
 
 export default MovieContent;
