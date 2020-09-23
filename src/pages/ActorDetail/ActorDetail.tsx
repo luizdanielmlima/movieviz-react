@@ -13,6 +13,7 @@ import {
   IonTitle,
   IonToolbar,
   IonPage,
+  IonSpinner,
 } from '@ionic/react';
 
 import {
@@ -38,6 +39,7 @@ interface ActorState {
   actor?: Cast;
   gallery?: any[];
   filmography?: any[];
+  dataIsReady?: boolean;
 }
 
 export default class Actor extends Component<ActorProps, ActorState> {
@@ -53,6 +55,7 @@ export default class Actor extends Component<ActorProps, ActorState> {
       actorId: props.match.params.id,
       gallery: [],
       filmography: [],
+      dataIsReady: false,
     };
   }
   // To test: Morgan Freeman id : '192';
@@ -61,8 +64,17 @@ export default class Actor extends Component<ActorProps, ActorState> {
     this.fetchActor().then((actorData: any) => {
       // console.log('actorData: ', actorData);
       this.setState({ actor: actorData });
-      this.fetchActorImages();
-      this.fetchFilmography();
+
+      // fetch actor photos
+      this.fetchActorImages().then((images) => {
+        this.setState({ gallery: images });
+
+        // fetch cctor fimography (list of movies)
+        this.fetchFilmography().then((list) => {
+          this.setState({ filmography: list });
+          this.setState({ dataIsReady: true });
+        });
+      });
     });
   }
 
@@ -87,27 +99,24 @@ export default class Actor extends Component<ActorProps, ActorState> {
     return actorData;
   }
 
-  fetchActorImages() {
-    axios
+  async fetchActorImages() {
+    const images = await axios
       .get(
         `https://api.themoviedb.org/3/person/${
           this.state.actorId
         }/images?api_key=${this.apiKey()}&language=en-US`,
       )
       .then((response) => {
-        // console.log(
-        //   'fetchActorImages()|images:',
-        //   response.data.profiles,
-        // );
-        this.setState({ gallery: response.data.profiles });
+        return response.data.profiles;
       })
       .catch((error) => {
         console.log(error);
       });
+    return images;
   }
 
-  fetchFilmography() {
-    axios
+  async fetchFilmography() {
+    const movielist = await axios
       .get(
         `https://api.themoviedb.org/3/person/${
           this.state.actorId
@@ -123,11 +132,12 @@ export default class Actor extends Component<ActorProps, ActorState> {
             );
           })
           .reverse();
-        this.setState({ filmography: orderedFilmography });
+        return orderedFilmography;
       })
       .catch((error) => {
         console.log(error);
       });
+    return movielist;
   }
 
   dateToNum(date: string) {
@@ -145,7 +155,33 @@ export default class Actor extends Component<ActorProps, ActorState> {
   };
 
   render() {
-    let { actor, gallery, filmography } = this.state;
+    let { actor, gallery, filmography, dataIsReady } = this.state;
+
+    let content;
+    content = (
+      <div className="spinner-wrapper">
+        <IonSpinner name="dots" />
+      </div>
+    );
+    if (dataIsReady) {
+      content = (
+        <div className="content">
+          <Route
+            path={`/actors/${this.state.actorId}`}
+            render={(props: any) => (
+              <ActorContent
+                {...props}
+                actor={actor}
+                images={gallery}
+                filmography={filmography}
+                showMode={this.state.showMode}
+              />
+            )}
+            exact={true}
+          />
+        </div>
+      );
+    }
 
     return (
       <IonPage>
@@ -178,21 +214,7 @@ export default class Actor extends Component<ActorProps, ActorState> {
               <IonIcon icon={imagesOutline}></IonIcon>
             </IonSegmentButton>
           </IonSegment>
-          <div className="content">
-            <Route
-              path={`/actors/${this.state.actorId}`}
-              render={(props: any) => (
-                <ActorContent
-                  {...props}
-                  actor={actor}
-                  images={gallery}
-                  filmography={filmography}
-                  showMode={this.state.showMode}
-                />
-              )}
-              exact={true}
-            />
-          </div>
+          {content}
         </IonContent>
       </IonPage>
     );

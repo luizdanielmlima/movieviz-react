@@ -11,3 +11,11 @@
 .ios ion-item {
   padding: 10px;
 }
+
+.spinner-wrapper {
+  height: 60vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

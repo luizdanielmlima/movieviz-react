@@ -24,6 +24,14 @@ ion-thumbnail {
   height: 120px;
 }
 
+.spinner-wrapper {
+  height: 60vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .main-segment {
   position: relative;
   background-color: black;

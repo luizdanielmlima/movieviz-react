@@ -11,6 +11,7 @@ import {
   IonPage,
   IonSegment,
   IonSegmentButton,
+  IonSpinner,
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
@@ -71,6 +72,7 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
       this.setState({
         movieYear: movieData.release_date.substring(0, 4),
       });
+
       // Get credits (cast and crew)
       this.fetchCredits().then((movieCredits: any) => {
         this.setState({ cast: movieCredits.cast });
@@ -161,7 +163,11 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
     } = this.state;
 
     let content;
-    content = <p>Loading movie data...</p>;
+    content = (
+      <div className="spinner-wrapper">
+        <IonSpinner name="dots" />
+      </div>
+    );
     if (dataIsReady) {
       content = (
         <div>
