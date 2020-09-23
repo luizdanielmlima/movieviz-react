@@ -1,5 +1,11 @@
-import { IonChip, IonImg, IonLabel } from '@ionic/react';
-import React from 'react';
+import {
+  IonButton,
+  IonChip,
+  IonImg,
+  IonLabel,
+  IonModal,
+} from '@ionic/react';
+import React, { useState } from 'react';
 
 import configuration from '../../shared/configuration';
 import ActorsList from '../ActorsList/ActorsList';
@@ -7,9 +13,15 @@ import './MovieContent.css';
 
 const MovieContent = (props: any) => {
   // console.log('MovieContent|props:', props);
+  const [showModal, setShowModal] = useState(false);
+  const [trailerID, setTrailerID] = useState('');
+  const [imagePath, setImagePath] = useState('');
+
   const posterSizes = configuration.images.poster_sizes;
   const backdropSizes = configuration.images.backdrop_sizes;
   const baseURL = configuration.images.base_url;
+  const youtubeURL = 'https://www.youtube.com/embed/';
+  const youtubeParams = '?showinfo=0&modestbranding=1';
 
   const getMovieDuration = (totalMin: number) => {
     const hours = totalMin / 60;
@@ -23,7 +35,25 @@ const MovieContent = (props: any) => {
     }
   };
 
-  let { movie, showMode, cast, crew, images, posters } = props;
+  const setTrailerIDAndOpenModal = (id: string) => {
+    setTrailerID(id);
+    setShowModal(true);
+  };
+
+  const setImagePathAndOpenModal = (filepath: string) => {
+    setImagePath(filepath);
+    setShowModal(true);
+  };
+
+  let {
+    movie,
+    showMode,
+    cast,
+    crew,
+    images,
+    posters,
+    trailers,
+  } = props;
   const movieGenres = movie.genres;
   let movieContent: any;
 
@@ -63,6 +93,11 @@ const MovieContent = (props: any) => {
             className="ion-no-padding"
             src={`${baseURL}${posterSizes[3]}${image.file_path}`}
             alt="movie poster"
+            onClick={() =>
+              setImagePathAndOpenModal(
+                `${baseURL}${posterSizes[3]}${image.file_path}`,
+              )
+            }
           ></IonImg>
         </div>
       );
@@ -78,6 +113,27 @@ const MovieContent = (props: any) => {
             className="ion-no-padding"
             src={`${baseURL}${backdropSizes[3]}${image.file_path}`}
             alt="movie photo"
+            onClick={() =>
+              setImagePathAndOpenModal(
+                `${baseURL}${backdropSizes[3]}${image.file_path}`,
+              )
+            }
+          ></IonImg>
+        </div>
+      );
+    });
+  }
+
+  let movieTrailers;
+  if (trailers) {
+    movieTrailers = trailers.map((trailer: any, index: number) => {
+      return (
+        <div key={index}>
+          <IonImg
+            className="ion-no-padding"
+            src={trailer.thumb}
+            alt="trailer thumbnail"
+            onClick={() => setTrailerIDAndOpenModal(trailer.key)}
           ></IonImg>
         </div>
       );
@@ -141,13 +197,57 @@ const MovieContent = (props: any) => {
         <ActorsList actors={cast} isMovieCast={true}></ActorsList>
       );
     } else if (showMode === 'posters') {
-      movieContent = <div className="gallery">{moviePosters}</div>;
+      movieContent = (
+        <div className="gallery">
+          {moviePosters}
+          <IonModal
+            isOpen={showModal}
+            cssClass="my-custom-class"
+            onDidDismiss={() => setShowModal(false)}
+          >
+            <img src={imagePath} alt="movie poster" />
+            <IonButton onClick={() => setShowModal(false)}>
+              Close Modal
+            </IonButton>
+          </IonModal>
+        </div>
+      );
     } else if (showMode === 'gallery') {
-      movieContent = <div className="gallery">{movieGallery}</div>;
+      movieContent = (
+        <div className="gallery">
+          {movieGallery}
+          <IonModal
+            isOpen={showModal}
+            cssClass="my-custom-class"
+            onDidDismiss={() => setShowModal(false)}
+          >
+            <img src={imagePath} alt="movie poster" />
+            <IonButton onClick={() => setShowModal(false)}>
+              Close Modal
+            </IonButton>
+          </IonModal>
+        </div>
+      );
     } else if (showMode === 'trailers') {
       movieContent = (
-        <div>
-          <p>Show TRAILERS here</p>
+        <div className="gallery">
+          {movieTrailers}
+          <IonModal
+            isOpen={showModal}
+            cssClass="my-custom-class"
+            onDidDismiss={() => setShowModal(false)}
+          >
+            <iframe
+              title="youtubePlayer"
+              id="ytplayer"
+              width="100%"
+              height="315"
+              src={`${youtubeURL}${trailerID}${youtubeParams}`}
+            ></iframe>
+            <IonButton onClick={() => setShowModal(false)}>
+              Close Modal
+            </IonButton>
+          </IonModal>
         </div>
       );
     }

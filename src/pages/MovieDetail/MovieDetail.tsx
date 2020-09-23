@@ -82,8 +82,14 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
         this.fetchGallery().then((movieGallery: any) => {
           this.setState({ images: movieGallery.backdrops });
           this.setState({ posters: movieGallery.posters });
-          this.setState({ dataIsReady: true });
-          console.log('state with images: ', this.state);
+
+          // Get trailers
+          this.fetchTrailers().then((movieTrailers: any) => {
+            console.log('movieTrailers: ', movieTrailers);
+            this.setState({ trailers: movieTrailers });
+            this.setState({ dataIsReady: true });
+            console.log('state after all data loaded: ', this.state);
+          });
         });
       });
     });
@@ -145,6 +151,30 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
     return movieGallery;
   }
 
+  async fetchTrailers() {
+    const movieTrailers = await axios
+      .get(
+        `https://api.themoviedb.org/3/movie/${
+          this.state.movieId
+        }/videos?api_key=${this.apiKey()}`,
+      )
+      .then((response) => {
+        const trailers = response.data.results
+          .filter((trailer: any) => trailer.type === 'Trailer')
+          .map((trailer: any) => {
+            return {
+              ...trailer,
+              thumb: `https://img.youtube.com/vi/${trailer.key}/mqdefault.jpg`,
+            };
+          });
+        return trailers;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return movieTrailers;
+  }
+
   onSegmentChange = (type: any) => {
     this.setState({ showMode: type });
   };
@@ -159,6 +189,7 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
       crew,
       images,
       posters,
+      trailers,
       dataIsReady,
     } = this.state;
 
@@ -181,7 +212,9 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
                 crew={crew}
                 images={images}
                 posters={posters}
+                trailers={trailers}
                 showMode={showMode}
+                showModal={false}
               />
             )}
             exact={true}
