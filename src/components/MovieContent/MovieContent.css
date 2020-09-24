@@ -1,13 +1,26 @@
 @import '../../theme/variables.css';
 @import '../../theme/styles.css';
 
-.wrapper {
-  background-color: black;
+.main-container {
+  background-color: thistle;
+  display: flex;
+  justify-content: center;
+}
+
+.main-wrapper {
+  background-color: transparent;
+  max-width: 600px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .main-info {
+  background-color: black;
   position: relative;
   min-height: 320px;
+  min-width: 360px;
 
   display: grid;
   grid-template-columns: auto 1fr;
@@ -130,4 +143,9 @@
   display: block;
   width: auto;
   height: 100%;
+}
+
+.actorlist-container {
+  display: flex;
+  justify-content: center;
 }

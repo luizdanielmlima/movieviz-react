@@ -90,7 +90,7 @@ const MovieContent = (props: any) => {
   let crewList;
   crewList = <p>Loading crew...</p>;
   if (crew) {
-    crewList = crew.map((person: any, index: number) => {
+    crewList = crew.slice(0, 12).map((person: any, index: number) => {
       return (
         <div key={index} className="crew-item">
           <p>{person.name}</p>
@@ -173,58 +173,70 @@ const MovieContent = (props: any) => {
   if (movie) {
     if (showMode === 'main') {
       movieContent = (
-        <div className="wrapper">
-          <div className="main-info">
-            <div className="thumb-container">
-              <img
-                className="thumb"
-                src={`${baseURL}${posterSizes[3]}${movie.poster_path}`}
-                alt="movie poster"
-              />
-            </div>
-            <div className="movie-stats">
-              <div className="movie-stat-item">
-                <p className="movie-stat-title">
-                  Rating {movie.vote_average}
-                </p>
-                <div className="rating rating-centered">
-                  <span></span>
+        <div
+          className="main-container"
+          style={{
+            background: `linear-gradient(rgba(146, 213, 230, 0.9), rgba(155, 197, 61, 0.9)) no-repeat center top / cover,
+            url("${baseURL}${posterSizes[5]}${movie.poster_path}") no-repeat center center / cover`,
+          }}
+        >
+          <div className="main-wrapper">
+            <div className="main-info">
+              <div className="thumb-container">
+                <img
+                  className="thumb"
+                  src={`${baseURL}${posterSizes[3]}${movie.poster_path}`}
+                  alt="movie poster"
+                />
+              </div>
+              <div className="movie-stats">
+                <div className="movie-stat-item">
+                  <p className="movie-stat-title">
+                    Rating {movie.vote_average}
+                  </p>
+                  <div className="rating rating-centered">
+                    <span></span>
+                  </div>
+                </div>
+                <div className="movie-stat-item">
+                  <p className="movie-stat-title">Runtime</p>
+                  <h6 className="movie-stat-value">
+                    {getMovieDuration(movie.runtime)}
+                  </h6>
+                </div>
+                <div className="movie-stat-item">
+                  <p className="movie-stat-title">Budget</p>
+                  <h6 className="movie-stat-value">
+                    $ {movie.budget}
+                  </h6>
+                </div>
+                <div className="movie-stat-item">
+                  <p className="movie-stat-title">Revenue</p>
+                  <h6 className="movie-stat-value">
+                    $ {movie.revenue}
+                  </h6>
                 </div>
               </div>
-              <div className="movie-stat-item">
-                <p className="movie-stat-title">Runtime</p>
-                <h6 className="movie-stat-value">
-                  {getMovieDuration(movie.runtime)}
-                </h6>
-              </div>
-              <div className="movie-stat-item">
-                <p className="movie-stat-title">Budget</p>
-                <h6 className="movie-stat-value">$ {movie.budget}</h6>
-              </div>
-              <div className="movie-stat-item">
-                <p className="movie-stat-title">Revenue</p>
-                <h6 className="movie-stat-value">
-                  $ {movie.revenue}
-                </h6>
-              </div>
             </div>
-          </div>
-          <div className="secondary-info">
-            <div className="genres">{genres}</div>
-            <div className="overview">
-              <h4>Overview</h4>
-              <p>{movie.overview}</p>
-            </div>
-            <div className="crew">
-              <h4>Featured Crew</h4>
-              {crewList}
+            <div className="secondary-info">
+              <div className="genres">{genres}</div>
+              <div className="overview">
+                <h4>Overview</h4>
+                <p>{movie.overview}</p>
+              </div>
+              <div className="crew">
+                <h4>Featured Crew</h4>
+                {crewList}
+              </div>
             </div>
           </div>
         </div>
       );
     } else if (showMode === 'cast') {
       movieContent = (
-        <ActorsList actors={cast} isMovieCast={true}></ActorsList>
+        <div className="actorlist-container">
+          <ActorsList actors={cast} isMovieCast={true}></ActorsList>
+        </div>
       );
     } else if (showMode === 'posters') {
       movieContent = (
