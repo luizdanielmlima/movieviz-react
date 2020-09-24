@@ -7,9 +7,7 @@
 
 .main-info {
   position: relative;
-  /* background-color: black; */
-  height: 50vh;
-  min-height: 200px;
+  min-height: 320px;
 
   display: grid;
   grid-template-columns: auto 1fr;

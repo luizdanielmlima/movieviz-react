@@ -22,3 +22,9 @@ ion-thumbnail {
 .light-text {
   color: #aaa;
 }
+
+.actors-list {
+  margin: 0;
+  padding: 0;
+  padding-top: 4px;
+}

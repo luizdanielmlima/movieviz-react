@@ -8,6 +8,7 @@ import configuration from '../../shared/configuration';
 const ActorsList = (props: any) => {
   const history = useHistory();
   const profileSizes = configuration.images.profile_sizes;
+  console.log('profileSizes: ', profileSizes);
   const baseURL = configuration.images.base_url;
 
   const getKnownMovies = (actor: any) => {

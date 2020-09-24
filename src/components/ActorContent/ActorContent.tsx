@@ -129,7 +129,7 @@ function ActorContent(props: any) {
             <div key={index}>
               <IonImg
                 className="ion-no-padding"
-                src={`${baseURL}${profileSizes[1]}${image.file_path}`}
+                src={`${baseURL}${profileSizes[2]}${image.file_path}`}
                 alt="actor pic"
                 onClick={() =>
                   setImagePathAndOpenModal(
