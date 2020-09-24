@@ -14,6 +14,7 @@ import {
   IonSpinner,
   IonTitle,
   IonToolbar,
+  withIonLifeCycle,
 } from '@ionic/react';
 
 import {
@@ -57,7 +58,6 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
       baseURL: 'https://image.tmdb.org/t/p/',
       movie: {},
       movieYear: '',
-      movieId: props.match.params.id,
       images: [],
       posters: [],
       trailers: [],
@@ -65,7 +65,13 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
     };
   }
 
-  componentDidMount() {
+  ionViewWillEnter() {
+    this.setState({ dataIsReady: false });
+    this.setState({ showMode: 'main' });
+  }
+
+  ionViewDidEnter() {
+    this.setState({ movieId: this.props.match.params.id });
     this.fetchMovie().then((movieData: any) => {
       // console.log('movieData: ', movieData);
       this.setState({ movie: movieData });
@@ -192,13 +198,36 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
       dataIsReady,
     } = this.state;
 
+    const shortenTitle = (text: string = 'loading') => {
+      const maxTextLength = 30;
+      if (text.length > maxTextLength) {
+        const croppedText = text.substring(0, maxTextLength);
+        const shortenedText = `${croppedText}...`;
+        return (
+          <IonTitle className="ion-no-padding title-small">
+            {shortenedText} ({movie ? movieYear : ''})
+          </IonTitle>
+        );
+      } else {
+        return (
+          <IonTitle className="ion-no-padding">
+            {text} ({movie ? movieYear : ''})
+          </IonTitle>
+        );
+      }
+    };
+
     let content;
     content = (
       <div className="spinner-wrapper">
         <IonSpinner name="dots" />
       </div>
     );
-    if (dataIsReady) {
+
+    let title;
+    title = <p></p>;
+
+    if (dataIsReady && movie) {
       content = (
         <div>
           <Route
@@ -220,6 +249,8 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
           />
         </div>
       );
+
+      title = shortenTitle(movie.title);
     }
 
     return (
@@ -228,9 +259,7 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
           <IonToolbar>
             <IonButtons slot="start">
               <IonBackButton defaultHref="/movies"></IonBackButton>
-              <IonTitle>
-                {movie ? movie.title : ''} ({movie ? movieYear : ''})
-              </IonTitle>
+              {title}
             </IonButtons>
           </IonToolbar>
         </IonHeader>
@@ -268,4 +297,4 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
   }
 }
 
-export default MovieDetail;
+export default withIonLifeCycle(MovieDetail);

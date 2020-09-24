@@ -14,6 +14,7 @@ import {
   IonToolbar,
   IonPage,
   IonSpinner,
+  withIonLifeCycle,
 } from '@ionic/react';
 
 import {
@@ -42,7 +43,7 @@ interface ActorState {
   dataIsReady?: boolean;
 }
 
-export default class Actor extends Component<ActorProps, ActorState> {
+class Actor extends Component<ActorProps, ActorState> {
   constructor(props: ActorProps) {
     super(props);
     this.state = {
@@ -51,7 +52,6 @@ export default class Actor extends Component<ActorProps, ActorState> {
       actor: {
         profile_path: 'nonono',
       },
-      actorId: props.match.params.id,
       gallery: [],
       filmography: [],
       dataIsReady: false,
@@ -59,7 +59,13 @@ export default class Actor extends Component<ActorProps, ActorState> {
   }
   // To test: Morgan Freeman id : '192';
 
-  componentDidMount() {
+  ionViewWillEnter() {
+    this.setState({ dataIsReady: false });
+    this.setState({ showMode: 'main' });
+  }
+
+  ionViewDidEnter() {
+    this.setState({ actorId: this.props.match.params.id });
     this.fetchActor().then((actorData: any) => {
       // console.log('actorData: ', actorData);
       this.setState({ actor: actorData });
@@ -219,3 +225,5 @@ export default class Actor extends Component<ActorProps, ActorState> {
     );
   }
 }
+
+export default withIonLifeCycle(Actor);

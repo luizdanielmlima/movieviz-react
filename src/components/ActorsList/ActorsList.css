@@ -17,6 +17,7 @@ ion-thumbnail {
 }
 
 .actor-info-area {
+  cursor: pointer;
   position: relative;
   margin: 8px 12px 0px 12px;
   border-radius: var(--card-radius);
