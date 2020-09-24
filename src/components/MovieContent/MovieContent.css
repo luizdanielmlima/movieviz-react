@@ -20,17 +20,29 @@
   background-color: black;
   position: relative;
   min-height: 320px;
-  min-width: 360px;
+  width: 100%;
 
   display: grid;
   grid-template-columns: auto 1fr;
 }
 
 .secondary-info {
+  position: relative;
   padding: 16px;
   background-color: #fff;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+}
+
+.secondary-info::before {
+  position: absolute;
+  content: '';
+  background-color: white;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  top: -12px;
+  height: 12px;
+  left: 0;
+  right: 0;
+  z-index: 10;
 }
 
 .thumb-container {
@@ -108,7 +120,12 @@
   text-align: right;
 }
 
-.modal .close {
+.gallery-item {
+  cursor: pointer;
+}
+
+.modal .close-btn {
+  cursor: pointer;
   background-color: rgba(255, 255, 255, 0.5);
   width: 20px;
   height: 20px;
@@ -120,6 +137,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.modal .close-btn:hover {
+  background-color: white;
 }
 
 .modal .img-container {

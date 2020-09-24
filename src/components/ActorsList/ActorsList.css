@@ -1,6 +1,8 @@
 ion-thumbnail {
-  width: 80px;
-  height: 120px;
+  width: 90px;
+  height: 135px;
+  margin: 0;
+  margin-right: 12px;
 }
 .actor-thumb {
   border-radius: 10px;
@@ -14,6 +16,19 @@ ion-thumbnail {
   background-color: black;
 }
 
+.actor-info-area {
+  position: relative;
+  margin: 8px 12px 0px 12px;
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  --background: linear-gradient(to right bottom, #f6f6f6, #fff);
+  max-width: 600px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .actor-title {
   color: var(--ion-color-secondary);
   font-weight: 700;
@@ -21,10 +36,19 @@ ion-thumbnail {
 
 .light-text {
   color: #aaa;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.margin-horiz {
+  margin: 0 4px;
+}
+
+.credits {
+  margin: 0;
+  margin-top: 4px;
 }
 
 .actors-list {
   margin: 0;
-  padding: 0;
-  padding-top: 4px;
 }

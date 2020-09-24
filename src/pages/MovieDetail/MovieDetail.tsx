@@ -85,10 +85,9 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
 
           // Get trailers
           this.fetchTrailers().then((movieTrailers: any) => {
-            console.log('movieTrailers: ', movieTrailers);
             this.setState({ trailers: movieTrailers });
             this.setState({ dataIsReady: true });
-            console.log('state after all data loaded: ', this.state);
+            // console.log('state after all data loaded: ', this.state);
           });
         });
       });

@@ -126,7 +126,7 @@ function ActorContent(props: any) {
       const allImages = props.images.map(
         (image: any, index: number) => {
           return (
-            <div key={index}>
+            <div key={index} className="gallery-item">
               <IonImg
                 className="ion-no-padding"
                 src={`${baseURL}${profileSizes[2]}${image.file_path}`}
@@ -150,7 +150,7 @@ function ActorContent(props: any) {
                     className={imageClass}
                   />
                 </div>
-                <div className="close">
+                <div className="close-btn">
                   <IonIcon
                     icon={closeOutline}
                     onClick={() => setShowModal(false)}

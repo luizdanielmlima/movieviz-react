@@ -10,3 +10,8 @@
   position: relative;
   background-color: black;
 }
+
+.actorlist-container {
+  display: flex;
+  justify-content: center;
+}

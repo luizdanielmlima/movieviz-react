@@ -45,7 +45,6 @@ interface ActorState {
 export default class Actor extends Component<ActorProps, ActorState> {
   constructor(props: ActorProps) {
     super(props);
-    console.log(props);
     this.state = {
       showMode: 'main',
       baseURL: 'https://image.tmdb.org/t/p/',

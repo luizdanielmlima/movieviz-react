@@ -8,7 +8,6 @@ import configuration from '../../shared/configuration';
 const ActorsList = (props: any) => {
   const history = useHistory();
   const profileSizes = configuration.images.profile_sizes;
-  console.log('profileSizes: ', profileSizes);
   const baseURL = configuration.images.base_url;
 
   const getKnownMovies = (actor: any) => {
@@ -20,7 +19,7 @@ const ActorsList = (props: any) => {
         return (
           <div>
             <p className="light-text">Known for:</p>
-            <p>
+            <p className="credits">
               <span>{getKnownMoviesOnly(actor)[0].title}</span>
             </p>
           </div>
@@ -29,9 +28,9 @@ const ActorsList = (props: any) => {
         return (
           <div>
             <p className="light-text">Known for:</p>
-            <p>
+            <p className="credits">
               <span>{getKnownMoviesOnly(actor)[0].title}</span>
-              <span className="light-text ml-sm mr-sm">and</span>
+              <span className="light-text margin-horiz">and</span>
               <span>{getKnownMoviesOnly(actor)[1].title}</span>
             </p>
           </div>
@@ -77,23 +76,24 @@ const ActorsList = (props: any) => {
   if (props.actors) {
     actors = props.actors.map((actor: any, index: number) => {
       return (
-        <div key={actor.id}>
-          <IonList className="actors-list" lines="none">
-            <IonItem onClick={() => navToActor(actor.id)}>
-              <IonThumbnail slot="start">
-                <img
-                  className="actor-thumb"
-                  src={getProfileImg(actor)}
-                  alt="actor"
-                />
-              </IonThumbnail>
-              <div>
-                <p className="actor-title">{actor.name}</p>
-                {getSubText(actor)}
-              </div>
-            </IonItem>
-          </IonList>
-        </div>
+        <IonList key={actor.id} className="actors-list" lines="none">
+          <IonItem
+            className="ion-no-padding actor-info-area"
+            onClick={() => navToActor(actor.id)}
+          >
+            <IonThumbnail slot="start" className="ion-no-padding">
+              <img
+                className="actor-thumb"
+                src={getProfileImg(actor)}
+                alt="actor"
+              />
+            </IonThumbnail>
+            <div>
+              <p className="actor-title">{actor.name}</p>
+              {getSubText(actor)}
+            </div>
+          </IonItem>
+        </IonList>
       );
     });
   }

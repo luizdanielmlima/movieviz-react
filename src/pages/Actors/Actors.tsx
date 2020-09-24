@@ -71,13 +71,7 @@ class Actors extends Component {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonGrid className="ion-no-padding">
-            <IonRow className="ion-no-padding">
-              <IonCol size="12" size-md="8" offset-md="4">
-                {actorsList}
-              </IonCol>
-            </IonRow>
-          </IonGrid>
+          <div className="actorlist-container">{actorsList}</div>
         </IonContent>
       </IonPage>
     );
