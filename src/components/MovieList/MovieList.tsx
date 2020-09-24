@@ -49,6 +49,17 @@ const MovieList = (props: any) => {
     }
   };
 
+  const shortenTitle = (text: string) => {
+    const maxTextLength = 48;
+    if (text.length > maxTextLength) {
+      const croppedText = text.substring(0, maxTextLength);
+      const shortenedText = `${croppedText} ...`;
+      return shortenedText;
+    } else {
+      return text;
+    }
+  };
+
   let movies: any;
   movies = <p>No movies loaded</p>;
   if (props.movies) {
@@ -71,8 +82,14 @@ const MovieList = (props: any) => {
                 {props.isRanking ? (
                   <p className="movie-info--number">{index + 1}</p>
                 ) : null}
-                <p className="movie-info---title">{movie.title}</p>
-                <IonNote>{getYear(movie.release_date)}</IonNote>
+                <div className="movie-info--main">
+                  <p className="movie-info--title">
+                    {shortenTitle(movie.title)}
+                  </p>
+                  <p className="movie-info--year">
+                    {getYear(movie.release_date)}
+                  </p>
+                </div>
                 <div className="rating">
                   <span
                     style={{ width: getMovieRatingPct(movie) }}
