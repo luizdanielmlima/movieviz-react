@@ -180,7 +180,7 @@ const MovieContent = (props: any) => {
         <div
           className="main-container"
           style={{
-            background: `linear-gradient(rgba(146, 213, 230, 0.9), rgba(155, 197, 61, 0.9)) no-repeat center top / cover,
+            background: `linear-gradient(rgba(146, 213, 230, 0.9), rgba(128, 187, 202, 0.9)) no-repeat center top / cover,
             url("${baseURL}${posterSizes[5]}${movie.poster_path}") no-repeat center center / cover`,
           }}
         >

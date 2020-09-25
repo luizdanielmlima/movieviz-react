@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  IonCol,
-  IonGrid,
-  IonIcon,
-  IonImg,
-  IonModal,
-  IonRow,
-} from '@ionic/react';
+import { IonIcon, IonImg, IonModal } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 
 import './ActorContent.css';
@@ -61,30 +54,22 @@ function ActorContent(props: any) {
   if (actor && images) {
     if (showMode === 'main') {
       actorContent = (
-        <div className="main-segment">
-          <IonGrid className="actor-main-area ion-no-padding">
-            <IonRow>
-              {/* ACTOR´s PHOTO */}
-              <IonCol
-                className="ion-no-padding"
-                size="7"
-                size-sm="7"
-                size-md="3"
-                offset-md="3"
-              >
+        <div
+          className="main-container"
+          style={{
+            background: `linear-gradient(rgba(155, 197, 61, 0.9), rgba(136, 173, 54, 0.9)) no-repeat center top / cover`,
+          }}
+        >
+          <div className="main-wrapper">
+            <div className="main-info">
+              <div className="thumb-container">
                 <img
+                  className="thumb"
                   src={`${baseURL}${profileSizes[2]}${actor.profile_path}`}
-                  alt="actor pic"
+                  alt="movie poster"
                 />
-              </IonCol>
-
-              {/* ACTOR´s STATS */}
-              <IonCol
-                className="actor-stats"
-                size="5"
-                size-sm="5"
-                size-md="3"
-              >
+              </div>
+              <div className="actor-stats">
                 <div className="actor-stat-item">
                   <p>Popularity</p>
                   <h6>{actor.popularity}</h6>
@@ -97,23 +82,13 @@ function ActorContent(props: any) {
                   <p>Place of Birth</p>
                   <h6>{actor.place_of_birth}</h6>
                 </div>
-              </IonCol>
-
-              {/* ACTOR´s BIOGRAPHY */}
-              <IonCol
-                className="ion-no-padding"
-                size="12"
-                size-sm="12"
-                size-md="8"
-                offset-md="2"
-              >
-                <div className="biography">
-                  <h4>Biography</h4>
-                  <p className="biography-text">{actor.biography}</p>
-                </div>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
+              </div>
+            </div>
+            <div className="secondary-info">
+              <h4>Biography</h4>
+              <p className="biography-text">{actor.biography}</p>
+            </div>
+          </div>
         </div>
       );
     } else if (showMode === 'credits') {
