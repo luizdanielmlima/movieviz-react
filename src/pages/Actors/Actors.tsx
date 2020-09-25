@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import {
-  IonGrid,
-  IonRow,
-  IonCol,
   IonPage,
   IonHeader,
   IonToolbar,

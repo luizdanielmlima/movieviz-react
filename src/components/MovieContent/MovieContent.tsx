@@ -52,6 +52,10 @@ const MovieContent = (props: any) => {
     }
   };
 
+  const getMovieRatingPct = (movie: any) => {
+    return movie.vote_average * 10 + '%';
+  };
+
   const setTrailerIDAndOpenModal = (id: string) => {
     setTrailerID(id);
     setShowModal(true);
@@ -195,7 +199,9 @@ const MovieContent = (props: any) => {
                     Rating {movie.vote_average}
                   </p>
                   <div className="rating rating-centered">
-                    <span></span>
+                    <span
+                      style={{ width: getMovieRatingPct(movie) }}
+                    ></span>
                   </div>
                 </div>
                 <div className="movie-stat-item">

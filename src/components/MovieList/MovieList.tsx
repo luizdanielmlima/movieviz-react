@@ -1,13 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import {
-  IonList,
-  IonItem,
-  IonThumbnail,
-  IonNote,
-  IonImg,
-} from '@ionic/react';
+import { IonList, IonItem, IonThumbnail, IonImg } from '@ionic/react';
 
 import './MovieList.css';
 
