@@ -19,6 +19,7 @@ import {
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import apiKey from '../../shared/mdb-api-key.json';
 import './Movies.css';
 import genres from '../../shared/genres';
 import * as actions from '../../store/actions';
@@ -33,13 +34,9 @@ class Movies extends Component {
     posterParams: null,
   };
 
-  apiKey = () => {
-    return '891a2d7d763b8e20d78ae746c8986811';
-  };
-
   componentDidMount() {
     this.setMDBImgConfig().then((res) => {
-      console.log('res: ', res);
+      // console.log('res: ', res);
       this.setState({ posterParams: res });
       this.fetchMovies();
     });
@@ -61,7 +58,7 @@ class Movies extends Component {
 
     axios
       .get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${this.apiKey()}&language=en-US&${sortByQuery}&include_adult=false&include_video=false&page=1&${genreQuery}&${yearFromQuery}&${yearToQuery}`,
+        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey.key}&language=en-US&${sortByQuery}&include_adult=false&include_video=false&page=1&${genreQuery}&${yearFromQuery}&${yearToQuery}`,
       )
       .then((response) => {
         // console.log('fetched movies:', response.data.results);
@@ -92,7 +89,7 @@ class Movies extends Component {
   async setMDBImgConfig() {
     const posterParams = await axios
       .get(
-        `https://api.themoviedb.org/3/configuration?api_key=${this.apiKey()}&language=en-US`,
+        `https://api.themoviedb.org/3/configuration?api_key=${apiKey.key}&language=en-US`,
       )
       .then((response) => {
         // console.log(response);

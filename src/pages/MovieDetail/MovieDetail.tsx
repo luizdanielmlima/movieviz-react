@@ -25,6 +25,7 @@ import {
   easelOutline,
 } from 'ionicons/icons';
 
+import apiKey from '../../shared/mdb-api-key.json';
 import { Cast, Crew, Movie } from '../../shared/models';
 import MovieContent from '../../components/MovieContent/MovieContent';
 import './MovieDetail.css';
@@ -100,17 +101,11 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
     });
   }
 
-  apiKey = () => {
-    return '891a2d7d763b8e20d78ae746c8986811';
-  };
-
   async fetchMovie() {
     // movie id to test: 448119
     const movieData = await axios
       .get(
-        `https://api.themoviedb.org/3/movie/${
-          this.state.movieId
-        }?api_key=${this.apiKey()}&language=en-US`,
+        `https://api.themoviedb.org/3/movie/${this.state.movieId}?api_key=${apiKey.key}&language=en-US`,
       )
       .then((response) => {
         // console.log(response.data);
@@ -125,9 +120,7 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
   async fetchCredits() {
     const movieCredits = await axios
       .get(
-        `https://api.themoviedb.org/3/movie/${
-          this.state.movieId
-        }/credits?api_key=${this.apiKey()}&language=en-US`,
+        `https://api.themoviedb.org/3/movie/${this.state.movieId}/credits?api_key=${apiKey.key}&language=en-US`,
       )
       .then((response) => {
         const credits = response.data;
@@ -142,9 +135,7 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
   async fetchGallery() {
     const movieGallery = await axios
       .get(
-        `https://api.themoviedb.org/3/movie/${
-          this.state.movieId
-        }/images?api_key=${this.apiKey()}`,
+        `https://api.themoviedb.org/3/movie/${this.state.movieId}/images?api_key=${apiKey.key}`,
       )
       .then((response) => {
         const gallery = response.data;
@@ -159,9 +150,7 @@ export class MovieDetail extends Component<MovieProps, MovieState> {
   async fetchTrailers() {
     const movieTrailers = await axios
       .get(
-        `https://api.themoviedb.org/3/movie/${
-          this.state.movieId
-        }/videos?api_key=${this.apiKey()}`,
+        `https://api.themoviedb.org/3/movie/${this.state.movieId}/videos?api_key=${apiKey.key}`,
       )
       .then((response) => {
         const trailers = response.data.results

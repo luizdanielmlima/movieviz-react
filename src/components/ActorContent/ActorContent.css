@@ -26,6 +26,7 @@
   position: relative;
   padding: 16px;
   background-color: #fff;
+  min-height: 350px;
 }
 
 .secondary-info::before {

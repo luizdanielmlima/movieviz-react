@@ -9,6 +9,7 @@ import {
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import apiKey from '../../shared/mdb-api-key.json';
 import * as actions from '../../store/actions';
 import './Actors.css';
 import ActorsList from '../../components/ActorsList/ActorsList';
@@ -17,10 +18,6 @@ class Actors extends Component {
   state = {
     actors: [],
     imgParams: null,
-  };
-
-  apiKey = () => {
-    return '891a2d7d763b8e20d78ae746c8986811';
   };
 
   componentDidMount() {
@@ -33,7 +30,7 @@ class Actors extends Component {
   async fetchActors() {
     const actors = await axios
       .get(
-        `https://api.themoviedb.org/3/person/popular?api_key=${this.apiKey()}&language=en-US`,
+        `https://api.themoviedb.org/3/person/popular?api_key=${apiKey.key}&language=en-US`,
       )
       .then((response) => {
         const data = response.data.results;

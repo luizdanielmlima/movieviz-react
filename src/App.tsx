@@ -43,34 +43,68 @@ import ActorDetail from './pages/ActorDetail/ActorDetail';
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
-const App: React.FC = () => (
-  <Provider store={store}>
-    <IonApp>
-      <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route path="/movies" component={Movies} exact={true} />
-            <Route path="/movies/:id" component={MovieDetail} />
-            <Route path="/actors" component={Actors} exact={true} />
-            <Route path="/actors/:id" component={ActorDetail} />
-            <Route
-              path="/"
-              render={() => <Redirect to="/movies" />}
-              exact={true}
-            />
-          </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="movies" href="/movies">
-              <IonLabel>MOVIES</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="actors" href="/actors">
-              <IonLabel>ACTORS</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
-      </IonReactRouter>
-    </IonApp>
-  </Provider>
-);
+const App = () => {
+  return (
+    <Provider store={store}>
+      <IonApp>
+        <IonReactRouter>
+          <IonTabs>
+            <IonRouterOutlet>
+              <Route path="/movies" component={Movies} exact={true} />
+              <Route path="/movies/:id" component={MovieDetail} />
+              <Route path="/actors" component={Actors} exact={true} />
+              <Route path="/actors/:id" component={ActorDetail} />
+              <Route
+                path="/"
+                render={() => <Redirect to="/movies" />}
+                exact={true}
+              />
+            </IonRouterOutlet>
+            <IonTabBar slot="bottom">
+              <IonTabButton tab="movies" href="/movies">
+                <IonLabel>MOVIES</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="actors" href="/actors">
+                <IonLabel>ACTORS</IonLabel>
+              </IonTabButton>
+            </IonTabBar>
+          </IonTabs>
+        </IonReactRouter>
+      </IonApp>
+    </Provider>
+  );
+};
 
 export default App;
+
+// const App: React.FC = () => (
+//   <Provider store={store}>
+//     <IonApp>
+//       <IonReactRouter>
+//         <IonTabs>
+//           <IonRouterOutlet>
+//             <Route path="/movies" component={Movies} exact={true} />
+//             <Route path="/movies/:id" component={MovieDetail} />
+//             <Route path="/actors" component={Actors} exact={true} />
+//             <Route path="/actors/:id" component={ActorDetail} />
+//             <Route
+//               path="/"
+//               render={() => <Redirect to="/movies" />}
+//               exact={true}
+//             />
+//           </IonRouterOutlet>
+//           <IonTabBar slot="bottom">
+//             <IonTabButton tab="movies" href="/movies">
+//               <IonLabel>MOVIES</IonLabel>
+//             </IonTabButton>
+//             <IonTabButton tab="actors" href="/actors">
+//               <IonLabel>ACTORS</IonLabel>
+//             </IonTabButton>
+//           </IonTabBar>
+//         </IonTabs>
+//       </IonReactRouter>
+//     </IonApp>
+//   </Provider>
+// );
+
+// export default App;

@@ -23,6 +23,7 @@ import {
   imagesOutline,
 } from 'ionicons/icons';
 
+import apiKey from '../../shared/mdb-api-key.json';
 import './ActorDetail.css';
 import ActorContent from '../../components/ActorContent/ActorContent';
 import { Cast } from '../../shared/models';
@@ -83,16 +84,10 @@ class Actor extends Component<ActorProps, ActorState> {
     });
   }
 
-  apiKey = () => {
-    return '891a2d7d763b8e20d78ae746c8986811';
-  };
-
   async fetchActor() {
     const actorData = await axios
       .get(
-        `https://api.themoviedb.org/3/person/${
-          this.state.actorId
-        }/?api_key=${this.apiKey()}&language=en-US`,
+        `https://api.themoviedb.org/3/person/${this.state.actorId}/?api_key=${apiKey.key}&language=en-US`,
       )
       .then((response) => {
         // console.log(response.data);
@@ -107,9 +102,7 @@ class Actor extends Component<ActorProps, ActorState> {
   async fetchActorImages() {
     const images = await axios
       .get(
-        `https://api.themoviedb.org/3/person/${
-          this.state.actorId
-        }/images?api_key=${this.apiKey()}&language=en-US`,
+        `https://api.themoviedb.org/3/person/${this.state.actorId}/images?api_key=${apiKey.key}&language=en-US`,
       )
       .then((response) => {
         return response.data.profiles;
@@ -123,9 +116,7 @@ class Actor extends Component<ActorProps, ActorState> {
   async fetchFilmography() {
     const movielist = await axios
       .get(
-        `https://api.themoviedb.org/3/person/${
-          this.state.actorId
-        }/movie_credits?api_key=${this.apiKey()}&language=en-US`,
+        `https://api.themoviedb.org/3/person/${this.state.actorId}/movie_credits?api_key=${apiKey.key}&language=en-US`,
       )
       .then((response) => {
         const orderedFilmography = response.data.cast
