@@ -27,7 +27,7 @@ function ActorContent(props: any) {
   }, []);
 
   const profileSizes = configuration.images.profile_sizes;
-  const baseURL = configuration.images.base_url;
+  const baseURL = configuration.images.secure_base_url;
 
   let { actor, showMode, images, filmography } = props;
   let actorContent: any;

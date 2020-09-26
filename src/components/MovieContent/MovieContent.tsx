@@ -36,7 +36,7 @@ const MovieContent = (props: any) => {
 
   const posterSizes = configuration.images.poster_sizes;
   const backdropSizes = configuration.images.backdrop_sizes;
-  const baseURL = configuration.images.base_url;
+  const baseURL = configuration.images.secure_base_url;
   const youtubeURL = 'https://www.youtube.com/embed/';
   const youtubeParams = '?showinfo=0&modestbranding=1';
 
