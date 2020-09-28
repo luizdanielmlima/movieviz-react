@@ -1,6 +1,6 @@
 {
   "name": "movieviz-react",
-  "version": "0.0.1",
+  "version": "1.5.0",
   "private": true,
   "dependencies": {
     "@capacitor/core": "2.4.0",
