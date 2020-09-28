@@ -30,7 +30,7 @@ export interface Cast {
   imdb_id?: string;
   name?: string;
   order?: number;
-  profile_path: string;
+  profile_path?: string;
   popularity?: number;
   place_of_birth?: string;
 }

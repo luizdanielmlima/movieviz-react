@@ -39,7 +39,6 @@ interface MovieProps {
 
 interface MovieState {
   showMode?: string;
-  baseURL?: string;
   movieId?: string;
   movie?: Movie;
   movieYear?: string;
@@ -51,12 +50,11 @@ interface MovieState {
   dataIsReady?: boolean;
 }
 
-export class MovieDetail extends Component<MovieProps, MovieState> {
+class MovieDetail extends Component<MovieProps, MovieState> {
   constructor(props: MovieProps) {
     super(props);
     this.state = {
       showMode: 'main',
-      baseURL: 'https://image.tmdb.org/t/p/',
       movie: {},
       movieYear: '',
       images: [],

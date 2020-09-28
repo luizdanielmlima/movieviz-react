@@ -27,22 +27,20 @@ import MovieList from '../../components/MovieList/MovieList';
 
 class Movies extends Component {
   state = {
-    movies: [],
+    movies: null,
     query_genre: 'all',
     query_sortBy: 'revenue.desc',
     query_year: '2020-01-01',
-    posterParams: null,
   };
 
   componentDidMount() {
-    this.setMDBImgConfig().then((res) => {
-      // console.log('res: ', res);
-      this.setState({ posterParams: res });
-      this.fetchMovies();
+    this.fetchMovies().then((moviesData: any) => {
+      this.setState({ movies: moviesData });
+      // console.log('Movies state: ', this.state);
     });
   }
 
-  fetchMovies = () => {
+  async fetchMovies() {
     let genreQuery: string;
     if (this.state.query_genre === 'all') {
       genreQuery = ''; // all genres was selected
@@ -56,18 +54,18 @@ class Movies extends Component {
 
     const sortByQuery = `sort_by=${this.state.query_sortBy}`;
 
-    axios
+    const movies = await axios
       .get(
         `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey.key}&language=en-US&${sortByQuery}&include_adult=false&include_video=false&page=1&${genreQuery}&${yearFromQuery}&${yearToQuery}`,
       )
       .then((response) => {
-        // console.log('fetched movies:', response.data.results);
-        this.setState({ movies: response.data.results });
+        return response.data.results;
       })
       .catch((error) => {
         console.log(error);
       });
-  };
+    return movies;
+  }
 
   handleChange(event: any, from: string) {
     const updatedValue = event.detail.value;
@@ -86,29 +84,6 @@ class Movies extends Component {
     }
   }
 
-  async setMDBImgConfig() {
-    const posterParams = await axios
-      .get(
-        `https://api.themoviedb.org/3/configuration?api_key=${apiKey.key}&language=en-US`,
-      )
-      .then((response) => {
-        // console.log(response);
-        const imgConfig = response.data.images;
-        const posterData = {
-          baseURL: imgConfig.secure_base_url,
-          hiRes: imgConfig.poster_sizes[5],
-          lowRes: imgConfig.poster_sizes[2],
-        };
-        return posterData;
-        // console.log('posterParams: ', posterParams);
-      })
-      .catch((error) => {
-        console.log(error);
-        return error;
-      });
-    return posterParams;
-  }
-
   render() {
     const genreOptions = genres.map((genre) => {
       return (
@@ -117,6 +92,14 @@ class Movies extends Component {
         </IonSelectOption>
       );
     });
+
+    let moviesList: any;
+    moviesList = <p>Waiting for data...</p>;
+    if (this.state.movies) {
+      moviesList = (
+        <MovieList movies={this.state.movies} isRanking={true} />
+      );
+    }
 
     return (
       <IonPage>
@@ -136,12 +119,6 @@ class Movies extends Component {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
-          {/* <IonHeader collapse="condense">
-            <IonToolbar>
-              <IonTitle size="large">Movies</IonTitle>
-            </IonToolbar>
-          </IonHeader>
-          <ExploreContainer name="Movies Content HERE !!!" /> */}
           <IonGrid className="ion-no-padding">
             <IonRow className="ion-no-padding">
               <IonCol
@@ -232,10 +209,7 @@ class Movies extends Component {
                 </form>
               </IonCol>
               <IonCol size="12" size-md="8">
-                <MovieList
-                  movies={this.state.movies}
-                  isRanking={true}
-                />
+                {moviesList}
               </IonCol>
             </IonRow>
           </IonGrid>

@@ -50,8 +50,29 @@ function ActorContent(props: any) {
     setShowModal(true);
   };
 
+  let actorImages;
+  if (images) {
+    actorImages = props.images.map((image: any, index: number) => {
+      return (
+        <div key={index} className="gallery-item">
+          <IonImg
+            className="ion-no-padding"
+            src={`${baseURL}${profileSizes[2]}${image.file_path}`}
+            alt="actor pic"
+            onClick={() =>
+              setImagePathAndOpenModal(
+                `${baseURL}${profileSizes[3]}${image.file_path}`,
+                1.77,
+              )
+            }
+          ></IonImg>
+        </div>
+      );
+    });
+  }
+
   // HTML for Actor Main Info
-  if (actor && images) {
+  if (actor) {
     if (showMode === 'main') {
       actorContent = (
         <div
@@ -97,46 +118,30 @@ function ActorContent(props: any) {
         <MovieList movies={filmography} isRanking={false} />
       );
     } else if (showMode === 'gallery') {
-      /* ACTOR´s GALLERY */
-      const allImages = props.images.map(
-        (image: any, index: number) => {
-          return (
-            <div key={index} className="gallery-item">
-              <IonImg
-                className="ion-no-padding"
-                src={`${baseURL}${profileSizes[2]}${image.file_path}`}
-                alt="actor pic"
-                onClick={() =>
-                  setImagePathAndOpenModal(
-                    `${baseURL}${profileSizes[3]}${image.file_path}`,
-                    1.77,
-                  )
-                }
-              ></IonImg>
-              <IonModal
-                isOpen={showModal}
-                cssClass="modal"
-                onDidDismiss={() => setShowModal(false)}
-              >
-                <div className="img-container">
-                  <img
-                    src={imagePath}
-                    alt="movie poster"
-                    className={imageClass}
-                  />
-                </div>
-                <div className="close-btn">
-                  <IonIcon
-                    icon={closeOutline}
-                    onClick={() => setShowModal(false)}
-                  ></IonIcon>
-                </div>
-              </IonModal>
+      actorContent = (
+        <div className="gallery">
+          {actorImages}
+          <IonModal
+            isOpen={showModal}
+            cssClass="modal"
+            onDidDismiss={() => setShowModal(false)}
+          >
+            <div className="img-container">
+              <img
+                src={imagePath}
+                alt="movie poster"
+                className={imageClass}
+              />
             </div>
-          );
-        },
+            <div className="close-btn">
+              <IonIcon
+                icon={closeOutline}
+                onClick={() => setShowModal(false)}
+              ></IonIcon>
+            </div>
+          </IonModal>
+        </div>
       );
-      actorContent = <div className="gallery">{allImages}</div>;
     }
   }
   return <div>{actorContent}</div>;

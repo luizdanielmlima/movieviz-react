@@ -16,7 +16,7 @@ import ActorsList from '../../components/ActorsList/ActorsList';
 
 class Actors extends Component {
   state = {
-    actors: [],
+    actors: null,
     imgParams: null,
   };
 
@@ -44,7 +44,7 @@ class Actors extends Component {
 
   render() {
     let actorsList: any;
-    actorsList = <p>Loading Actors...</p>;
+    actorsList = <p>Waiting for data...</p>;
     if (this.state.actors) {
       actorsList = (
         <ActorsList actors={this.state.actors} isMovieCast={false} />

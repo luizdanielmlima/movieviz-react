@@ -36,7 +36,6 @@ interface ActorProps {
 
 interface ActorState {
   showMode?: string;
-  baseURL?: string;
   actorId?: string;
   actor?: Cast;
   gallery?: any[];
@@ -49,10 +48,7 @@ class Actor extends Component<ActorProps, ActorState> {
     super(props);
     this.state = {
       showMode: 'main',
-      baseURL: 'https://image.tmdb.org/t/p/',
-      actor: {
-        profile_path: 'nonono',
-      },
+      actor: {},
       gallery: [],
       filmography: [],
       dataIsReady: false,
@@ -87,10 +83,9 @@ class Actor extends Component<ActorProps, ActorState> {
   async fetchActor() {
     const actorData = await axios
       .get(
-        `https://api.themoviedb.org/3/person/${this.state.actorId}/?api_key=${apiKey.key}&language=en-US`,
+        `https://api.themoviedb.org/3/person/${this.state.actorId}?api_key=${apiKey.key}&language=en-US`,
       )
       .then((response) => {
-        // console.log(response.data);
         return response.data;
       })
       .catch((error) => {
@@ -151,7 +146,13 @@ class Actor extends Component<ActorProps, ActorState> {
   };
 
   render() {
-    let { actor, gallery, filmography, dataIsReady } = this.state;
+    let {
+      actor,
+      gallery,
+      filmography,
+      dataIsReady,
+      showMode,
+    } = this.state;
 
     let content;
     content = (
@@ -159,7 +160,8 @@ class Actor extends Component<ActorProps, ActorState> {
         <IonSpinner name="dots" />
       </div>
     );
-    if (dataIsReady) {
+
+    if (dataIsReady && actor) {
       content = (
         <div className="content">
           <Route
@@ -185,9 +187,7 @@ class Actor extends Component<ActorProps, ActorState> {
           <IonToolbar>
             <IonButtons slot="start">
               <IonBackButton defaultHref="/actors"></IonBackButton>
-              <IonTitle>
-                {this.state.actor ? this.state.actor.name : ''}
-              </IonTitle>
+              <IonTitle>{actor ? actor.name : ''}</IonTitle>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
@@ -198,7 +198,7 @@ class Actor extends Component<ActorProps, ActorState> {
             onIonChange={(evt) =>
               this.onSegmentChange(evt.detail.value)
             }
-            value={this.state.showMode}
+            value={showMode}
           >
             <IonSegmentButton value="main">
               <IonIcon icon={informationCircleOutline}></IonIcon>
