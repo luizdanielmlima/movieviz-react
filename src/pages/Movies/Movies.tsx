@@ -199,7 +199,11 @@ class Movies extends Component {
                         <IonButton
                           color="primary"
                           expand="block"
-                          onClick={() => this.fetchMovies()}
+                          onClick={() =>
+                            this.fetchMovies().then((moviesData) =>
+                              this.setState({ movies: moviesData }),
+                            )
+                          }
                         >
                           FILTER
                         </IonButton>
