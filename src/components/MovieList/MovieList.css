@@ -1,6 +1,14 @@
 @import '../../theme/variables.css';
 @import '../../theme/styles.css';
 
+.no-movies {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .movies {
   max-width: 600px;
   margin: 0 auto;

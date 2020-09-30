@@ -15,6 +15,7 @@ import {
   IonLabel,
   IonItem,
   IonDatetime,
+  IonSpinner,
 } from '@ionic/react';
 import axios from 'axios';
 
@@ -39,6 +40,7 @@ class Movies extends Component {
   }
 
   async fetchMovies() {
+    this.setState({ movies: null });
     let genreQuery: string;
     if (this.state.query_genre === 'all') {
       genreQuery = ''; // all genres was selected
@@ -92,7 +94,11 @@ class Movies extends Component {
     });
 
     let moviesList: any;
-    moviesList = <p>Waiting for data...</p>;
+    moviesList = (
+      <div className="no-movies">
+        <IonSpinner name="dots" />
+      </div>
+    );
     if (this.state.movies) {
       moviesList = (
         <MovieList movies={this.state.movies} isRanking={true} />

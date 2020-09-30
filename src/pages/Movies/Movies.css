@@ -5,3 +5,11 @@
   max-height: 22px;
   fill: white;
 }
+
+.no-movies {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

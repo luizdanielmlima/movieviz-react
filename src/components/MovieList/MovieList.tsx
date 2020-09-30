@@ -6,8 +6,8 @@ import {
   IonItem,
   IonThumbnail,
   IonImg,
-  IonButton,
   IonIcon,
+  IonSpinner,
 } from '@ionic/react';
 import { eye } from 'ionicons/icons';
 
@@ -74,8 +74,15 @@ const MovieList = (props: any) => {
   };
 
   let movies: any;
-  movies = <p>No movies loaded</p>;
-  if (props.movies) {
+  movies = <p>...</p>;
+  if (props.movies && props.movies.length === 0) {
+    movies = (
+      <div className="no-movies">
+        <p>No movies found</p>
+      </div>
+    );
+  }
+  if (props.movies && props.movies.length !== 0) {
     movies = props.movies.map((movie: any, index: number) => {
       return (
         <div key={movie.id} className="movies">

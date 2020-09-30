@@ -44,7 +44,7 @@ const Watchlist = (props: any) => {
   };
 
   let moviesList: any;
-  moviesList = <p>Waiting for data...</p>;
+  moviesList = <p> Waiting for data...</p>;
   if (props.watchList) {
     const filteredList = filterWatchlist();
     moviesList = (
