@@ -59,3 +59,37 @@
   font-weight: 700;
   cursor: pointer;
 }
+
+/* FAV BTN */
+.fav-btn {
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+
+.fav-btn-bg {
+  position: relative;
+  background-color: #777 !important;
+  opacity: 0.85;
+  cursor: pointer;
+  height: 36px;
+  width: 36px;
+  box-shadow: 1px 1px 1px rgba(30, 30, 30, 0.3);
+  border-bottom-left-radius: var(--card-radius);
+  border-bottom-right-radius: var(--card-radius);
+  transition: opacity 2s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fav-btn-bg-on {
+  background-color: var(--ion-color-tertiary) !important;
+  opacity: 1;
+}
+
+.fav-btn-icon {
+  color: white;
+  font-size: 24px;
+}

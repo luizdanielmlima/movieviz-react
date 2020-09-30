@@ -7,13 +7,15 @@ import {
   IonThumbnail,
   IonImg,
   IonButton,
+  IonIcon,
 } from '@ionic/react';
+import { eye } from 'ionicons/icons';
 
 import * as actions from '../../store/actions';
 import './MovieList.css';
 
 const MovieList = (props: any) => {
-  console.log(props);
+  // console.log(props);
   const history = useHistory();
   const baseURL = 'https://image.tmdb.org/t/p/';
   const posterSizes = [
@@ -62,6 +64,15 @@ const MovieList = (props: any) => {
     }
   };
 
+  const setFavClasses = (movie: any) => {
+    const movieIndex = props.watchList.indexOf(movie);
+    if (movieIndex !== -1) {
+      return 'fav-btn-bg fav-btn-bg-on';
+    } else {
+      return 'fav-btn-bg';
+    }
+  };
+
   let movies: any;
   movies = <p>No movies loaded</p>;
   if (props.movies) {
@@ -81,11 +92,12 @@ const MovieList = (props: any) => {
                   alt="movie cover"
                 ></IonImg>
               </IonThumbnail>
-              <IonButton
+
+              {/* <IonButton
                 onClick={() => props.onUpdateWatchlist(movie)}
               >
                 Watchlist
-              </IonButton>
+              </IonButton> */}
               <div className="movie-info">
                 {props.isRanking ? (
                   <p className="movie-info--number">{index + 1}</p>
@@ -110,6 +122,14 @@ const MovieList = (props: any) => {
                   ></span>
                 </div>
               </div>
+              <div className="fav-btn">
+                <div
+                  onClick={() => props.onUpdateWatchlist(movie)}
+                  className={setFavClasses(movie)}
+                >
+                  <IonIcon class="fav-btn-icon" icon={eye}></IonIcon>
+                </div>
+              </div>
             </IonItem>
           </IonList>
         </div>
@@ -122,7 +142,7 @@ const MovieList = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    watchlist: state.watchlist,
+    watchList: state.watchList,
   };
 };
 

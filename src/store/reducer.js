@@ -24,7 +24,7 @@ const reducer = (state = initialState, action) => {
           (movie) => movie.id !== action.movie.id,
         );
       }
-      console.log('updatedWatchlist: ', updatedWatchlist);
+      // console.log('updatedWatchlist: ', updatedWatchlist);
       return updatedObject(state, { watchList: updatedWatchlist });
     default:
       return state;
