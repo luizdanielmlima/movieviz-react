@@ -12,7 +12,6 @@ import { IonReactRouter } from '@ionic/react-router';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 import reducer from '../src/store/reducer';
 
 /* Core CSS required for Ionic components to work properly */
@@ -40,8 +39,9 @@ import Movies from './pages/Movies/Movies';
 import MovieDetail from './pages/MovieDetail/MovieDetail';
 import Actors from './pages/Actors/Actors';
 import ActorDetail from './pages/ActorDetail/ActorDetail';
+import Watchlist from './pages/Watchlist/Watchlist';
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(reducer);
 
 const App = () => {
   return (
@@ -54,6 +54,7 @@ const App = () => {
               <Route path="/movies/:id" component={MovieDetail} />
               <Route path="/actors" component={Actors} exact={true} />
               <Route path="/actors/:id" component={ActorDetail} />
+              <Route path="/watchlist" component={Watchlist} />
               <Route
                 path="/"
                 render={() => <Redirect to="/movies" />}
@@ -67,6 +68,9 @@ const App = () => {
               <IonTabButton tab="actors" href="/actors">
                 <IonLabel>ACTORS</IonLabel>
               </IonTabButton>
+              <IonTabButton tab="watchlist" href="/watchlist">
+                <IonLabel>WATCHLIST</IonLabel>
+              </IonTabButton>
             </IonTabBar>
           </IonTabs>
         </IonReactRouter>
@@ -76,35 +80,3 @@ const App = () => {
 };
 
 export default App;
-
-// const App: React.FC = () => (
-//   <Provider store={store}>
-//     <IonApp>
-//       <IonReactRouter>
-//         <IonTabs>
-//           <IonRouterOutlet>
-//             <Route path="/movies" component={Movies} exact={true} />
-//             <Route path="/movies/:id" component={MovieDetail} />
-//             <Route path="/actors" component={Actors} exact={true} />
-//             <Route path="/actors/:id" component={ActorDetail} />
-//             <Route
-//               path="/"
-//               render={() => <Redirect to="/movies" />}
-//               exact={true}
-//             />
-//           </IonRouterOutlet>
-//           <IonTabBar slot="bottom">
-//             <IonTabButton tab="movies" href="/movies">
-//               <IonLabel>MOVIES</IonLabel>
-//             </IonTabButton>
-//             <IonTabButton tab="actors" href="/actors">
-//               <IonLabel>ACTORS</IonLabel>
-//             </IonTabButton>
-//           </IonTabBar>
-//         </IonTabs>
-//       </IonReactRouter>
-//     </IonApp>
-//   </Provider>
-// );
-
-// export default App;

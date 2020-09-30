@@ -6,11 +6,9 @@ import {
   IonTitle,
   IonContent,
 } from '@ionic/react';
-import { connect } from 'react-redux';
 import axios from 'axios';
 
 import apiKey from '../../shared/mdb-api-key.json';
-import * as actions from '../../store/actions';
 import './Actors.css';
 import ActorsList from '../../components/ActorsList/ActorsList';
 
@@ -72,18 +70,4 @@ class Actors extends Component {
   }
 }
 
-// TODO: do Redux stuff later....
-const mapStateToProps = (state: any) => {
-  return {
-    actors: state.actors,
-    loading: state.loading,
-  };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    onFetchMovies: () => dispatch(actions.fetchMovies()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Actors);
+export default Actors;

@@ -16,13 +16,11 @@ import {
   IonItem,
   IonDatetime,
 } from '@ionic/react';
-import { connect } from 'react-redux';
 import axios from 'axios';
 
 import apiKey from '../../shared/mdb-api-key.json';
 import './Movies.css';
 import genres from '../../shared/genres';
-import * as actions from '../../store/actions';
 import MovieList from '../../components/MovieList/MovieList';
 
 class Movies extends Component {
@@ -223,18 +221,4 @@ class Movies extends Component {
   }
 }
 
-// TODO: do Redux stuff later....
-const mapStateToProps = (state: any) => {
-  return {
-    movies: state.movies,
-    loading: state.loading,
-  };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    onFetchMovies: () => dispatch(actions.fetchMovies()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Movies);
+export default Movies;

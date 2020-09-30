@@ -1,11 +1,19 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import {
+  IonList,
+  IonItem,
+  IonThumbnail,
+  IonImg,
+  IonButton,
+} from '@ionic/react';
 
-import { IonList, IonItem, IonThumbnail, IonImg } from '@ionic/react';
-
+import * as actions from '../../store/actions';
 import './MovieList.css';
 
 const MovieList = (props: any) => {
+  console.log(props);
   const history = useHistory();
   const baseURL = 'https://image.tmdb.org/t/p/';
   const posterSizes = [
@@ -61,26 +69,38 @@ const MovieList = (props: any) => {
       return (
         <div key={movie.id} className="movies">
           <IonList className="movie-list" lines="none">
-            <IonItem
-              className="ion-no-padding movie-info-area"
-              onClick={() => navToMovie(movie.id)}
-            >
-              <IonThumbnail slot="start" className="movie-thumbnail">
+            <IonItem className="ion-no-padding movie-info-area">
+              <IonThumbnail
+                slot="start"
+                className="movie-thumbnail"
+                onClick={() => navToMovie(movie.id)}
+              >
                 <IonImg
                   className="movie-img"
                   src={getPoster(movie)}
                   alt="movie cover"
                 ></IonImg>
               </IonThumbnail>
+              <IonButton
+                onClick={() => props.onUpdateWatchlist(movie)}
+              >
+                Watchlist
+              </IonButton>
               <div className="movie-info">
                 {props.isRanking ? (
                   <p className="movie-info--number">{index + 1}</p>
                 ) : null}
                 <div className="movie-info--main">
-                  <p className="movie-info--title">
+                  <p
+                    className="movie-info--title"
+                    onClick={() => navToMovie(movie.id)}
+                  >
                     {shortenTitle(movie.title)}
                   </p>
-                  <p className="movie-info--year">
+                  <p
+                    className="movie-info--year"
+                    onClick={() => navToMovie(movie.id)}
+                  >
                     {getYear(movie.release_date)}
                   </p>
                 </div>
@@ -100,4 +120,20 @@ const MovieList = (props: any) => {
   return <div className="container">{movies}</div>;
 };
 
-export default MovieList;
+const mapStateToProps = (state: any) => {
+  return {
+    watchlist: state.watchlist,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onUpdateWatchlist: (movie: any) =>
+      dispatch(actions.updateWatchlist(movie)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MovieList);

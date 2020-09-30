@@ -2,24 +2,30 @@ import * as actionTypes from './actionTypes';
 import { updatedObject } from './utility';
 
 const initialState = {
-  movies: [],
-  actors: [],
-  currentMovie: null,
-  currentActor: null,
-  movieFavs: [],
-  error: null,
-  loading: false,
+  watchList: [],
+  watch: 'test',
+  isLoading: true,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_MOVIES_START:
-      return updatedObject(state, { loading: true });
-    case actionTypes.FETCH_MOVIES_SUCCESS:
-      const updatedMovies = [...state.movies];
-      return updatedObject(state, { movies: updatedMovies });
-    case actionTypes.FETCH_MOVIES_FAILED:
-      return updatedObject(state, { loading: false });
+    case actionTypes.UPDATE_WATCHLIST:
+      let updatedWatchlist;
+      const movieIndex = state.watchList.indexOf(action.movie);
+
+      // movie is not on list, so ADD it
+      if (movieIndex === -1) {
+        updatedWatchlist = state.watchList.concat(action.movie);
+      }
+
+      // movie IS on the list, so REMOVE it
+      else {
+        updatedWatchlist = state.watchList.filter(
+          (movie) => movie.id !== action.movie.id,
+        );
+      }
+      console.log('updatedWatchlist: ', updatedWatchlist);
+      return updatedObject(state, { watchList: updatedWatchlist });
     default:
       return state;
   }
