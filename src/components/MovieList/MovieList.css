@@ -70,14 +70,14 @@
 .fav-btn-bg {
   position: relative;
   background-color: #777 !important;
-  opacity: 0.85;
+  opacity: 0.65;
   cursor: pointer;
   height: 36px;
   width: 36px;
   box-shadow: 1px 1px 1px rgba(30, 30, 30, 0.3);
   border-bottom-left-radius: var(--card-radius);
   border-bottom-right-radius: var(--card-radius);
-  transition: opacity 2s;
+  transition: opacity 1s;
 
   display: flex;
   align-items: center;

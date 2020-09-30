@@ -1,34 +1,63 @@
+import React, { useState } from 'react';
 import {
-  IonButton,
   IonCol,
   IonContent,
   IonGrid,
   IonHeader,
-  IonNote,
+  IonItem,
+  IonLabel,
   IonPage,
   IonRow,
+  IonSelect,
+  IonSelectOption,
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import React from 'react';
 import { connect } from 'react-redux';
 
 import MovieList from '../../components/MovieList/MovieList';
+import genres from '../../shared/genres';
 
 const Watchlist = (props: any) => {
+  const [curGenre, setcurGenre] = useState('all');
+
+  const genreOptions = genres.map((genre) => {
+    return (
+      <IonSelectOption key={genre.id} value={genre.id}>
+        {genre.name}
+      </IonSelectOption>
+    );
+  });
+
+  const handleChange = (event: any) => {
+    setcurGenre(event.detail.value);
+  };
+
+  const filterWatchlist = () => {
+    if (curGenre === 'all') {
+      return [...props.watchList];
+    } else {
+      return [...props.watchList].filter((movie: any) =>
+        movie.genre_ids.includes(+curGenre),
+      );
+    }
+  };
+
   let moviesList: any;
   moviesList = <p>Waiting for data...</p>;
   if (props.watchList) {
+    const filteredList = filterWatchlist();
     moviesList = (
       <div>
-        <MovieList movies={props.watchList} isRanking={true} />
+        <MovieList movies={filteredList} isRanking={true} />
       </div>
     );
   }
+
   return (
     <IonPage>
       <IonHeader className="header">
-        <IonToolbar color="primary">
+        <IonToolbar color="tertiary">
           <img
             className="app-logo"
             src="assets/images/app_logo.svg"
@@ -47,20 +76,16 @@ const Watchlist = (props: any) => {
                 <IonGrid>
                   <IonRow className="ion-no-padding">
                     <IonCol size="12" size-sm="4" size-md="12">
-                      {/* <IonItem>
-                      <IonLabel position="floating">
-                        Genre
-                      </IonLabel>
-                      <IonSelect
-                        name="genre"
-                        value={this.state.query_genre}
-                        onIonChange={(evt) =>
-                          this.handleChange(evt, 'genre')
-                        }
-                      >
-                        {genreOptions}
-                      </IonSelect>
-                    </IonItem> */}
+                      <IonItem>
+                        <IonLabel position="floating">Genre</IonLabel>
+                        <IonSelect
+                          name="genre"
+                          value={curGenre}
+                          onIonChange={(evt) => handleChange(evt)}
+                        >
+                          {genreOptions}
+                        </IonSelect>
+                      </IonItem>
                     </IonCol>
 
                     <IonCol
