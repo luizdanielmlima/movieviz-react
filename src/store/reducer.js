@@ -14,12 +14,9 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_SEARCH_PARAM:
-      console.log(
-        `action.paramKey:${action.paramKey} , action.paramValue:${action.paramValue}`,
-      );
       const newParams = { ...state.searchParams };
       newParams[action.paramKey] = action.paramValue;
-      console.log('newParams: ', newParams);
+      // console.log('newParams: ', newParams);
       return updatedObject(state, { searchParams: newParams });
     case actionTypes.UPDATE_WATCHLIST:
       let updatedWatchlist;

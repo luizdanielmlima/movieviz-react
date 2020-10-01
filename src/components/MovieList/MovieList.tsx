@@ -102,12 +102,6 @@ const MovieList = (props: any) => {
                   alt="movie cover"
                 ></IonImg>
               </IonThumbnail>
-
-              {/* <IonButton
-                onClick={() => props.onUpdateWatchlist(movie)}
-              >
-                Watchlist
-              </IonButton> */}
               <div className="movie-info">
                 {props.isRanking ? (
                   <p className="movie-info--number">{index + 1}</p>

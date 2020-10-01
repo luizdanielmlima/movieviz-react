@@ -16,6 +16,7 @@ import {
   IonItem,
   IonDatetime,
   IonSpinner,
+  withIonLifeCycle,
 } from '@ionic/react';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -42,12 +43,8 @@ class Movies extends Component<MoviesProps, MoviesState> {
       movies: null,
     };
   }
-  // state = {
-  //   movies: null,
-  // };
 
-  componentDidMount() {
-    console.log(this.props);
+  ionViewDidEnter() {
     this.fetchMovies().then((moviesData: any) => {
       this.setState({ movies: moviesData });
       // console.log('Movies state: ', this.state);
@@ -89,15 +86,12 @@ class Movies extends Component<MoviesProps, MoviesState> {
     const updatedValue = event.detail.value;
     switch (from) {
       case 'genre':
-        // this.setState({ query_genre: updatedValue });
         this.props.onSearchParamChanged('genre', updatedValue);
         break;
       case 'sortBy':
-        // this.setState({ query_sortBy: updatedValue });
         this.props.onSearchParamChanged('sortBy', updatedValue);
         break;
       case 'year':
-        // this.setState({ query_year: updatedValue });
         this.props.onSearchParamChanged('year', updatedValue);
         break;
       default:
@@ -261,4 +255,7 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Movies);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withIonLifeCycle(Movies));

@@ -50,7 +50,7 @@ const ActorsList = (props: any) => {
   };
 
   // When actors list is presented in the Actors Page, it shows the "known for" below the actors´s name...
-  // ... but when its shown in the movie detail page it must show the character name
+  // ... but when it is shown in the movie detail page it must show the character name
   const getSubText = (actor: any) => {
     if (props.isMovieCast) {
       return <p>{actor.character}</p>;

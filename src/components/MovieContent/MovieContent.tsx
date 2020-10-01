@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   IonChip,
   IonIcon,
@@ -6,12 +7,14 @@ import {
   IonLabel,
   IonModal,
 } from '@ionic/react';
+import { connect } from 'react-redux';
 
 import { closeOutline } from 'ionicons/icons';
 
 import configuration from '../../shared/configuration';
 import ActorsList from '../ActorsList/ActorsList';
 import './MovieContent.css';
+import * as actions from '../../store/actions';
 
 const MovieContent = (props: any) => {
   // console.log('MovieContent|props:', props);
@@ -22,6 +25,8 @@ const MovieContent = (props: any) => {
 
   const [windowWidth, setWindowWidth] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
+
+  const history = useHistory();
 
   let resizeWindow = () => {
     setWindowWidth(window.innerWidth);
@@ -78,6 +83,11 @@ const MovieContent = (props: any) => {
     setShowModal(true);
   };
 
+  const changeGenreAndNavToMovies = (genreID: string) => {
+    props.onSearchParamChanged('genre', genreID);
+    history.push('/movies/');
+  };
+
   let {
     movie,
     showMode,
@@ -109,7 +119,14 @@ const MovieContent = (props: any) => {
   if (movieGenres) {
     genres = movieGenres.map((genre: any) => {
       return (
-        <IonChip key={genre.id} outline color="dark">
+        <IonChip
+          key={genre.id}
+          outline
+          color="dark"
+          onClick={() =>
+            changeGenreAndNavToMovies(genre.id.toString())
+          }
+        >
           <IonLabel color="dark">{genre.name}</IonLabel>
         </IonChip>
       );
@@ -325,4 +342,20 @@ const MovieContent = (props: any) => {
   return <div>{movieContent}</div>;
 };
 
-export default MovieContent;
+const mapStateToProps = (state: any) => {
+  return {
+    searchParams: state.searchParams,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onSearchParamChanged: (paramKey: string, paramValue: string) =>
+      dispatch(actions.updateSearchParam(paramKey, paramValue)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MovieContent);
