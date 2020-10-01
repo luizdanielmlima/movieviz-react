@@ -6,3 +6,9 @@ export const updateWatchlist = (movieData) => {
     movie: movieData,
   };
 };
+
+export const loadWatchlistFromLS = () => {
+  return {
+    type: actionTypes.LOAD_WATCHLIST_FROM_LSTORAGE,
+  };
+};

@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 import { updatedObject } from './utility';
 
 const initialState = {
-  watchList: [],
+  watchList: null,
   watch: 'test',
   isLoading: true,
 };
@@ -24,8 +24,21 @@ const reducer = (state = initialState, action) => {
           (movie) => movie.id !== action.movie.id,
         );
       }
-      // console.log('updatedWatchlist: ', updatedWatchlist);
+      localStorage.setItem(
+        'watchList',
+        JSON.stringify(updatedWatchlist),
+      );
       return updatedObject(state, { watchList: updatedWatchlist });
+    case actionTypes.LOAD_WATCHLIST_FROM_LSTORAGE:
+      if (localStorage.getItem('watchList') != null) {
+        const savedWatchlist = JSON.parse(
+          localStorage.getItem('watchList'),
+        );
+        return updatedObject(state, { watchList: savedWatchlist });
+      } else {
+        localStorage.setItem('watchList', JSON.stringify([]));
+        return null;
+      }
     default:
       return state;
   }

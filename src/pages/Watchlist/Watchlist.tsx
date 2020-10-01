@@ -17,9 +17,14 @@ import { connect } from 'react-redux';
 
 import MovieList from '../../components/MovieList/MovieList';
 import genres from '../../shared/genres';
+import * as actions from '../../store/actions';
 
 const Watchlist = (props: any) => {
   const [curGenre, setcurGenre] = useState('all');
+
+  // useEffect(() => {
+
+  // }, []);
 
   const genreOptions = genres.map((genre) => {
     return (
@@ -44,14 +49,17 @@ const Watchlist = (props: any) => {
   };
 
   let moviesList: any;
-  moviesList = <p> Waiting for data...</p>;
+  moviesList = <p> ... </p>;
   if (props.watchList) {
+    console.log('Watchlist| props.watchList is not null');
     const filteredList = filterWatchlist();
     moviesList = (
       <div>
         <MovieList movies={filteredList} isRanking={true} />
       </div>
     );
+  } else {
+    props.loadWatchlistFromLS();
   }
 
   return (
@@ -128,4 +136,14 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(Watchlist);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    loadWatchlistFromLS: (movie: any) =>
+      dispatch(actions.loadWatchlistFromLS()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Watchlist);
