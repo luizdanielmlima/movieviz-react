@@ -22,10 +22,6 @@ import * as actions from '../../store/actions';
 const Watchlist = (props: any) => {
   const [curGenre, setcurGenre] = useState('all');
 
-  // useEffect(() => {
-
-  // }, []);
-
   const genreOptions = genres.map((genre) => {
     return (
       <IonSelectOption key={genre.id} value={genre.id}>
@@ -39,28 +35,24 @@ const Watchlist = (props: any) => {
   };
 
   const filterWatchlist = () => {
-    if (curGenre === 'all') {
-      return [...props.watchList];
-    } else {
-      return [...props.watchList].filter((movie: any) =>
-        movie.genre_ids.includes(+curGenre),
-      );
+    if (props.watchList) {
+      if (curGenre === 'all') {
+        return [...props.watchList];
+      } else {
+        return [...props.watchList].filter((movie: any) =>
+          movie.genre_ids.includes(+curGenre),
+        );
+      }
     }
   };
 
   let moviesList: any;
-  moviesList = <p> ... </p>;
-  if (props.watchList) {
-    console.log('Watchlist| props.watchList is not null');
-    const filteredList = filterWatchlist();
-    moviesList = (
-      <div>
-        <MovieList movies={filteredList} isRanking={true} />
-      </div>
-    );
-  } else {
-    props.loadWatchlistFromLS();
-  }
+  const filteredList = filterWatchlist();
+  moviesList = (
+    <div>
+      <MovieList movies={filteredList} isRanking={true} />
+    </div>
+  );
 
   return (
     <IonPage>
@@ -130,9 +122,7 @@ const Watchlist = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    watch: state.watch,
     watchList: state.watchList,
-    isLoading: state.isLoading,
   };
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -7,7 +7,6 @@ import {
   IonThumbnail,
   IonImg,
   IonIcon,
-  IonSpinner,
 } from '@ionic/react';
 import { eye } from 'ionicons/icons';
 
@@ -27,6 +26,13 @@ const MovieList = (props: any) => {
     'w780',
     'original',
   ];
+
+  useEffect(() => {
+    if (!props.watchList) {
+      // console.log('Movielist|no props.watchlist found, try LS');
+      props.loadWatchlistFromLS();
+    }
+  });
 
   const getMovieRatingPct = (movie: any) => {
     return movie.vote_average * 10 + '%';
@@ -65,11 +71,15 @@ const MovieList = (props: any) => {
   };
 
   const setFavClasses = (movie: any) => {
-    const movieIndex = props.watchList.indexOf(movie);
-    if (movieIndex !== -1) {
-      return 'fav-btn-bg fav-btn-bg-on';
-    } else {
-      return 'fav-btn-bg';
+    if (props.watchList) {
+      const founItems = [...props.watchList].filter(
+        (item: any) => movie.id === item.id,
+      ).length;
+      if (founItems > 0) {
+        return 'fav-btn-bg fav-btn-bg-on';
+      } else {
+        return 'fav-btn-bg';
+      }
     }
   };
 
@@ -157,6 +167,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     onUpdateWatchlist: (movie: any) =>
       dispatch(actions.updateWatchlist(movie)),
+    loadWatchlistFromLS: (movie: any) =>
+      dispatch(actions.loadWatchlistFromLS()),
   };
 };
 

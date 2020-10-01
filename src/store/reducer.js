@@ -11,18 +11,21 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_WATCHLIST:
       let updatedWatchlist;
-      const movieIndex = state.watchList.indexOf(action.movie);
-
-      // movie is not on list, so ADD it
-      if (movieIndex === -1) {
-        updatedWatchlist = state.watchList.concat(action.movie);
-      }
+      // const movieIndex = state.watchList.indexOf(action.movie);
+      const founItemsNum = [...state.watchList].filter(
+        (item) => action.movie.id === item.id,
+      ).length;
+      console.log('founItemsNum: ', founItemsNum);
 
       // movie IS on the list, so REMOVE it
-      else {
+      if (founItemsNum > 0) {
         updatedWatchlist = state.watchList.filter(
           (movie) => movie.id !== action.movie.id,
         );
+      }
+      // movie is not on list, so ADD it
+      else {
+        updatedWatchlist = state.watchList.concat(action.movie);
       }
       localStorage.setItem(
         'watchList',
@@ -34,6 +37,7 @@ const reducer = (state = initialState, action) => {
         const savedWatchlist = JSON.parse(
           localStorage.getItem('watchList'),
         );
+        console.log('savedWatchlist: ', savedWatchlist);
         return updatedObject(state, { watchList: savedWatchlist });
       } else {
         localStorage.setItem('watchList', JSON.stringify([]));
