@@ -15,16 +15,12 @@ const reducer = (state = initialState, action) => {
       const founItemsNum = [...state.watchList].filter(
         (item) => action.movie.id === item.id,
       ).length;
-      console.log('founItemsNum: ', founItemsNum);
-
       // movie IS on the list, so REMOVE it
       if (founItemsNum > 0) {
         updatedWatchlist = state.watchList.filter(
           (movie) => movie.id !== action.movie.id,
         );
-      }
-      // movie is not on list, so ADD it
-      else {
+      } else {
         updatedWatchlist = state.watchList.concat(action.movie);
       }
       localStorage.setItem(
