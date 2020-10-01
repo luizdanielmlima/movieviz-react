@@ -3,12 +3,24 @@ import { updatedObject } from './utility';
 
 const initialState = {
   watchList: null,
-  watch: 'test',
   isLoading: true,
+  searchParams: {
+    genre: 'all',
+    sortBy: 'revenue.desc',
+    year: '2020-01-01',
+  },
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.UPDATE_SEARCH_PARAM:
+      console.log(
+        `action.paramKey:${action.paramKey} , action.paramValue:${action.paramValue}`,
+      );
+      const newParams = { ...state.searchParams };
+      newParams[action.paramKey] = action.paramValue;
+      console.log('newParams: ', newParams);
+      return updatedObject(state, { searchParams: newParams });
     case actionTypes.UPDATE_WATCHLIST:
       let updatedWatchlist;
       // const movieIndex = state.watchList.indexOf(action.movie);

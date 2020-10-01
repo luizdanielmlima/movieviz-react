@@ -18,21 +18,36 @@ import {
   IonSpinner,
 } from '@ionic/react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 import apiKey from '../../shared/mdb-api-key.json';
 import './Movies.css';
 import genres from '../../shared/genres';
 import MovieList from '../../components/MovieList/MovieList';
+import * as actions from '../../store/actions';
 
-class Movies extends Component {
-  state = {
-    movies: null,
-    query_genre: 'all',
-    query_sortBy: 'revenue.desc',
-    query_year: '2020-01-01',
-  };
+interface MoviesProps {
+  searchParams?: any;
+  onSearchParamChanged?: any;
+}
+
+interface MoviesState {
+  movies?: any;
+}
+
+class Movies extends Component<MoviesProps, MoviesState> {
+  constructor(props: MoviesProps) {
+    super(props);
+    this.state = {
+      movies: null,
+    };
+  }
+  // state = {
+  //   movies: null,
+  // };
 
   componentDidMount() {
+    console.log(this.props);
     this.fetchMovies().then((moviesData: any) => {
       this.setState({ movies: moviesData });
       // console.log('Movies state: ', this.state);
@@ -42,17 +57,20 @@ class Movies extends Component {
   async fetchMovies() {
     this.setState({ movies: null });
     let genreQuery: string;
-    if (this.state.query_genre === 'all') {
+    if (this.props.searchParams.genre === 'all') {
       genreQuery = ''; // all genres was selected
     } else {
-      genreQuery = `with_genres=${this.state.query_genre}`;
+      genreQuery = `with_genres=${this.props.searchParams.genre}`;
     }
 
-    const yearOnlyString = this.state.query_year.substring(0, 4);
+    const yearOnlyString = this.props.searchParams.year.substring(
+      0,
+      4,
+    );
     const yearFromQuery = `primary_release_date.gte=${yearOnlyString}-01-01`;
     const yearToQuery = `primary_release_date.lte=${yearOnlyString}-12-30`;
 
-    const sortByQuery = `sort_by=${this.state.query_sortBy}`;
+    const sortByQuery = `sort_by=${this.props.searchParams.sortBy}`;
 
     const movies = await axios
       .get(
@@ -71,13 +89,16 @@ class Movies extends Component {
     const updatedValue = event.detail.value;
     switch (from) {
       case 'genre':
-        this.setState({ query_genre: updatedValue });
+        // this.setState({ query_genre: updatedValue });
+        this.props.onSearchParamChanged('genre', updatedValue);
         break;
       case 'sortBy':
-        this.setState({ query_sortBy: updatedValue });
+        // this.setState({ query_sortBy: updatedValue });
+        this.props.onSearchParamChanged('sortBy', updatedValue);
         break;
       case 'year':
-        this.setState({ query_year: updatedValue });
+        // this.setState({ query_year: updatedValue });
+        this.props.onSearchParamChanged('year', updatedValue);
         break;
       default:
       // do nothing
@@ -140,7 +161,7 @@ class Movies extends Component {
                           </IonLabel>
                           <IonSelect
                             name="genre"
-                            value={this.state.query_genre}
+                            value={this.props.searchParams.genre}
                             onIonChange={(evt) =>
                               this.handleChange(evt, 'genre')
                             }
@@ -156,7 +177,7 @@ class Movies extends Component {
                           </IonLabel>
                           <IonSelect
                             name="sortBy"
-                            value={this.state.query_sortBy}
+                            value={this.props.searchParams.sortBy}
                             onIonChange={(evt) =>
                               this.handleChange(evt, 'sortBy')
                             }
@@ -182,7 +203,7 @@ class Movies extends Component {
                             Year
                           </IonLabel>
                           <IonDatetime
-                            value={this.state.query_year}
+                            value={this.props.searchParams.year}
                             onIonChange={(evt) =>
                               this.handleChange(evt, 'year')
                             }
@@ -227,4 +248,17 @@ class Movies extends Component {
   }
 }
 
-export default Movies;
+const mapStateToProps = (state: any) => {
+  return {
+    searchParams: state.searchParams,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onSearchParamChanged: (paramKey: string, paramValue: string) =>
+      dispatch(actions.updateSearchParam(paramKey, paramValue)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Movies);
