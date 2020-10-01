@@ -186,7 +186,7 @@ class MovieDetail extends Component<MovieProps, MovieState> {
     } = this.state;
 
     const shortenTitle = (text: string = 'loading') => {
-      const maxTextLength = 30;
+      const maxTextLength = 25;
       if (text.length > maxTextLength) {
         const croppedText = text.substring(0, maxTextLength);
         const shortenedText = `${croppedText}...`;

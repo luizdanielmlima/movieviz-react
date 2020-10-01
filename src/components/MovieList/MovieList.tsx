@@ -11,21 +11,14 @@ import {
 import { eye } from 'ionicons/icons';
 
 import * as actions from '../../store/actions';
+import configuration from '../../shared/configuration';
 import './MovieList.css';
 
 const MovieList = (props: any) => {
   // console.log(props);
   const history = useHistory();
   const baseURL = 'https://image.tmdb.org/t/p/';
-  const posterSizes = [
-    'w92',
-    'w154',
-    'w185',
-    'w342',
-    'w500',
-    'w780',
-    'original',
-  ];
+  const posterSizes = configuration.images.poster_sizes;
 
   useEffect(() => {
     if (!props.watchList) {
@@ -60,7 +53,7 @@ const MovieList = (props: any) => {
   };
 
   const shortenTitle = (text: string) => {
-    const maxTextLength = 48;
+    const maxTextLength = 42;
     if (text.length > maxTextLength) {
       const croppedText = text.substring(0, maxTextLength);
       const shortenedText = `${croppedText} ...`;
