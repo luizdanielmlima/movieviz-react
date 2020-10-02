@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IonIcon, IonModal } from '@ionic/react';
+import { IonIcon, IonImg, IonModal } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 
 import './ActorContent.css';
@@ -54,12 +54,10 @@ function ActorContent(props: any) {
   if (images) {
     actorImages = props.images.map((image: any, index: number) => {
       return (
-        <div key={index} className="gallery-item">
-          <img
-            className="ion-no-padding"
+        <picture key={index} className="picture portrait-ratio">
+          <IonImg
+            className="ion-no-padding picture-content"
             src={`${baseURL}${profileSizes[2]}${image.file_path}`}
-            height="632"
-            width="421"
             alt="actor pic"
             onClick={() =>
               setImagePathAndOpenModal(
@@ -67,8 +65,8 @@ function ActorContent(props: any) {
                 1.77,
               )
             }
-          />
-        </div>
+          ></IonImg>
+        </picture>
       );
     });
   }
