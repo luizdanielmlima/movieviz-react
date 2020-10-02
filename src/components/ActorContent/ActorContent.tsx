@@ -83,13 +83,13 @@ function ActorContent(props: any) {
         >
           <div className="main-wrapper">
             <div className="main-info">
-              <div className="thumb-container">
-                <img
+              <picture className="thumb-container">
+                <IonImg
                   className="thumb"
                   src={`${baseURL}${profileSizes[2]}${actor.profile_path}`}
-                  alt="movie poster"
+                  alt="actor profile pic"
                 />
-              </div>
+              </picture>
               <div className="actor-stats">
                 <div className="actor-stat-item">
                   <p>Popularity</p>

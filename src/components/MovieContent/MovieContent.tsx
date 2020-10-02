@@ -203,13 +203,13 @@ const MovieContent = (props: any) => {
         >
           <div className="main-wrapper">
             <div className="main-info">
-              <div className="thumb-container">
-                <img
+              <picture className="thumb-container">
+                <IonImg
                   className="thumb"
                   src={`${baseURL}${posterSizes[3]}${movie.poster_path}`}
                   alt="movie poster"
                 />
-              </div>
+              </picture>
               <div className="movie-stats">
                 <div className="movie-stat-item">
                   <p className="movie-stat-title">
