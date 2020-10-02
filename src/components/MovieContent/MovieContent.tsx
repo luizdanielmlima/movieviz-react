@@ -137,9 +137,9 @@ const MovieContent = (props: any) => {
   if (posters) {
     moviePosters = posters.map((image: any, index: number) => {
       return (
-        <div key={index} className="gallery-item">
+        <picture key={index} className="picture moviePoster-ratio">
           <IonImg
-            className="ion-no-padding"
+            className="ion-no-padding picture-content"
             src={`${baseURL}${posterSizes[3]}${image.file_path}`}
             alt="movie poster"
             onClick={() =>
@@ -149,7 +149,7 @@ const MovieContent = (props: any) => {
               )
             }
           ></IonImg>
-        </div>
+        </picture>
       );
     });
   }
@@ -158,11 +158,11 @@ const MovieContent = (props: any) => {
   if (images) {
     movieGallery = images.map((image: any, index: number) => {
       return (
-        <div key={index} className="gallery-item">
+        <picture key={index} className="picture movieImg-ratio">
           <IonImg
-            className="ion-no-padding"
+            className="ion-no-padding picture-content"
             src={`${baseURL}${backdropSizes[1]}${image.file_path}`}
-            alt="movie photo"
+            alt="movie pic"
             onClick={() =>
               setImagePathAndOpenModal(
                 `${baseURL}${backdropSizes[2]}${image.file_path}`,
@@ -170,7 +170,7 @@ const MovieContent = (props: any) => {
               )
             }
           ></IonImg>
-        </div>
+        </picture>
       );
     });
   }
@@ -179,14 +179,14 @@ const MovieContent = (props: any) => {
   if (trailers) {
     movieTrailers = trailers.map((trailer: any, index: number) => {
       return (
-        <div key={index} className="gallery-item">
+        <picture key={index} className="picture movieImg-ratio">
           <IonImg
-            className="ion-no-padding"
+            className="ion-no-padding picture-content"
             src={trailer.thumb}
             alt="trailer thumbnail"
             onClick={() => setTrailerIDAndOpenModal(trailer.key)}
           ></IonImg>
-        </div>
+        </picture>
       );
     });
   }
