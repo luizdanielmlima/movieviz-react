@@ -1,3 +1,6 @@
+@import '../../theme/variables.css';
+@import '../../theme/styles.css';
+
 ion-thumbnail {
   width: 90px;
   height: 135px;
@@ -19,10 +22,14 @@ ion-thumbnail {
 .actor-info-area {
   cursor: pointer;
   position: relative;
-  margin: 8px 12px 0px 12px;
+  margin: 6px 12px;
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
-  --background: linear-gradient(to right bottom, #f6f6f6, #fff);
+  --background: linear-gradient(
+    to right bottom,
+    var(--ion-background-color),
+    #f4f4f4
+  );
   max-width: 600px;
 
   display: flex;

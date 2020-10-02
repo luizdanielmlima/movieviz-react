@@ -16,10 +16,14 @@
 
 .movie-info-area {
   position: relative;
-  margin: 8px 12px 0px 12px;
+  margin: 6px 12px;
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
-  --background: linear-gradient(to right bottom, #f6f6f6, #fff);
+  --background: linear-gradient(
+    to right bottom,
+    var(--ion-background-color),
+    #f4f4f4
+  );
 }
 
 .movie-thumbnail {
@@ -71,20 +75,21 @@
 /* FAV BTN */
 .fav-btn {
   position: absolute;
-  top: 0;
-  right: 10px;
+  top: 8px;
+  right: 8px;
 }
 
 .fav-btn-bg {
   position: relative;
-  background-color: #777 !important;
+  background-color: var(--ion-background-color) !important;
   opacity: 0.65;
   cursor: pointer;
   height: 36px;
   width: 36px;
-  box-shadow: 1px 1px 1px rgba(30, 30, 30, 0.3);
-  border-bottom-left-radius: var(--card-radius);
-  border-bottom-right-radius: var(--card-radius);
+  box-shadow: var(--shadow-down);
+  border-radius: 50%;
+  /* border-bottom-left-radius: var(--card-radius);
+  border-bottom-right-radius: var(--card-radius); */
   transition: opacity 1s;
 
   display: flex;
@@ -94,10 +99,15 @@
 
 .fav-btn-bg-on {
   background-color: var(--ion-color-tertiary) !important;
+  box-shadow: var(--shadow-up);
   opacity: 1;
 }
 
-.fav-btn-icon {
+.fav-btn-bg .fav-btn-icon {
+  color: #bbb;
+  font-size: 20px;
+}
+.fav-btn-bg-on .fav-btn-icon {
   color: white;
-  font-size: 24px;
+  font-size: 20px;
 }
