@@ -18,6 +18,7 @@ const reducer = (state = initialState, action) => {
       newParams[action.paramKey] = action.paramValue;
       // console.log('newParams: ', newParams);
       return updatedObject(state, { searchParams: newParams });
+
     case actionTypes.UPDATE_WATCHLIST:
       let updatedWatchlist;
       // const movieIndex = state.watchList.indexOf(action.movie);
@@ -37,12 +38,13 @@ const reducer = (state = initialState, action) => {
         JSON.stringify(updatedWatchlist),
       );
       return updatedObject(state, { watchList: updatedWatchlist });
+
     case actionTypes.LOAD_WATCHLIST_FROM_LSTORAGE:
       if (localStorage.getItem('watchList') != null) {
         const savedWatchlist = JSON.parse(
           localStorage.getItem('watchList'),
         );
-        console.log('savedWatchlist: ', savedWatchlist);
+        // console.log('savedWatchlist: ', savedWatchlist);
         return updatedObject(state, { watchList: savedWatchlist });
       } else {
         localStorage.setItem('watchList', JSON.stringify([]));

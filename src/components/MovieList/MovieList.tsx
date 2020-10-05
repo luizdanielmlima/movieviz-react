@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -20,11 +20,22 @@ const MovieList = (props: any) => {
   const baseURL = 'https://image.tmdb.org/t/p/';
   const posterSizes = configuration.images.poster_sizes;
 
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  let resizeWindow = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
   useEffect(() => {
     if (!props.watchList) {
       // console.log('Movielist|no props.watchlist found, try LS');
       props.loadWatchlistFromLS();
     }
+
+    // use window w and h to resize movie title...
+    resizeWindow();
+    window.addEventListener('resize', resizeWindow);
+    return () => window.removeEventListener('resize', resizeWindow);
   });
 
   const getMovieRatingPct = (movie: any) => {
@@ -53,7 +64,7 @@ const MovieList = (props: any) => {
   };
 
   const shortenTitle = (text: string) => {
-    const maxTextLength = 42;
+    const maxTextLength = windowWidth / 16;
     if (text.length > maxTextLength) {
       const croppedText = text.substring(0, maxTextLength);
       const shortenedText = `${croppedText} ...`;

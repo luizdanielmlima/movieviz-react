@@ -186,7 +186,7 @@ class MovieDetail extends Component<MovieProps, MovieState> {
     } = this.state;
 
     const shortenTitle = (text: string = 'loading') => {
-      const maxTextLength = 25;
+      const maxTextLength = window.innerWidth / 16;
       if (text.length > maxTextLength) {
         const croppedText = text.substring(0, maxTextLength);
         const shortenedText = `${croppedText}...`;
@@ -197,7 +197,7 @@ class MovieDetail extends Component<MovieProps, MovieState> {
         );
       } else {
         return (
-          <IonTitle className="ion-no-padding">
+          <IonTitle className="ion-no-padding title-small">
             {text} ({movie ? movieYear : ''})
           </IonTitle>
         );

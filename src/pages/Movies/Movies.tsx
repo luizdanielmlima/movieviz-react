@@ -34,6 +34,12 @@ interface MoviesProps {
 
 interface MoviesState {
   movies?: any;
+  localParams?: {
+    genre: string;
+    sortBy: string;
+    year: string;
+  };
+  firstLoad?: boolean;
 }
 
 class Movies extends Component<MoviesProps, MoviesState> {
@@ -41,17 +47,58 @@ class Movies extends Component<MoviesProps, MoviesState> {
     super(props);
     this.state = {
       movies: null,
+      localParams: {
+        genre: 'all',
+        sortBy: 'revenue.desc',
+        year: '2020-01-01',
+      },
+      firstLoad: true,
     };
   }
 
   ionViewDidEnter() {
+    // logic to avoid getting unnecessary new data from API, if searchParams haven´t changed...
+    if (this.state.firstLoad) {
+      this.setState({ firstLoad: false });
+      this.getNewMoviesData();
+    } else {
+      const globalParams = { ...this.props.searchParams };
+      const paramsAreEqual = this.paramsAreEqual(
+        this.state.localParams,
+        globalParams,
+      );
+      if (!paramsAreEqual) {
+        this.getNewMoviesData();
+      }
+    }
+  }
+
+  updateLocalParams() {
+    const newParams = {
+      genre: this.props.searchParams.genre,
+      sortBy: this.props.searchParams.sortBy,
+      year: this.props.searchParams.year,
+    };
+    this.setState({ localParams: newParams });
+  }
+
+  paramsAreEqual(params1: any, params2: any) {
+    const isEqual =
+      params1.genre === params2.genre &&
+      params1.sortBy === params2.sortBy &&
+      params1.year === params2.year;
+    return isEqual;
+  }
+
+  getNewMoviesData() {
     this.fetchMovies().then((moviesData: any) => {
       this.setState({ movies: moviesData });
-      // console.log('Movies state: ', this.state);
+      this.updateLocalParams();
     });
   }
 
   async fetchMovies() {
+    console.log('fetchMovies()');
     this.setState({ movies: null });
     let genreQuery: string;
     if (this.props.searchParams.genre === 'all') {
@@ -218,11 +265,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
                         <IonButton
                           color="primary"
                           expand="block"
-                          onClick={() =>
-                            this.fetchMovies().then((moviesData) =>
-                              this.setState({ movies: moviesData }),
-                            )
-                          }
+                          onClick={() => this.getNewMoviesData()}
                         >
                           FILTER
                         </IonButton>
