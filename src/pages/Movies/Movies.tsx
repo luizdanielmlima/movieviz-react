@@ -5,7 +5,6 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonNote,
   IonGrid,
   IonRow,
   IonCol,
@@ -17,7 +16,10 @@ import {
   IonDatetime,
   IonSpinner,
   withIonLifeCycle,
+  IonIcon,
 } from '@ionic/react';
+import { contrastOutline } from 'ionicons/icons';
+
 import axios from 'axios';
 import { connect } from 'react-redux';
 
@@ -71,6 +73,10 @@ class Movies extends Component<MoviesProps, MoviesState> {
         this.getNewMoviesData();
       }
     }
+  }
+
+  changeTheme() {
+    window.document.body.classList.toggle('dark-theme');
   }
 
   updateLocalParams() {
@@ -179,9 +185,15 @@ class Movies extends Component<MoviesProps, MoviesState> {
             <IonTitle className="ion-text-center ion-padding">
               TOP MOVIES
             </IonTitle>
-            <IonNote slot="end" className="ion-padding">
+            <IonIcon
+              className="mr-md"
+              icon={contrastOutline}
+              slot="end"
+              onClick={() => this.changeTheme()}
+            ></IonIcon>
+            {/* <IonNote slot="end" className="ion-padding">
               v1.5
-            </IonNote>
+            </IonNote> */}
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>

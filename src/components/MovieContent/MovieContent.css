@@ -1,6 +1,11 @@
 @import '../../theme/variables.css';
 @import '../../theme/styles.css';
 
+.chip {
+  border-color: var(--ion-text-color-rgb) !important;
+  opacity: 0.65;
+}
+
 .main-container {
   display: flex;
   justify-content: center;
@@ -28,13 +33,13 @@
 .secondary-info {
   position: relative;
   padding: 16px;
-  background-color: #fff;
+  background-color: var(--ion-background-color);
 }
 
 .secondary-info::before {
   position: absolute;
   content: '';
-  background-color: white;
+  background-color: var(--ion-background-color);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   top: -11px;

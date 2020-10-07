@@ -20,9 +20,9 @@
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   --background: linear-gradient(
-    to right bottom,
+    to bottom,
     var(--ion-background-color),
-    #f4f4f4
+    var(--ion-color-step-50)
   );
 }
 

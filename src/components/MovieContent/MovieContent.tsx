@@ -120,14 +120,14 @@ const MovieContent = (props: any) => {
     genres = movieGenres.map((genre: any) => {
       return (
         <IonChip
+          className="chip"
           key={genre.id}
           outline
-          color="dark"
           onClick={() =>
             changeGenreAndNavToMovies(genre.id.toString())
           }
         >
-          <IonLabel color="dark">{genre.name}</IonLabel>
+          <IonLabel>{genre.name}</IonLabel>
         </IonChip>
       );
     });

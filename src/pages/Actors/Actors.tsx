@@ -26,6 +26,7 @@ class Actors extends Component {
   }
 
   async fetchActors() {
+    console.log('fetchActors()');
     const actors = await axios
       .get(
         `https://api.themoviedb.org/3/person/popular?api_key=${apiKey.key}&language=en-US`,
