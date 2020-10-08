@@ -26,6 +26,10 @@
   );
 }
 
+.movie-info-area:hover {
+  border: 1px solid var(--ion-color-primary);
+}
+
 .movie-thumbnail {
   margin: 0;
   padding: 0;

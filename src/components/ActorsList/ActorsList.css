@@ -8,7 +8,7 @@ ion-thumbnail {
   margin-right: 12px;
 }
 .actor-thumb {
-  border-radius: 10px;
+  border-radius: var(--card-radius);
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14),
     0px 1px 3px 0px rgba(0, 0, 0, 0.12);
@@ -35,6 +35,10 @@ ion-thumbnail {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.actor-info-area:hover {
+  border: 1px solid var(--ion-color-secondary);
 }
 
 .actor-title {

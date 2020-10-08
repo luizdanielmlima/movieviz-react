@@ -15,29 +15,25 @@ const ActorsList = (props: any) => {
       const knownMovies = actor.known_for.filter(
         (item: any) => item.media_type === 'movie',
       );
-      if (knownMovies && knownMovies.length === 1) {
-        return (
-          <div>
-            <p className="light-text">Known for:</p>
-            <p className="credits">
-              <span>{getKnownMoviesOnly(actor)[0].title}</span>
-            </p>
-          </div>
+      let secondPart;
+      if (knownMovies.length > 1) {
+        secondPart = (
+          <span>
+            <span className="light-text margin-horiz">and</span>
+            <span>{getKnownMoviesOnly(actor)[1].title}</span>
+          </span>
         );
-      } else if (knownMovies && knownMovies.length > 1) {
-        return (
-          <div>
-            <p className="light-text">Known for:</p>
-            <p className="credits">
-              <span>{getKnownMoviesOnly(actor)[0].title}</span>
-              <span className="light-text margin-horiz">and</span>
-              <span>{getKnownMoviesOnly(actor)[1].title}</span>
-            </p>
-          </div>
-        );
-      } else {
-        return null;
       }
+
+      return (
+        <div>
+          <p className="light-text">Known for:</p>
+          <p className="credits">
+            <span>{getKnownMoviesOnly(actor)[0].title}</span>
+            {secondPart}
+          </p>
+        </div>
+      );
     } else {
       return null;
     }
