@@ -14,13 +14,21 @@ const ActorsList = (props: any) => {
     if (actor.known_for) {
       const knownMovies = actor.known_for.filter(
         (item: any) => item.media_type === 'movie',
-      );
+        );
+      let firstPart;
       let secondPart;
+
+      if (knownMovies.length === 0) {
+        firstPart = null;
+      } else {
+        firstPart = <span>{knownMovies[0].title}</span>
+      }
+
       if (knownMovies.length > 1) {
         secondPart = (
           <span>
             <span className="light-text margin-horiz">and</span>
-            <span>{getKnownMoviesOnly(actor)[1].title}</span>
+            <span>{knownMovies[1].title}</span>
           </span>
         );
       }
@@ -29,7 +37,7 @@ const ActorsList = (props: any) => {
         <div>
           <p className="light-text">Known for:</p>
           <p className="credits">
-            <span>{getKnownMoviesOnly(actor)[0].title}</span>
+            {firstPart}
             {secondPart}
           </p>
         </div>
@@ -37,12 +45,6 @@ const ActorsList = (props: any) => {
     } else {
       return null;
     }
-  };
-
-  const getKnownMoviesOnly = (actor: any) => {
-    return actor.known_for.filter(
-      (item: any) => item.media_type === 'movie',
-    );
   };
 
   // When actors list is presented in the Actors Page, it shows the "known for" below the actors´s name...

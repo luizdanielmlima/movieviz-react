@@ -24,6 +24,13 @@ http://ionicframework.com/docs/theming/ */
   --padding-md: 2rem;
   --padding-sm: 1rem;
 
+  /* RESPONSIVE BREAKPOINTS */
+  --bp-largest: 1400px;
+  --bp-large: 1000px;
+  --bp-medium: 800px;
+  --bp-small: 600px;
+  --bp-smallest: 360px;
+
   /* IONIC STUFF */
   --ion-background-color: #ffffff;
   --ion-background-color-rgb: 255, 255, 255;

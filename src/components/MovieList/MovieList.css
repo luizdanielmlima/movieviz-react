@@ -9,14 +9,16 @@
   justify-content: center;
 }
 
-.movies {
+.movie-list {
+  padding: 6px;
   max-width: 600px;
   margin: 0 auto;
 }
 
 .movie-info-area {
+  padding: 0 !important;
   position: relative;
-  margin: 6px 12px;
+  margin: 24px 12px;
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   --background: linear-gradient(

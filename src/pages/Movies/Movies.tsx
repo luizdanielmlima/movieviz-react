@@ -96,7 +96,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
   }
 
   async fetchMovies() {
-    // console.log('fetchMovies()');
+    console.log('fetchMovies()');
     this.setState({ movies: null });
     let genreQuery: string;
     if (this.props.searchParams.genre === 'all') {

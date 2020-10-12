@@ -98,61 +98,61 @@ const MovieList = (props: any) => {
   }
   if (props.movies && props.movies.length !== 0) {
     movies = props.movies.map((movie: any, index: number) => {
-      return (
-        <div key={movie.id} className="movies">
-          <IonList className="movie-list" lines="none">
-            <IonItem className="ion-no-padding movie-info-area">
-              <IonThumbnail
-                slot="start"
-                className="movie-thumbnail"
+      return (       
+        <IonItem key={movie.id} className="ion-no-padding movie-info-area">
+          <IonThumbnail
+            slot="start"
+            className="movie-thumbnail"
+            onClick={() => navToMovie(movie.id)}
+          >
+            <IonImg
+              className="movie-img"
+              src={getPoster(movie)}
+              alt="movie cover"
+            ></IonImg>
+          </IonThumbnail>
+          <div className="movie-info">
+            {props.isRanking ? (
+              <p className="movie-info--number">{index + 1}</p>
+            ) : null}
+            <div className="movie-info--main">
+              <p
+                className="movie-info--title"
                 onClick={() => navToMovie(movie.id)}
               >
-                <IonImg
-                  className="movie-img"
-                  src={getPoster(movie)}
-                  alt="movie cover"
-                ></IonImg>
-              </IonThumbnail>
-              <div className="movie-info">
-                {props.isRanking ? (
-                  <p className="movie-info--number">{index + 1}</p>
-                ) : null}
-                <div className="movie-info--main">
-                  <p
-                    className="movie-info--title"
-                    onClick={() => navToMovie(movie.id)}
-                  >
-                    {shortenTitle(movie.title)}
-                  </p>
-                  <p
-                    className="movie-info--year"
-                    onClick={() => navToMovie(movie.id)}
-                  >
-                    {getYear(movie.release_date)}
-                  </p>
-                </div>
-                <div className="rating">
-                  <span
-                    style={{ width: getMovieRatingPct(movie) }}
-                  ></span>
-                </div>
-              </div>
-              <div className="fav-btn">
-                <div
-                  onClick={() => props.onUpdateWatchlist(movie)}
-                  className={setFavClasses(movie)}
-                >
-                  <IonIcon class="fav-btn-icon" icon={eye}></IonIcon>
-                </div>
-              </div>
-            </IonItem>
-          </IonList>
-        </div>
+                {shortenTitle(movie.title)}
+              </p>
+              <p
+                className="movie-info--year"
+                onClick={() => navToMovie(movie.id)}
+              >
+                {getYear(movie.release_date)}
+              </p>
+            </div>
+            <div className="rating">
+              <span
+                style={{ width: getMovieRatingPct(movie) }}
+              ></span>
+            </div>
+          </div>
+          <div className="fav-btn">
+            <div
+              onClick={() => props.onUpdateWatchlist(movie)}
+              className={setFavClasses(movie)}
+            >
+              <IonIcon class="fav-btn-icon" icon={eye}></IonIcon>
+            </div>
+          </div>
+        </IonItem>
       );
     });
   }
 
-  return <div className="container">{movies}</div>;
+  return (
+    <IonList className="movie-list" lines="none">
+      {movies}
+    </IonList>
+  )
 };
 
 const mapStateToProps = (state: any) => {
