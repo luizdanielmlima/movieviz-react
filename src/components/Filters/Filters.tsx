@@ -16,29 +16,26 @@ import genres from '../../shared/genres';
 interface FilterProps {
     searchParams?: any;
     onSearchParamChanged?: any;
+    filterHandler?: any;
 }
 
 interface FiltersState {
-movies?: any;
-localParams?: {
-    genre: string;
-    sortBy: string;
-    year: string;
-};
-firstLoad?: boolean;
+    localParams?: {
+        genre: string;
+        sortBy: string;
+        year: string;
+    };
 }
 
 class Filters extends Component<FilterProps, FiltersState> {
     constructor(props: FilterProps) {
         super(props);
         this.state = {
-            movies: null,
             localParams: {
-            genre: 'all',
-            sortBy: 'revenue.desc',
-            year: '2020-01-01',
+                genre: 'all',
+                sortBy: 'revenue.desc',
+                year: '2020-01-01',
             },
-            firstLoad: true,
         };
     }
     
@@ -77,7 +74,7 @@ class Filters extends Component<FilterProps, FiltersState> {
                 <form>
                     <IonItem>
                         <IonLabel position="floating">
-                        Genre
+                            Genre
                         </IonLabel>
                         <IonSelect
                                 name="genre"
@@ -99,7 +96,7 @@ class Filters extends Component<FilterProps, FiltersState> {
                             onIonChange={(evt) =>
                                 this.handleChange(evt, 'sortBy')
                             }
-                            >
+                        >
                             <IonSelectOption value="popularity.desc">
                                 Popularity
                             </IonSelectOption>
@@ -119,21 +116,21 @@ class Filters extends Component<FilterProps, FiltersState> {
                             Year
                         </IonLabel>
                         <IonDatetime
-                        value={this.props.searchParams.year}
-                        onIonChange={(evt) =>
-                            this.handleChange(evt, 'year')
-                        }
-                        display-format="YYYY"
-                        picker-format="YYYY"
-                        display-timezone="utc"
-                        name="date-picker"
-                        min="1900"
+                            value={this.props.searchParams.year}
+                            onIonChange={(evt) =>
+                                this.handleChange(evt, 'year')
+                            }
+                            display-format="YYYY"
+                            picker-format="YYYY"
+                            display-timezone="utc"
+                            name="date-picker"
+                            min="1900"
                         ></IonDatetime>
                     </IonItem>
                     <IonButton
                         color="primary"
                         expand="block"
-                        onClick={() => this.getNewMoviesData()}
+                        onClick={this.props.filterHandler}
                     >
                         FILTER
                     </IonButton>

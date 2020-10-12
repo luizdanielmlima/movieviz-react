@@ -88,7 +88,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
     return isEqual;
   }
 
-  getNewMoviesData() {
+  getNewMoviesData = () => {
     this.fetchMovies().then((moviesData: any) => {
       this.setState({ movies: moviesData });
       this.updateLocalParams();
@@ -164,7 +164,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
-          <Filters />
+          <Filters filterHandler={this.getNewMoviesData}/>
           {moviesList}
         </IonContent>
       </IonPage>
