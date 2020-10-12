@@ -18,11 +18,7 @@ const ActorsList = (props: any) => {
       let firstPart;
       let secondPart;
 
-      if (knownMovies.length === 0) {
-        firstPart = null;
-      } else {
-        firstPart = <span>{knownMovies[0].title}</span>
-      }
+      knownMovies.length === 0 ? firstPart = null : firstPart = <span>{knownMovies[0].title}</span>;
 
       if (knownMovies.length > 1) {
         secondPart = (

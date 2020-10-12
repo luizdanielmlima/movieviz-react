@@ -13,3 +13,11 @@
   align-items: center;
   justify-content: center;
 }
+
+.theme-btn {
+  cursor: pointer;
+}
+
+.theme-btn:hover {
+  color: white;
+}

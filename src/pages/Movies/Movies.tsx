@@ -153,7 +153,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
               TOP MOVIES
             </IonTitle>
             <IonIcon
-              className="mr-md"
+              className="theme-btn mr-md"
               icon={contrastOutline}
               slot="end"
               onClick={() => this.changeTheme()}
