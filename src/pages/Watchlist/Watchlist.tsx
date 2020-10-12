@@ -94,17 +94,6 @@ const Watchlist = (props: any) => {
                       size-md="4"
                       offset-md="4"
                     >
-                      {/* <IonButton
-                      color="primary"
-                      expand="block"
-                      onClick={() =>
-                        this.fetchMovies().then((moviesData) =>
-                          this.setState({ movies: moviesData }),
-                        )
-                      }
-                    >
-                      FILTER
-                    </IonButton> */}
                     </IonCol>
                   </IonRow>
                 </IonGrid>
