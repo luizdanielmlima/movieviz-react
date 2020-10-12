@@ -5,15 +5,6 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonButton,
-  IonSelectOption,
-  IonSelect,
-  IonLabel,
-  IonItem,
-  IonDatetime,
   IonSpinner,
   withIonLifeCycle,
   IonIcon,
@@ -25,9 +16,10 @@ import { connect } from 'react-redux';
 
 import apiKey from '../../shared/mdb-api-key.json';
 import './Movies.css';
-import genres from '../../shared/genres';
+
 import MovieList from '../../components/MovieList/MovieList';
 import * as actions from '../../store/actions';
+import Filters from '../../components/Filters/Filters';
 
 interface MoviesProps {
   searchParams?: any;
@@ -135,32 +127,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
     return movies;
   }
 
-  handleChange(event: any, from: string) {
-    const updatedValue = event.detail.value;
-    switch (from) {
-      case 'genre':
-        this.props.onSearchParamChanged('genre', updatedValue);
-        break;
-      case 'sortBy':
-        this.props.onSearchParamChanged('sortBy', updatedValue);
-        break;
-      case 'year':
-        this.props.onSearchParamChanged('year', updatedValue);
-        break;
-      default:
-      // do nothing
-    }
-  }
-
   render() {
-    const genreOptions = genres.map((genre) => {
-      return (
-        <IonSelectOption key={genre.id} value={genre.id}>
-          {genre.name}
-        </IonSelectOption>
-      );
-    });
-
     let moviesList: any;
     moviesList = (
       <div className="no-movies">
@@ -197,100 +164,8 @@ class Movies extends Component<MoviesProps, MoviesState> {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
-          <IonGrid className="ion-no-padding">
-            <IonRow className="ion-no-padding">
-              <IonCol
-                className="form-container"
-                size="12"
-                size-md="4"
-              >
-                <form>
-                  <IonGrid>
-                    <IonRow className="ion-no-padding">
-                      <IonCol size="12" size-sm="4" size-md="12">
-                        <IonItem>
-                          <IonLabel position="floating">
-                            Genre
-                          </IonLabel>
-                          <IonSelect
-                            name="genre"
-                            value={this.props.searchParams.genre}
-                            onIonChange={(evt) =>
-                              this.handleChange(evt, 'genre')
-                            }
-                          >
-                            {genreOptions}
-                          </IonSelect>
-                        </IonItem>
-                      </IonCol>
-                      <IonCol size="12" size-sm="4" size-md="12">
-                        <IonItem>
-                          <IonLabel position="floating">
-                            Order By:
-                          </IonLabel>
-                          <IonSelect
-                            name="sortBy"
-                            value={this.props.searchParams.sortBy}
-                            onIonChange={(evt) =>
-                              this.handleChange(evt, 'sortBy')
-                            }
-                          >
-                            <IonSelectOption value="popularity.desc">
-                              Popularity
-                            </IonSelectOption>
-                            <IonSelectOption value="revenue.desc">
-                              Revenue
-                            </IonSelectOption>
-                            <IonSelectOption value="vote_average.desc">
-                              Rating
-                            </IonSelectOption>
-                            <IonSelectOption value="vote_count.desc">
-                              Number of Votes
-                            </IonSelectOption>
-                          </IonSelect>
-                        </IonItem>
-                      </IonCol>
-                      <IonCol size="12" size-sm="2" size-md="12">
-                        <IonItem>
-                          <IonLabel position="floating">
-                            Year
-                          </IonLabel>
-                          <IonDatetime
-                            value={this.props.searchParams.year}
-                            onIonChange={(evt) =>
-                              this.handleChange(evt, 'year')
-                            }
-                            display-format="YYYY"
-                            picker-format="YYYY"
-                            display-timezone="utc"
-                            name="date-picker"
-                            min="1900"
-                          ></IonDatetime>
-                        </IonItem>
-                      </IonCol>
-                      <IonCol
-                        size="12"
-                        size-sm="2"
-                        size-md="4"
-                        offset-md="4"
-                      >
-                        <IonButton
-                          color="primary"
-                          expand="block"
-                          onClick={() => this.getNewMoviesData()}
-                        >
-                          FILTER
-                        </IonButton>
-                      </IonCol>
-                    </IonRow>
-                  </IonGrid>
-                </form>
-              </IonCol>
-              <IonCol size="12" size-md="8">
-                {moviesList}
-              </IonCol>
-            </IonRow>
-          </IonGrid>
+          <Filters />
+          {moviesList}
         </IonContent>
       </IonPage>
     );
