@@ -70,7 +70,7 @@ const ActorsList = (props: any) => {
   if (props.actors) {
     actors = props.actors.map((actor: any, index: number) => {
       return (
-        <IonList key={actor.id} className="actors-list" lines="none">
+        <IonList key={`${actor.id}_${index}`} className="actors-list" lines="none">
           <IonItem
             className="ion-no-padding actor-info-area"
             onClick={() => navToActor(actor.id)}

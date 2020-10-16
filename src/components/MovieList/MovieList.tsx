@@ -12,7 +12,7 @@ import { eye } from 'ionicons/icons';
 
 import * as actions from '../../store/actions';
 import configuration from '../../shared/configuration';
-import { IMovie  } from "../../shared/Interfaces";
+import { Movie  } from "../../shared/models";
 import './MovieList.css';
 
 const MovieList = (props: any) => {
@@ -38,7 +38,7 @@ const MovieList = (props: any) => {
     return () => window.removeEventListener('resize', resizeWindow);
   });
 
-  const getMovieRatingPct = (movie: IMovie) => {
+  const getMovieRatingPct = (movie: Movie) => {
     return movie.vote_average ? movie.vote_average * 10 + '%' : 0;
   };
 
@@ -55,7 +55,7 @@ const MovieList = (props: any) => {
     history.push('/movies/' + movieID);
   };
 
-  const getPoster = (movie: IMovie) => {
+  const getPoster = (movie: Movie) => {
     if (!movie.poster_path || movie.poster_path === '') {
       return `assets/images/placeholder.png`;
     } else {
@@ -74,7 +74,7 @@ const MovieList = (props: any) => {
     }
   };
 
-  const setFavClasses = (movie: IMovie) => {
+  const setFavClasses = (movie: Movie) => {
     if (props.watchList) {
       const founItems = [...props.watchList].filter(
         (item: any) => movie.id === item.id,
@@ -99,7 +99,7 @@ const MovieList = (props: any) => {
   if (props.movies && props.movies.length !== 0) {
     movies = props.movies.map((movie: any, index: number) => {
       return (       
-        <IonItem key={movie.id} className="ion-no-padding movie-info-area">
+        <IonItem key={`${movie.id}_${index}`} className="ion-no-padding movie-info-area">
           <IonThumbnail
             slot="start"
             className="movie-thumbnail"
