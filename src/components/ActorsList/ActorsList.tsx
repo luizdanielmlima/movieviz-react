@@ -4,13 +4,14 @@ import { IonList, IonItem, IonThumbnail } from '@ionic/react';
 
 import './ActorsList.css';
 import configuration from '../../shared/configuration';
+import { Cast } from '../../shared/models';
 
 const ActorsList = (props: any) => {
   const history = useHistory();
   const profileSizes = configuration.images.profile_sizes;
   const baseURL = configuration.images.secure_base_url;
 
-  const getKnownMovies = (actor: any) => {
+  const getKnownMovies = (actor: Cast) => {
     if (actor.known_for) {
       const knownMovies = actor.known_for.filter(
         (item: any) => item.media_type === 'movie',
@@ -45,7 +46,7 @@ const ActorsList = (props: any) => {
 
   // When actors list is presented in the Actors Page, it shows the "known for" below the actors´s name...
   // ... but when it is shown in the movie detail page it must show the character name
-  const getSubText = (actor: any) => {
+  const getSubText = (actor: Cast) => {
     if (props.isMovieCast) {
       return <p>{actor.character}</p>;
     } else {
@@ -53,7 +54,7 @@ const ActorsList = (props: any) => {
     }
   };
 
-  const getProfileImg = (actor: any) => {
+  const getProfileImg = (actor: Cast) => {
     if (!actor.profile_path || actor.profile_path === '') {
       return `assets/images/placeholder.png`;
     } else {

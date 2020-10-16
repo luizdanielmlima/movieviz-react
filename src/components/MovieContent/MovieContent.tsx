@@ -137,6 +137,7 @@ const MovieContent = (props: any) => {
   let moviePosters;
   if (posters) {
     moviePosters = posters.map((image: Image, index: number) => {
+      // TODO: all gallery stuff could use this as a component!
       return (
         <picture key={index} className="picture portrait-ratio">
           <IonImg
@@ -158,6 +159,7 @@ const MovieContent = (props: any) => {
   let movieGallery;
   if (images) {
     movieGallery = images.map((image: Image, index: number) => {
+      // TODO: all gallery stuff could use this as a component!
       return (
         <picture key={index} className="picture landscape-ratio">
           <IonImg
@@ -179,6 +181,7 @@ const MovieContent = (props: any) => {
   let movieTrailers;
   if (trailers) {
     movieTrailers = trailers.map((trailer: Trailer, index: number) => {
+      // TODO: all gallery stuff could use this as a component!
       return (
         <picture key={index} className="picture landscape-ratio">
           <IonImg
