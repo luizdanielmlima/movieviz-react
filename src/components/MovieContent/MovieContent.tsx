@@ -15,6 +15,7 @@ import configuration from '../../shared/configuration';
 import ActorsList from '../ActorsList/ActorsList';
 import './MovieContent.css';
 import * as actions from '../../store/actions';
+import { Image, Trailer  } from "../../shared/models";
 
 const MovieContent = (props: any) => {
   // console.log('MovieContent|props:', props);
@@ -135,7 +136,7 @@ const MovieContent = (props: any) => {
 
   let moviePosters;
   if (posters) {
-    moviePosters = posters.map((image: any, index: number) => {
+    moviePosters = posters.map((image: Image, index: number) => {
       return (
         <picture key={index} className="picture portrait-ratio">
           <IonImg
@@ -156,7 +157,7 @@ const MovieContent = (props: any) => {
 
   let movieGallery;
   if (images) {
-    movieGallery = images.map((image: any, index: number) => {
+    movieGallery = images.map((image: Image, index: number) => {
       return (
         <picture key={index} className="picture landscape-ratio">
           <IonImg
@@ -177,7 +178,7 @@ const MovieContent = (props: any) => {
 
   let movieTrailers;
   if (trailers) {
-    movieTrailers = trailers.map((trailer: any, index: number) => {
+    movieTrailers = trailers.map((trailer: Trailer, index: number) => {
       return (
         <picture key={index} className="picture landscape-ratio">
           <IonImg

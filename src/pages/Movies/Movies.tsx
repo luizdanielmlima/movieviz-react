@@ -20,6 +20,7 @@ import './Movies.css';
 import MovieList from '../../components/MovieList/MovieList';
 import * as actions from '../../store/actions';
 import Filters from '../../components/Filters/Filters';
+import { Movie  } from "../../shared/models";
 
 interface MoviesProps {
   searchParams?: any;
@@ -27,12 +28,8 @@ interface MoviesProps {
 }
 
 interface MoviesState {
-  movies?: any;
-  localParams?: {
-    genre: string;
-    sortBy: string;
-    year: string;
-  };
+  movies?: Movie[] | null;
+  localParams?: any;
   firstLoad?: boolean;
 }
 
@@ -51,7 +48,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
   }
 
   ionViewDidEnter() {
-    // logic to avoid getting unnecessary new data from API, if searchParams haven´t changed...
+    // Logic to avoid getting unnecessary new data from API, if searchParams haven´t changed...
     if (this.state.firstLoad) {
       this.setState({ firstLoad: false });
       this.getNewMoviesData();
@@ -97,7 +94,9 @@ class Movies extends Component<MoviesProps, MoviesState> {
 
   async fetchMovies() {
     console.log('fetchMovies()');
-    this.setState({ movies: null });
+    this.setState({ movies: [] });
+
+    // TODO: PUT ALL THIS API STUFF INTO a "data service"!
     let genreQuery: string;
     if (this.props.searchParams.genre === 'all') {
       genreQuery = ''; // all genres was selected

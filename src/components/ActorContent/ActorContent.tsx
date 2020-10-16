@@ -5,6 +5,7 @@ import { closeOutline } from 'ionicons/icons';
 import './ActorContent.css';
 import MovieList from '../MovieList/MovieList';
 import configuration from '../../shared/configuration';
+import { Image } from '../../shared/models';
 
 function ActorContent(props: any) {
   // console.log('MovieContent|props:', props);
@@ -52,8 +53,9 @@ function ActorContent(props: any) {
 
   let actorImages;
   if (images) {
-    actorImages = props.images.map((image: any, index: number) => {
+    actorImages = props.images.map((image: Image, index: number) => {
       return (
+        // TODO: all gallery stuff could use this as a component!
         <picture key={index} className="picture portrait-ratio">
           <IonImg
             className="ion-no-padding picture-content"

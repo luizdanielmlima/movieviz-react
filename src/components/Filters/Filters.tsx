@@ -21,23 +21,13 @@ interface FilterProps {
 }
 
 interface FiltersState {
-    // localParams?: {
-    //     genre: string;
-    //     sortBy: string;
-    //     year: string;
-    // };
+    
 }
 
 class Filters extends Component<FilterProps, FiltersState> {
     constructor(props: FilterProps) {
         super(props);
-        this.state = {
-            // localParams: {
-            //     genre: 'all',
-            //     sortBy: 'revenue.desc',
-            //     year: '2020-01-01',
-            // },
-        };
+        this.state = {};
     }
     
     handleChange(event: any, from: string) {

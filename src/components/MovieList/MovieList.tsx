@@ -12,6 +12,7 @@ import { eye } from 'ionicons/icons';
 
 import * as actions from '../../store/actions';
 import configuration from '../../shared/configuration';
+import { IMovie  } from "../../shared/Interfaces";
 import './MovieList.css';
 
 const MovieList = (props: any) => {
@@ -28,7 +29,6 @@ const MovieList = (props: any) => {
 
   useEffect(() => {
     if (!props.watchList) {
-      // console.log('Movielist|no props.watchlist found, try LS');
       props.loadWatchlistFromLS();
     }
 
@@ -38,8 +38,8 @@ const MovieList = (props: any) => {
     return () => window.removeEventListener('resize', resizeWindow);
   });
 
-  const getMovieRatingPct = (movie: any) => {
-    return movie.vote_average * 10 + '%';
+  const getMovieRatingPct = (movie: IMovie) => {
+    return movie.vote_average ? movie.vote_average * 10 + '%' : 0;
   };
 
   const getYear = (fullDate: string) => {
@@ -55,7 +55,7 @@ const MovieList = (props: any) => {
     history.push('/movies/' + movieID);
   };
 
-  const getPoster = (movie: any) => {
+  const getPoster = (movie: IMovie) => {
     if (!movie.poster_path || movie.poster_path === '') {
       return `assets/images/placeholder.png`;
     } else {
@@ -74,7 +74,7 @@ const MovieList = (props: any) => {
     }
   };
 
-  const setFavClasses = (movie: any) => {
+  const setFavClasses = (movie: IMovie) => {
     if (props.watchList) {
       const founItems = [...props.watchList].filter(
         (item: any) => movie.id === item.id,

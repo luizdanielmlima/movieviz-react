@@ -26,7 +26,7 @@ import {
 } from 'ionicons/icons';
 
 import apiKey from '../../shared/mdb-api-key.json';
-import { Cast, Crew, Movie } from '../../shared/models';
+import { Cast, Crew, Movie, Image, Trailer } from '../../shared/models';
 import MovieContent from '../../components/MovieContent/MovieContent';
 import './MovieDetail.css';
 
@@ -44,9 +44,9 @@ interface MovieState {
   movieYear?: string;
   cast?: Cast[];
   crew?: Crew[];
-  images?: any[];
+  images?: Image[];
   posters?: any[];
-  trailers?: any[];
+  trailers?: Trailer[];
   dataIsReady?: boolean;
 }
 
@@ -89,7 +89,7 @@ class MovieDetail extends Component<MovieProps, MovieState> {
           this.setState({ posters: movieGallery.posters });
 
           // Get trailers
-          this.fetchTrailers().then((movieTrailers: any) => {
+          this.fetchTrailers().then((movieTrailers: Trailer[]) => {
             this.setState({ trailers: movieTrailers });
             this.setState({ dataIsReady: true });
             // console.log('state after all data loaded: ', this.state);

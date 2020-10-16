@@ -44,3 +44,31 @@ export interface Crew {
   name?: string;
   profile_path?: string;
 }
+
+export interface Image {
+  aspect_ratio?: number;
+  file_path?: string;
+  height?: number;
+  iso_639_1?: string;
+  vote_average?: number;
+  vote_count?: number;
+  width?: number;
+}
+
+export interface Trailer {
+  id: string;
+  iso_639_1: string;
+  iso_3166_1: string;
+  key: string;
+  name: string;
+  site: string;
+  size: number;
+  thumb: string;
+  type: string;
+}
+
+export interface Filter {
+  genre?: string;
+  sortBy?: string;
+  year?: string;
+}
