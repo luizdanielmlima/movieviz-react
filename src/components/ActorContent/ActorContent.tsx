@@ -81,7 +81,6 @@ function ActorContent(props: any) {
         <ActorInfo actor={actor}/>
       )
     } else if (showMode === 'credits') {
-      /* ACTOR´s FILMOGRAPHY */
       actorContent = (
         <MovieList movies={filmography} isRanking={false} />
       );
