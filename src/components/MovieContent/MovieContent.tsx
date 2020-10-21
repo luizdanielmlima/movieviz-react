@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   IonIcon,
   IonImg,
@@ -8,59 +8,24 @@ import { connect } from 'react-redux';
 
 import { closeOutline } from 'ionicons/icons';
 
-import configuration from '../../shared/configuration';
 import ActorsList from '../ActorsList/ActorsList';
 import './MovieContent.css';
 import * as actions from '../../store/actions';
-import { Image, Trailer  } from "../../shared/models";
+import { Trailer  } from "../../shared/models";
 import MovieInfo from '../MovieInfo/MovieInfo';
 import MovieGallery from '../MovieGallery/MovieGallery';
+import MoviePosters from '../MoviePosters/MoviePosters';
 
 const MovieContent = (props: any) => {
   // console.log('MovieContent|props:', props);
   const [showModal, setShowModal] = useState(false);
   const [trailerID, setTrailerID] = useState('');
-  const [imagePath, setImagePath] = useState('');
-  const [imageClass, setImageClass] = useState('');
 
-  const [windowWidth, setWindowWidth] = useState(0);
-  const [windowHeight, setWindowHeight] = useState(0);
-
-  let resizeWindow = () => {
-    setWindowWidth(window.innerWidth);
-    setWindowHeight(window.innerHeight);
-  };
-
-  useEffect(() => {
-    resizeWindow();
-    window.addEventListener('resize', resizeWindow);
-    return () => window.removeEventListener('resize', resizeWindow);
-  }, []);
-
-  const posterSizes = configuration.images.poster_sizes;
-  const baseURL = configuration.images.secure_base_url;
   const youtubeURL = 'https://www.youtube.com/embed/';
   const youtubeParams = '?showinfo=0&modestbranding=1';
 
   const setTrailerIDAndOpenModal = (id: string) => {
     setTrailerID(id);
-    setShowModal(true);
-  };
-
-  const setImagePathAndOpenModal = (
-    filepath: string,
-    imageRatio: number,
-  ) => {
-    setImagePath(filepath);
-
-    // Must check screen ratio and image ratio to add classes accordingly:
-    // imageRatio is 1.77 for gallery images and 0.66 for posters
-    if (imageRatio >= windowWidth / windowHeight) {
-      setImageClass('fit-width');
-    } else {
-      setImageClass('fit-height');
-    }
-
     setShowModal(true);
   };
 
@@ -73,30 +38,9 @@ const MovieContent = (props: any) => {
     posters,
     trailers,
   } = props;
+
   let movieContent: any;
   movieContent = <p>Loading movie´s info</p>;
-
-  let moviePosters;
-  if (posters) {
-    moviePosters = posters.map((image: Image, index: number) => {
-      // TODO: all gallery stuff could use this as a component!
-      return (
-        <picture key={index} className="picture portrait-ratio">
-          <IonImg
-            className="ion-no-padding picture-content"
-            src={`${baseURL}${posterSizes[3]}${image.file_path}`}
-            alt="movie poster"
-            onClick={() =>
-              setImagePathAndOpenModal(
-                `${baseURL}${posterSizes[5]}${image.file_path}`,
-                0.66,
-              )
-            }
-          ></IonImg>
-        </picture>
-      );
-    });
-  }
 
   let movieTrailers;
   if (trailers) {
@@ -128,28 +72,7 @@ const MovieContent = (props: any) => {
       );
     } else if (showMode === 'posters') {
       movieContent = (
-        <div className="gallery">
-          {moviePosters}
-          <IonModal
-            isOpen={showModal}
-            cssClass="modal"
-            onDidDismiss={() => setShowModal(false)}
-          >
-            <div className="img-container">
-              <img
-                src={imagePath}
-                alt="movie poster"
-                className={imageClass}
-              />
-            </div>
-            <div className="close-btn">
-              <IonIcon
-                icon={closeOutline}
-                onClick={() => setShowModal(false)}
-              ></IonIcon>
-            </div>
-          </IonModal>
-        </div>
+        <MoviePosters posters={posters}/>
       );
     } else if (showMode === 'gallery') {
       movieContent = (
