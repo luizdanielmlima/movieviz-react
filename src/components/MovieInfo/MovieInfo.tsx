@@ -11,7 +11,7 @@ import './MovieInfo.css';
 
 interface myProps {
     movie: Movie;
-  }
+}
 
 function MovieInfo(props: any) {
     const history = useHistory();
@@ -76,7 +76,7 @@ function MovieInfo(props: any) {
     }
 
     let movieCont;
-    movieCont = <p>loading...</p>
+    movieCont = <p></p>
     if(movie) {
         movieCont = (
             <div
