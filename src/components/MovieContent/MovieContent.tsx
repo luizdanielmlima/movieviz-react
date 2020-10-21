@@ -16,6 +16,7 @@ import ActorsList from '../ActorsList/ActorsList';
 import './MovieContent.css';
 import * as actions from '../../store/actions';
 import { Image, Trailer  } from "../../shared/models";
+import MovieInfo from '../MovieInfo/MovieInfo';
 
 const MovieContent = (props: any) => {
   // console.log('MovieContent|props:', props);
@@ -197,68 +198,69 @@ const MovieContent = (props: any) => {
 
   if (movie) {
     if (showMode === 'main') {
-      movieContent = (
-        <div
-          className="main-container"
-          style={{
-            background: `linear-gradient(rgba(146, 213, 230, 0.9), rgba(128, 187, 202, 0.9)) no-repeat center top / cover,
-            url("${baseURL}${posterSizes[5]}${movie.poster_path}") no-repeat center center / cover`,
-          }}
-        >
-          <div className="main-wrapper">
-            <div className="main-info">
-              <picture className="thumb-container">
-                <IonImg
-                  className="thumb"
-                  src={`${baseURL}${posterSizes[3]}${movie.poster_path}`}
-                  alt="movie poster"
-                />
-              </picture>
-              <div className="movie-stats">
-                <div className="movie-stat-item">
-                  <p className="movie-stat-title">
-                    Rating {movie.vote_average}
-                  </p>
-                  <div className="rating rating-centered">
-                    <span
-                      style={{ width: getMovieRatingPct(movie) }}
-                    ></span>
-                  </div>
-                </div>
-                <div className="movie-stat-item">
-                  <p className="movie-stat-title">Runtime</p>
-                  <h6 className="movie-stat-value">
-                    {getMovieDuration(movie.runtime)}
-                  </h6>
-                </div>
-                <div className="movie-stat-item">
-                  <p className="movie-stat-title">Budget</p>
-                  <h6 className="movie-stat-value">
-                    $ {movie.budget}
-                  </h6>
-                </div>
-                <div className="movie-stat-item">
-                  <p className="movie-stat-title">Revenue</p>
-                  <h6 className="movie-stat-value">
-                    $ {movie.revenue}
-                  </h6>
-                </div>
-              </div>
-            </div>
-            <div className="secondary-info">
-              <div className="genres">{genres}</div>
-              <div className="overview">
-                <h4>Overview</h4>
-                <p>{movie.overview}</p>
-              </div>
-              <div className="crew">
-                <h4>Featured Crew</h4>
-                {crewList}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+      movieContent = <MovieInfo movie={movie} crew={crew}/>
+      // movieContent = (
+      //   <div
+      //     className="main-container"
+      //     style={{
+      //       background: `linear-gradient(rgba(146, 213, 230, 0.9), rgba(128, 187, 202, 0.9)) no-repeat center top / cover,
+      //       url("${baseURL}${posterSizes[5]}${movie.poster_path}") no-repeat center center / cover`,
+      //     }}
+      //   >
+      //     <div className="main-wrapper">
+      //       <div className="main-info">
+      //         <picture className="thumb-container">
+      //           <IonImg
+      //             className="thumb"
+      //             src={`${baseURL}${posterSizes[3]}${movie.poster_path}`}
+      //             alt="movie poster"
+      //           />
+      //         </picture>
+      //         <div className="movie-stats">
+      //           <div className="movie-stat-item">
+      //             <p className="movie-stat-title">
+      //               Rating {movie.vote_average}
+      //             </p>
+      //             <div className="rating rating-centered">
+      //               <span
+      //                 style={{ width: getMovieRatingPct(movie) }}
+      //               ></span>
+      //             </div>
+      //           </div>
+      //           <div className="movie-stat-item">
+      //             <p className="movie-stat-title">Runtime</p>
+      //             <h6 className="movie-stat-value">
+      //               {getMovieDuration(movie.runtime)}
+      //             </h6>
+      //           </div>
+      //           <div className="movie-stat-item">
+      //             <p className="movie-stat-title">Budget</p>
+      //             <h6 className="movie-stat-value">
+      //               $ {movie.budget}
+      //             </h6>
+      //           </div>
+      //           <div className="movie-stat-item">
+      //             <p className="movie-stat-title">Revenue</p>
+      //             <h6 className="movie-stat-value">
+      //               $ {movie.revenue}
+      //             </h6>
+      //           </div>
+      //         </div>
+      //       </div>
+      //       <div className="secondary-info">
+      //         <div className="genres">{genres}</div>
+      //         <div className="overview">
+      //           <h4>Overview</h4>
+      //           <p>{movie.overview}</p>
+      //         </div>
+      //         <div className="crew">
+      //           <h4>Featured Crew</h4>
+      //           {crewList}
+      //         </div>
+      //       </div>
+      //     </div>
+      //   </div>
+      // );
     } else if (showMode === 'cast') {
       movieContent = (
         <div className="actorlist-container">
