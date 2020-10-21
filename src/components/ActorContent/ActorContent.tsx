@@ -74,7 +74,6 @@ function ActorContent(props: any) {
     });
   }
 
-  // HTML for Actor Main Info
   if (actor) {
     if (showMode === 'main') {
       actorContent = (

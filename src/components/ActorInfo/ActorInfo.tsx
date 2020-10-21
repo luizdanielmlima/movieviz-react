@@ -3,6 +3,7 @@ import React from 'react';
 
 import { Cast } from '../../shared/models';
 import configuration from '../../shared/configuration';
+import './ActorInfo.css';
 
 interface myProps {
     actor: Cast;
