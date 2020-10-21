@@ -14,6 +14,7 @@ import './MovieContent.css';
 import * as actions from '../../store/actions';
 import { Image, Trailer  } from "../../shared/models";
 import MovieInfo from '../MovieInfo/MovieInfo';
+import MovieGallery from '../MovieGallery/MovieGallery';
 
 const MovieContent = (props: any) => {
   // console.log('MovieContent|props:', props);
@@ -37,7 +38,6 @@ const MovieContent = (props: any) => {
   }, []);
 
   const posterSizes = configuration.images.poster_sizes;
-  const backdropSizes = configuration.images.backdrop_sizes;
   const baseURL = configuration.images.secure_base_url;
   const youtubeURL = 'https://www.youtube.com/embed/';
   const youtubeParams = '?showinfo=0&modestbranding=1';
@@ -90,28 +90,6 @@ const MovieContent = (props: any) => {
               setImagePathAndOpenModal(
                 `${baseURL}${posterSizes[5]}${image.file_path}`,
                 0.66,
-              )
-            }
-          ></IonImg>
-        </picture>
-      );
-    });
-  }
-
-  let movieGallery;
-  if (images) {
-    movieGallery = images.map((image: Image, index: number) => {
-      // TODO: all gallery stuff could use this as a component!
-      return (
-        <picture key={index} className="picture landscape-ratio">
-          <IonImg
-            className="ion-no-padding picture-content"
-            src={`${baseURL}${backdropSizes[1]}${image.file_path}`}
-            alt="movie pic"
-            onClick={() =>
-              setImagePathAndOpenModal(
-                `${baseURL}${backdropSizes[2]}${image.file_path}`,
-                1.77,
               )
             }
           ></IonImg>
@@ -175,28 +153,7 @@ const MovieContent = (props: any) => {
       );
     } else if (showMode === 'gallery') {
       movieContent = (
-        <div className="gallery">
-          {movieGallery}
-          <IonModal
-            isOpen={showModal}
-            cssClass="modal"
-            onDidDismiss={() => setShowModal(false)}
-          >
-            <div className="img-container">
-              <img
-                src={imagePath}
-                alt="movie poster"
-                className={imageClass}
-              />
-            </div>
-            <div className="close-btn">
-              <IonIcon
-                icon={closeOutline}
-                onClick={() => setShowModal(false)}
-              ></IonIcon>
-            </div>
-          </IonModal>
-        </div>
+        <MovieGallery images={images}/>
       );
     } else if (showMode === 'trailers') {
       movieContent = (
