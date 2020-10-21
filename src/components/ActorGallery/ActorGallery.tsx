@@ -5,6 +5,7 @@ import { closeOutline } from 'ionicons/icons';
 
 import { Image } from '../../shared/models';
 import configuration from '../../shared/configuration';
+import './ActorGallery.css';
 
 interface myProps {
     images: Image[];
