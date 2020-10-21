@@ -18,7 +18,6 @@ function MovieInfo(props: any) {
 
     let { movie, crew } = props;
     const movieGenres = movie.genre_ids;
-    console.log('movie: ', movie);
     const posterSizes = configuration.images.poster_sizes;
     const baseURL = configuration.images.secure_base_url;
 

@@ -5,7 +5,6 @@ import { closeOutline } from 'ionicons/icons';
 import { Image } from '../../shared/models';
 import configuration from '../../shared/configuration';
 import { IonIcon, IonImg, IonModal } from '@ionic/react';
-import './MovieGallery.css';
 
 interface myProps {
     images: Image[];

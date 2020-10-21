@@ -1,6 +1,9 @@
 @import '../../theme/variables.css';
 @import '../../theme/styles.css';
 
+/* CSS RELATED TO GALLERY, POSTERS AND TRAILERS */
+/* DECIDED TO LEAVE HERE IN THE "FATHER" COMPONENT */
+
 .modal .close-btn {
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.5);
