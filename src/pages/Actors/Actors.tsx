@@ -5,10 +5,9 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonSpinner,
 } from '@ionic/react';
-import axios from 'axios';
 
-import apiKey from '../../shared/mdb-api-key.json';
 import { fetchActors } from '../../shared/data';
 
 import './Actors.css';
@@ -18,40 +17,31 @@ class Actors extends Component {
   state = {
     actors: null,
     imgParams: null,
+    isLoading: false
   };
 
   componentDidMount() {
+    this.setState({ isLoading: true });
     fetchActors().then((actorsData: any) => {
       this.setState({ actors: actorsData });
-      // console.log('Actors state: ', this.state);
+      this.setState({ isLoading: false });
     });
-  }
-
-  async fetchActors() {
-    // console.log('fetchActors()');
-    const actors = await axios
-      .get(
-        `https://api.themoviedb.org/3/person/popular?api_key=${apiKey.key}&language=en-US`,
-      )
-      .then((response) => {
-        const data = response.data.results;
-        // console.log('fetchActors()|data: ', data);
-        return data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return actors;
   }
 
   render() {
     let actorsList: any;
-    actorsList = <p>Waiting for data...</p>;
-    if (this.state.actors) {
+    if(this.state.isLoading) {
+      actorsList = <div className="loading-container">
+        <IonSpinner name="dots" />
+      </div>
+    }
+
+    if (!this.state.isLoading && this.state.actors) {
       actorsList = (
         <ActorsList actors={this.state.actors} isMovieCast={false} />
       );
     }
+    
     return (
       <IonPage>
         <IonHeader>

@@ -29,6 +29,7 @@ interface MoviesState {
   movies?: Movie[] | null;
   localParams?: any;
   firstLoad?: boolean;
+  isLoading: boolean;
 }
 
 class Movies extends Component<MoviesProps, MoviesState> {
@@ -42,6 +43,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
         year: '2020-01-01',
       },
       firstLoad: true,
+      isLoading: false
     };
   }
 
@@ -85,21 +87,25 @@ class Movies extends Component<MoviesProps, MoviesState> {
 
   getNewMoviesData = () => {
     this.setState({ movies: [] });
+    this.setState({ isLoading: true });
     let { genre, sortBy, year } = this.props.searchParams;
     fetchMovies(genre, sortBy, year).then((moviesData: any) => {
       this.setState({ movies: moviesData });
       this.updateLocalParams();
+      this.setState({ isLoading: false });
     });
   }
 
   render() {
     let moviesList: any;
-    moviesList = (
-      <div className="no-movies">
-        <IonSpinner name="dots" />
-      </div>
-    );
-    if (this.state.movies) {
+    if(this.state.isLoading) {
+      moviesList = (
+        <div className="loading-container">
+          <IonSpinner name="dots" />
+        </div>
+      );
+    }    
+    if (!this.state.isLoading && this.state.movies) {
       moviesList = (
         <MovieList movies={this.state.movies} isRanking={true} />
       );
