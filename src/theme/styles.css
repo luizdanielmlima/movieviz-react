@@ -68,6 +68,15 @@ h6 {
   margin-left: var(--margin-lg);
 }
 
+/* GENERAL CLASSES USED IN ALL COMPONENTS */
+.loading-container {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ACTOR AND MOVIE THUMB CONTAINERS */
 .thumb-container {
   position: relative;

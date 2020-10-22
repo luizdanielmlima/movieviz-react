@@ -88,7 +88,6 @@ const MovieList = (props: any) => {
   };
 
   let movies: any;
-  movies = <p>...</p>;
   if (props.movies && props.movies.length === 0) {
     movies = (
       <div className="no-movies">

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
-import axios from 'axios';
 
 import {
   IonBackButton,
@@ -25,7 +24,7 @@ import {
   easelOutline,
 } from 'ionicons/icons';
 
-import apiKey from '../../shared/mdb-api-key.json';
+import { fetchMovie, fetchMovieGallery, fetchMovieCredits, fetchMovieTrailers } from '../../shared/data';
 import { Cast, Crew, Movie, Image, Trailer } from '../../shared/models';
 import MovieContent from '../../components/MovieContent/MovieContent';
 import './MovieDetail.css';
@@ -70,101 +69,32 @@ class MovieDetail extends Component<MovieProps, MovieState> {
   }
 
   ionViewDidEnter() {
-    this.setState({ movieId: this.props.match.params.id });
-    this.fetchMovie().then((movieData: any) => {
-      // console.log('movieData: ', movieData);
+    const movieID = this.props.match.params.id;
+    this.setState({ movieId: movieID });
+    fetchMovie(movieID).then((movieData: any) => {
       this.setState({ movie: movieData });
       this.setState({
         movieYear: movieData.release_date.substring(0, 4),
       });
 
       // Get credits (cast and crew)
-      this.fetchCredits().then((movieCredits: any) => {
+      fetchMovieCredits(movieID).then((movieCredits: any) => {
         this.setState({ cast: movieCredits.cast });
         this.setState({ crew: movieCredits.crew });
 
         // Get gallery
-        this.fetchGallery().then((movieGallery: any) => {
+        fetchMovieGallery(movieID).then((movieGallery: any) => {
           this.setState({ images: movieGallery.backdrops });
           this.setState({ posters: movieGallery.posters });
 
           // Get trailers
-          this.fetchTrailers().then((movieTrailers: Trailer[]) => {
+          fetchMovieTrailers(movieID).then((movieTrailers: Trailer[]) => {
             this.setState({ trailers: movieTrailers });
             this.setState({ dataIsReady: true });
-            // console.log('state after all data loaded: ', this.state);
           });
         });
       });
     });
-  }
-
-  async fetchMovie() {
-    // movie id to test: 448119
-    const movieData = await axios
-      .get(
-        `https://api.themoviedb.org/3/movie/${this.state.movieId}?api_key=${apiKey.key}&language=en-US`,
-      )
-      .then((response) => {
-        // console.log(response.data);
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return movieData;
-  }
-
-  async fetchCredits() {
-    const movieCredits = await axios
-      .get(
-        `https://api.themoviedb.org/3/movie/${this.state.movieId}/credits?api_key=${apiKey.key}&language=en-US`,
-      )
-      .then((response) => {
-        const credits = response.data;
-        return credits;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return movieCredits;
-  }
-
-  async fetchGallery() {
-    const movieGallery = await axios
-      .get(
-        `https://api.themoviedb.org/3/movie/${this.state.movieId}/images?api_key=${apiKey.key}`,
-      )
-      .then((response) => {
-        const gallery = response.data;
-        return gallery;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return movieGallery;
-  }
-
-  async fetchTrailers() {
-    const movieTrailers = await axios
-      .get(
-        `https://api.themoviedb.org/3/movie/${this.state.movieId}/videos?api_key=${apiKey.key}`,
-      )
-      .then((response) => {
-        const trailers = response.data.results
-          .filter((trailer: any) => trailer.type === 'Trailer')
-          .map((trailer: any) => {
-            return {
-              ...trailer,
-              thumb: `https://img.youtube.com/vi/${trailer.key}/mqdefault.jpg`,
-            };
-          });
-        return trailers;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return movieTrailers;
   }
 
   onSegmentChange = (type: any) => {
