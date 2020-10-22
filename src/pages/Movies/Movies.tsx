@@ -11,16 +11,14 @@ import {
 } from '@ionic/react';
 import { contrastOutline } from 'ionicons/icons';
 
-import axios from 'axios';
 import { connect } from 'react-redux';
 
-import apiKey from '../../shared/mdb-api-key.json';
 import './Movies.css';
-
 import MovieList from '../../components/MovieList/MovieList';
 import * as actions from '../../store/actions';
 import Filters from '../../components/Filters/Filters';
-import { Movie  } from "../../shared/models";
+import { Movie  } from '../../shared/models';
+import { fetchMovies } from '../../shared/data';
 
 interface MoviesProps {
   searchParams?: any;
@@ -86,44 +84,13 @@ class Movies extends Component<MoviesProps, MoviesState> {
   }
 
   getNewMoviesData = () => {
-    this.fetchMovies().then((moviesData: any) => {
+    this.setState({ movies: [] });
+    let { genre, sortBy, year } = this.props.searchParams;
+    fetchMovies(genre, sortBy, year).then((moviesData: any) => {
+      console.log('moviesData: ', moviesData);
       this.setState({ movies: moviesData });
       this.updateLocalParams();
     });
-  }
-
-  async fetchMovies() {
-    console.log('fetchMovies()');
-    this.setState({ movies: [] });
-
-    // TODO: PUT ALL THIS API STUFF INTO a "data service"!
-    let genreQuery: string;
-    if (this.props.searchParams.genre === 'all') {
-      genreQuery = ''; // all genres was selected
-    } else {
-      genreQuery = `with_genres=${this.props.searchParams.genre}`;
-    }
-
-    const yearOnlyString = this.props.searchParams.year.substring(
-      0,
-      4,
-    );
-    const yearFromQuery = `primary_release_date.gte=${yearOnlyString}-01-01`;
-    const yearToQuery = `primary_release_date.lte=${yearOnlyString}-12-30`;
-
-    const sortByQuery = `sort_by=${this.props.searchParams.sortBy}`;
-
-    const movies = await axios
-      .get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey.key}&language=en-US&${sortByQuery}&include_adult=false&include_video=false&page=1&${genreQuery}&${yearFromQuery}&${yearToQuery}`,
-      )
-      .then((response) => {
-        return response.data.results;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return movies;
   }
 
   render() {
@@ -157,9 +124,6 @@ class Movies extends Component<MoviesProps, MoviesState> {
               slot="end"
               onClick={() => this.changeTheme()}
             ></IonIcon>
-            {/* <IonNote slot="end" className="ion-padding">
-              v1.5
-            </IonNote> */}
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>

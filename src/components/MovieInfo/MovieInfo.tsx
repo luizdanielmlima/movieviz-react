@@ -6,14 +6,17 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../store/actions';
 import configuration from '../../shared/configuration';
-import { Movie } from '../../shared/models';
+import { Movie, Crew } from '../../shared/models';
 import './MovieInfo.css';
 
 interface myProps {
     movie: Movie;
+    crew: Crew[];
+    searchParams: any;
+    onSearchParamChanged: any;
 }
 
-function MovieInfo(props: any) {
+function MovieInfo(props: myProps) {
     const history = useHistory();
 
     let { movie, crew } = props;
