@@ -45,3 +45,72 @@ export const fetchMovies = async (genre: string, sortBy: string, year: string,) 
       });
     return actors;
   }
+
+  // MOVIE DATA
+  export const fetchMovie = async (movieID: string) => {
+    // movie id to test: 448119
+    const movieData = await axios
+      .get(
+        `https://api.themoviedb.org/3/movie/${movieID}?api_key=${apiKey.key}&language=en-US`,
+      )
+      .then((response) => {
+        // console.log(response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return movieData;
+  }
+
+  export const fetchMovieCredits = async (movieID: string) => {
+    const movieCredits = await axios
+      .get(
+        `https://api.themoviedb.org/3/movie/${movieID}/credits?api_key=${apiKey.key}&language=en-US`,
+      )
+      .then((response) => {
+        const credits = response.data;
+        return credits;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return movieCredits;
+  }
+
+  export const fetchMovieGallery = async (movieID: string) => {
+    const movieGallery = await axios
+      .get(
+        `https://api.themoviedb.org/3/movie/${movieID}/images?api_key=${apiKey.key}`,
+      )
+      .then((response) => {
+        const gallery = response.data;
+        return gallery;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return movieGallery;
+  }
+
+  export const fetchMovieTrailers = async (movieID: string) => {
+    const movieTrailers = await axios
+      .get(
+        `https://api.themoviedb.org/3/movie/${movieID}/videos?api_key=${apiKey.key}`,
+      )
+      .then((response) => {
+        const trailers = response.data.results
+          .filter((trailer: any) => trailer.type === 'Trailer')
+          .map((trailer: any) => {
+            return {
+              ...trailer,
+              thumb: `https://img.youtube.com/vi/${trailer.key}/mqdefault.jpg`,
+            };
+          });
+        return trailers;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return movieTrailers;
+  }
