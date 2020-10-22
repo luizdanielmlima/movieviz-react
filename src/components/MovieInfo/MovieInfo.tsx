@@ -20,19 +20,23 @@ function MovieInfo(props: myProps) {
     const history = useHistory();
 
     let { movie, crew } = props;
-    const movieGenres = movie.genre_ids;
+    const movieGenres = movie.genres;
     const posterSizes = configuration.images.poster_sizes;
     const baseURL = configuration.images.secure_base_url;
 
-    const getMovieDuration = (totalMin: number) => {
-        const hours = totalMin / 60;
-        const rhours = Math.floor(hours);
-        const minutes = (hours - rhours) * 60;
-        const rminutes = Math.round(minutes);
-        if (rminutes === 0) {
-            return rhours + ' h';
+    const getMovieDuration = (totalMin: number | undefined): string => {
+        if(totalMin) {
+            const hours = totalMin / 60;
+            const rhours = Math.floor(hours);
+            const minutes = (hours - rhours) * 60;
+            const rminutes = Math.round(minutes);
+            if (rminutes === 0) {
+                return rhours + ' h';
+            } else {
+                return rhours + ' h  ' + rminutes + ' min';
+            }
         } else {
-            return rhours + ' h  ' + rminutes + ' min';
+            return '0';
         }
     };
 

@@ -30,3 +30,18 @@ export const fetchMovies = async (genre: string, sortBy: string, year: string,) 
       });
     return movies;
   }
+
+  export const fetchActors = async () => {
+    const actors = await axios
+      .get(
+        `https://api.themoviedb.org/3/person/popular?api_key=${apiKey.key}&language=en-US`,
+      )
+      .then((response) => {
+        const data = response.data.results;
+        return data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return actors;
+  }

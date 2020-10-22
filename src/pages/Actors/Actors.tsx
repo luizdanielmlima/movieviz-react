@@ -9,6 +9,8 @@ import {
 import axios from 'axios';
 
 import apiKey from '../../shared/mdb-api-key.json';
+import { fetchActors } from '../../shared/data';
+
 import './Actors.css';
 import ActorsList from '../../components/ActorsList/ActorsList';
 
@@ -19,7 +21,7 @@ class Actors extends Component {
   };
 
   componentDidMount() {
-    this.fetchActors().then((actorsData: any) => {
+    fetchActors().then((actorsData: any) => {
       this.setState({ actors: actorsData });
       // console.log('Actors state: ', this.state);
     });

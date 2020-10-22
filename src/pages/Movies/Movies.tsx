@@ -87,7 +87,6 @@ class Movies extends Component<MoviesProps, MoviesState> {
     this.setState({ movies: [] });
     let { genre, sortBy, year } = this.props.searchParams;
     fetchMovies(genre, sortBy, year).then((moviesData: any) => {
-      console.log('moviesData: ', moviesData);
       this.setState({ movies: moviesData });
       this.updateLocalParams();
     });
