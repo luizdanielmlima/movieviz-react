@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
-import axios from 'axios';
 
 import {
   IonBackButton,
