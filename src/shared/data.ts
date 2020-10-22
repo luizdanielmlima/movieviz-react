@@ -1,5 +1,6 @@
 import axios from 'axios';
 import apiKey from './mdb-api-key.json';
+import { dateToNum } from './utils';
 
 export const fetchMovies = async (genre: string, sortBy: string, year: string,) => {
     let genreQuery: string;
@@ -113,4 +114,56 @@ export const fetchMovies = async (genre: string, sortBy: string, year: string,) 
         console.log(error);
       });
     return movieTrailers;
+  }
+
+  // ACTOR DATA
+  export const fetchActor = async (actorID: string) => {
+    const actorData = await axios
+      .get(
+        `https://api.themoviedb.org/3/person/${actorID}?api_key=${apiKey.key}&language=en-US`,
+      )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return actorData;
+  }
+
+  export const fetchActorGallery = async (actorID: string) => {
+    const images = await axios
+      .get(
+        `https://api.themoviedb.org/3/person/${actorID}/images?api_key=${apiKey.key}&language=en-US`,
+      )
+      .then((response) => {
+        return response.data.profiles;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return images;
+  }
+
+  export const fetchActorFilmography = async (actorID: string) => {
+    const movielist = await axios
+      .get(
+        `https://api.themoviedb.org/3/person/${actorID}/movie_credits?api_key=${apiKey.key}&language=en-US`,
+      )
+      .then((response) => {
+        const orderedFilmography = response.data.cast
+          .filter((item: any) => item.poster_path !== null)
+          .sort((a: any, b: any) => {
+            return (
+              dateToNum(a.release_date) -
+              dateToNum(b.release_date)
+            );
+          })
+          .reverse();
+        return orderedFilmography;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return movielist;
   }

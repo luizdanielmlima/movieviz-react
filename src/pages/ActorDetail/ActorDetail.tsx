@@ -23,7 +23,7 @@ import {
   imagesOutline,
 } from 'ionicons/icons';
 
-import apiKey from '../../shared/mdb-api-key.json';
+import { fetchActor, fetchActorGallery, fetchActorFilmography } from '../../shared/data';
 import './ActorDetail.css';
 import ActorContent from '../../components/ActorContent/ActorContent';
 import { Cast } from '../../shared/models';
@@ -62,83 +62,23 @@ class Actor extends Component<ActorProps, ActorState> {
   }
 
   ionViewDidEnter() {
-    this.setState({ actorId: this.props.match.params.id });
-    this.fetchActor().then((actorData: any) => {
+    const actorID = this.props.match.params.id;
+    this.setState({ actorId: actorID });
+    fetchActor(actorID).then((actorData: any) => {
       // console.log('actorData: ', actorData);
       this.setState({ actor: actorData });
 
-      // fetch actor photos
-      this.fetchActorImages().then((images) => {
+      // fetch actor gallery
+      fetchActorGallery(actorID).then((images) => {
         this.setState({ gallery: images });
 
         // fetch cctor fimography (list of movies)
-        this.fetchFilmography().then((list) => {
+        fetchActorFilmography(actorID).then((list) => {
           this.setState({ filmography: list });
           this.setState({ dataIsReady: true });
         });
       });
     });
-  }
-
-  async fetchActor() {
-    const actorData = await axios
-      .get(
-        `https://api.themoviedb.org/3/person/${this.state.actorId}?api_key=${apiKey.key}&language=en-US`,
-      )
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return actorData;
-  }
-
-  async fetchActorImages() {
-    const images = await axios
-      .get(
-        `https://api.themoviedb.org/3/person/${this.state.actorId}/images?api_key=${apiKey.key}&language=en-US`,
-      )
-      .then((response) => {
-        return response.data.profiles;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return images;
-  }
-
-  async fetchFilmography() {
-    const movielist = await axios
-      .get(
-        `https://api.themoviedb.org/3/person/${this.state.actorId}/movie_credits?api_key=${apiKey.key}&language=en-US`,
-      )
-      .then((response) => {
-        const orderedFilmography = response.data.cast
-          .filter((item: any) => item.poster_path !== null)
-          .sort((a: any, b: any) => {
-            return (
-              this.dateToNum(a.release_date) -
-              this.dateToNum(b.release_date)
-            );
-          })
-          .reverse();
-        return orderedFilmography;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return movielist;
-  }
-
-  dateToNum(date: string) {
-    let dateAsNumber: number;
-    if (!date) {
-      dateAsNumber = 0;
-    } else {
-      dateAsNumber = Number(date.replace(/-/g, ''));
-    }
-    return dateAsNumber;
   }
 
   onSegmentChange = (type: any) => {

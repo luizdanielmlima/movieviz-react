@@ -25,7 +25,6 @@ import {
   easelOutline,
 } from 'ionicons/icons';
 
-import apiKey from '../../shared/mdb-api-key.json';
 import { fetchMovie, fetchMovieGallery, fetchMovieCredits, fetchMovieTrailers } from '../../shared/data';
 import { Cast, Crew, Movie, Image, Trailer } from '../../shared/models';
 import MovieContent from '../../components/MovieContent/MovieContent';
