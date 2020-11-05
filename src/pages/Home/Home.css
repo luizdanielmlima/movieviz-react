@@ -1,0 +1,29 @@
+.home {
+  color: white;
+  height: 100vh;
+  width: 100vw;
+  background-color: paleturquoise;
+  background-image: url('/assets/images/movieviz_home_bg.jpg');
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.home figure p {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.credits {
+  text-align: center;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+.credits .personal {
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}

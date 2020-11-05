@@ -54,6 +54,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
       this.getNewMoviesData();
     } else {
       const globalParams = { ...this.props.searchParams };
+      console.log('globalParams: ', globalParams);
       const paramsAreEqual = this.paramsAreEqual(
         this.state.localParams,
         globalParams,
