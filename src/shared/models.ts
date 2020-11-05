@@ -69,7 +69,7 @@ export interface Trailer {
 }
 
 export interface Filter {
-  genre?: string;
-  sortBy?: string;
-  year?: string;
+  genre: string;
+  sortBy: string;
+  year: string;
 }

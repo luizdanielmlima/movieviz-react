@@ -17,7 +17,7 @@ import './Movies.css';
 import MovieList from '../../components/MovieList/MovieList';
 import * as actions from '../../store/actions';
 import Filters from '../../components/Filters/Filters';
-import { Movie  } from '../../shared/models';
+import { Filter, Movie  } from '../../shared/models';
 import { fetchMovies } from '../../shared/data';
 
 interface MoviesProps {
@@ -47,7 +47,14 @@ class Movies extends Component<MoviesProps, MoviesState> {
     };
   }
 
+  componentDidMount() {
+    console.log('Movies|componentDidMount()');
+    console.log('Movies|componentDidMount()|props:', this.props);
+  }
+
   ionViewDidEnter() {
+    console.log('Movies|ionViewDidEnter()');
+    console.log('Movies|ionViewDidEnter()|props:', this.props);
     // Logic to avoid getting unnecessary new data from API, if searchParams haven´t changed...
     if (this.state.firstLoad) {
       this.setState({ firstLoad: false });
