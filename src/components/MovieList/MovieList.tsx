@@ -52,7 +52,7 @@ const MovieList = (props: any) => {
   };
 
   const navToMovie = (movieID: string) => {
-    history.push('/movies/' + movieID);
+    history.push('/main/movies/' + movieID);
   };
 
   const getPoster = (movie: Movie) => {

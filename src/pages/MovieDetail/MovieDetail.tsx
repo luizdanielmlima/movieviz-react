@@ -148,7 +148,7 @@ class MovieDetail extends Component<MovieProps, MovieState> {
       content = (
         <div>
           <Route
-            path={`/movies/${movieId}`}
+            path={`/main/movies/${movieId}`}
             render={(props: any) => (
               <MovieContent
                 {...props}
@@ -175,7 +175,7 @@ class MovieDetail extends Component<MovieProps, MovieState> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton defaultHref="/movies"></IonBackButton>
+              <IonBackButton defaultHref="/main/movies"></IonBackButton>
               {title}
             </IonButtons>
           </IonToolbar>

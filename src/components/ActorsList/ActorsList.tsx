@@ -63,7 +63,7 @@ const ActorsList = (props: any) => {
   };
 
   const navToActor = (actorID: string) => {
-    history.push('/actors/' + actorID);
+    history.push('/main/actors/' + actorID);
   };
 
   let actors: any;

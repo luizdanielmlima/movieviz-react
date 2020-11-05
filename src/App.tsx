@@ -2,11 +2,7 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
-  IonLabel,
   IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 
@@ -35,12 +31,8 @@ import './theme/styles.css';
 import './theme/variables.css';
 
 /* Other */
-import Movies from './pages/Movies/Movies';
-import MovieDetail from './pages/MovieDetail/MovieDetail';
-import Actors from './pages/Actors/Actors';
-import ActorDetail from './pages/ActorDetail/ActorDetail';
-import Watchlist from './pages/Watchlist/Watchlist';
 import Home from './pages/Home/Home';
+import Main from './pages/Main/Main';
 
 const store = createStore(reducer);
 
@@ -49,32 +41,11 @@ const App = () => {
     <Provider store={store}>
       <IonApp>
         <IonReactRouter>
-          <IonTabs>
-            <IonRouterOutlet>
-              <Route path="/" component={Home} exact={true} />
-              <Route path="/movies" component={Movies} exact={true} />
-              <Route path="/movies/:id" component={MovieDetail} />
-              <Route path="/actors" component={Actors} exact={true} />
-              <Route path="/actors/:id" component={ActorDetail} />
-              <Route path="/watchlist" component={Watchlist} />
-              {/* <Route
-                path="/"
-                render={() => <Redirect to="/home" />}
-                exact={true}
-              /> */}
-            </IonRouterOutlet>
-            <IonTabBar slot="bottom">
-              <IonTabButton tab="movies" href="/movies">
-                <IonLabel>MOVIES</IonLabel>
-              </IonTabButton>
-              <IonTabButton tab="actors" href="/actors">
-                <IonLabel>ACTORS</IonLabel>
-              </IonTabButton>
-              <IonTabButton tab="watchlist" href="/watchlist">
-                <IonLabel>WATCHLIST</IonLabel>
-              </IonTabButton>
-            </IonTabBar>
-          </IonTabs>
+          <IonRouterOutlet>
+            <Route path="/home" component={Home} />
+            <Route path="/main" component={Main} />
+            <Redirect exact from="/" to="/home" />
+          </IonRouterOutlet>
         </IonReactRouter>
       </IonApp>
     </Provider>

@@ -104,7 +104,7 @@ class Actor extends Component<ActorProps, ActorState> {
       content = (
         <div className="content">
           <Route
-            path={`/actors/${this.state.actorId}`}
+            path={`/main/actors/${this.state.actorId}`}
             render={(props: any) => (
               <ActorContent
                 {...props}
@@ -125,7 +125,7 @@ class Actor extends Component<ActorProps, ActorState> {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton defaultHref="/actors"></IonBackButton>
+              <IonBackButton defaultHref="/main/actors"></IonBackButton>
               <IonTitle>{actor ? actor.name : ''}</IonTitle>
             </IonButtons>
           </IonToolbar>

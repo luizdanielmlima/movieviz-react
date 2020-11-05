@@ -46,7 +46,7 @@ function MovieInfo(props: myProps) {
 
     const changeGenreAndNavToMovies = (genreID: string) => {
         props.onSearchParamChanged('genre', genreID);
-        history.push('/movies/');
+        history.push('/main/movies/');
       };
 
     let genres;
