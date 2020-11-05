@@ -20,11 +20,7 @@ interface FilterProps {
     filterHandler?: any;
 }
 
-interface FiltersState {
-    
-}
-
-class Filters extends Component<FilterProps, FiltersState> {
+class Filters extends Component<FilterProps, any> {
     constructor(props: FilterProps) {
         super(props);
         this.state = {};
@@ -33,17 +29,17 @@ class Filters extends Component<FilterProps, FiltersState> {
     handleChange(event: any, from: string) {
         const updatedValue = event.detail.value;
         switch (from) {
-        case 'genre':
-            this.props.onSearchParamChanged('genre', updatedValue);
-            break;
-        case 'sortBy':
-            this.props.onSearchParamChanged('sortBy', updatedValue);
-            break;
-        case 'year':
-            this.props.onSearchParamChanged('year', updatedValue);
-            break;
-        default:
-        // do nothing
+            case 'genre':
+                this.props.onSearchParamChanged('genre', updatedValue);
+                break;
+            case 'sortBy':
+                this.props.onSearchParamChanged('sortBy', updatedValue);
+                break;
+            case 'year':
+                this.props.onSearchParamChanged('year', updatedValue);
+                break;
+            default:
+            // do nothing
         }
     }
 
@@ -54,7 +50,7 @@ class Filters extends Component<FilterProps, FiltersState> {
                 {genre.name}
               </IonSelectOption>
             );
-          });
+        });
 
         return (
             <form className="form">

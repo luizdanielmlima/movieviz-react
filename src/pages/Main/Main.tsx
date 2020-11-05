@@ -28,7 +28,7 @@ function Main() {
               <Route path="/main/actors/:id" component={ActorDetail} />
               <Route path="/main/watchlist" component={Watchlist} />
               <Route
-                path="/main"
+                path="/main/"
                 render={() => <Redirect to="/main/movies" />}
                 exact={true}
               />

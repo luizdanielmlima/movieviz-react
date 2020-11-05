@@ -17,7 +17,7 @@ import './Movies.css';
 import MovieList from '../../components/MovieList/MovieList';
 import * as actions from '../../store/actions';
 import Filters from '../../components/Filters/Filters';
-import { Filter, Movie  } from '../../shared/models';
+import { Movie  } from '../../shared/models';
 import { fetchMovies } from '../../shared/data';
 
 interface MoviesProps {
@@ -61,7 +61,6 @@ class Movies extends Component<MoviesProps, MoviesState> {
       this.getNewMoviesData();
     } else {
       const globalParams = { ...this.props.searchParams };
-      console.log('globalParams: ', globalParams);
       const paramsAreEqual = this.paramsAreEqual(
         this.state.localParams,
         globalParams,
@@ -96,7 +95,18 @@ class Movies extends Component<MoviesProps, MoviesState> {
   getNewMoviesData = () => {
     this.setState({ movies: [] });
     this.setState({ isLoading: true });
-    let { genre, sortBy, year } = this.props.searchParams;
+
+    //  had to do this to avoid a strange error in props.searchParams (null)
+    let genre = 'all';
+    let sortBy = 'revenue.desc';
+    let year = '2020-01-01';
+
+    if (this.props.searchParams) {
+      genre = this.props.searchParams.genre;
+      sortBy = this.props.searchParams.sortBy;
+      year = this.props.searchParams.year;
+    }
+    
     fetchMovies(genre, sortBy, year).then((moviesData: any) => {
       this.setState({ movies: moviesData });
       this.updateLocalParams();
@@ -114,9 +124,15 @@ class Movies extends Component<MoviesProps, MoviesState> {
       );
     }    
     if (!this.state.isLoading && this.state.movies) {
-      moviesList = (
-        <MovieList movies={this.state.movies} isRanking={true} />
-      );
+      if(!this.props.searchParams) {
+        moviesList = (
+          <p>It´s not finding this.props.searchParams !!</p>
+        );
+      } else {
+        moviesList = (
+          <MovieList movies={this.state.movies} isRanking={true} />
+        );
+      }      
     }
 
     return (

@@ -15,7 +15,17 @@ import configuration from '../../shared/configuration';
 import { Movie  } from "../../shared/models";
 import './MovieList.css';
 
-const MovieList = (props: any) => {
+interface MovieListProps {
+  isRanking?: boolean;
+  movies?: Movie[];
+  watchList?: Movie[];
+  searchParams?: any;
+  onSearchParamChanged?: any;
+  loadWatchlistFromLS?: any;
+  onUpdateWatchlist?: any;
+}
+
+const MovieList = (props: MovieListProps) => {
   // console.log(props);
   const history = useHistory();
   const baseURL = 'https://image.tmdb.org/t/p/';
@@ -97,7 +107,10 @@ const MovieList = (props: any) => {
   }
   if (props.movies && props.movies.length !== 0) {
     movies = props.movies.map((movie: any, index: number) => {
-      return (       
+      return (
+        // <div key={`${movie.id}_${index}`}>
+        //   <p>{movie.title}</p>
+        // </div>   
         <IonItem key={`${movie.id}_${index}`} className="ion-no-padding movie-info-area">
           <IonThumbnail
             slot="start"
