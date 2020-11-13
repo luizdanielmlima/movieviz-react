@@ -15,18 +15,18 @@ import configuration from '../../shared/configuration';
 import { Movie  } from "../../shared/models";
 import './MovieList.css';
 
-interface MovieListProps {
-  isRanking?: boolean;
-  movies?: Movie[];
-  watchList?: Movie[];
-  searchParams?: any;
-  onSearchParamChanged?: any;
-  loadWatchlistFromLS?: any;
-  onUpdateWatchlist?: any;
-}
+// interface MovieListProps {
+//   isRanking?: boolean;
+//   movies?: Movie[];
+//   watchList?: Movie[];
+//   searchParams?: any;
+//   onSearchParamChanged?: any;
+//   loadWatchlistFromLS?: any;
+//   onUpdateWatchlist?: any;
+// }
 
-const MovieList = (props: MovieListProps) => {
-  // console.log(props);
+const MovieList = (props: any) => {
+  console.log('MovieList|props: ', props);
   const history = useHistory();
   const baseURL = 'https://image.tmdb.org/t/p/';
   const posterSizes = configuration.images.poster_sizes;
@@ -38,6 +38,7 @@ const MovieList = (props: MovieListProps) => {
   };
 
   useEffect(() => {
+    console.log('MovieList|useEffect|props: ', props);
     if (!props.watchList) {
       props.loadWatchlistFromLS();
     }
@@ -99,6 +100,7 @@ const MovieList = (props: MovieListProps) => {
 
   let movies: any;
   if (props.movies && props.movies.length === 0) {
+    console.log('has props.movies, length = 0');
     movies = (
       <div className="no-movies">
         <p>No movies found</p>
@@ -106,6 +108,8 @@ const MovieList = (props: MovieListProps) => {
     );
   }
   if (props.movies && props.movies.length !== 0) {
+    console.log('has props.movies, length > 0');
+    console.log('props.movies: ', props.movies);
     movies = props.movies.map((movie: any, index: number) => {
       return (
         // <div key={`${movie.id}_${index}`}>
@@ -177,7 +181,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     onUpdateWatchlist: (movie: any) =>
       dispatch(actions.updateWatchlist(movie)),
-    loadWatchlistFromLS: (movie: any) =>
+    loadWatchlistFromLS: () =>
       dispatch(actions.loadWatchlistFromLS()),
   };
 };

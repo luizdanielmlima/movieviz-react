@@ -76,10 +76,12 @@ class Movies extends Component<MoviesProps, MoviesState> {
   }
 
   updateLocalParams() {
+    const paramsCopy = {...this.props.searchParams};
+    console.log('paramsCopy: ', paramsCopy);
     const newParams = {
-      genre: this.props.searchParams.genre,
-      sortBy: this.props.searchParams.sortBy,
-      year: this.props.searchParams.year,
+      genre: paramsCopy.genre,
+      sortBy: paramsCopy.sortBy,
+      year: paramsCopy.year,
     };
     this.setState({ localParams: newParams });
   }
@@ -96,7 +98,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
     this.setState({ movies: [] });
     this.setState({ isLoading: true });
 
-    //  had to do this to avoid a strange error in props.searchParams (null)
+    //  start: did this to see if I avoid a strange error in props.searchParams (null)
     let genre = 'all';
     let sortBy = 'revenue.desc';
     let year = '2020-01-01';
@@ -106,8 +108,10 @@ class Movies extends Component<MoviesProps, MoviesState> {
       sortBy = this.props.searchParams.sortBy;
       year = this.props.searchParams.year;
     }
+    // end
     
     fetchMovies(genre, sortBy, year).then((moviesData: any) => {
+      console.log('Movies|fetchMovies()|movies:', moviesData);
       this.setState({ movies: moviesData });
       this.updateLocalParams();
       this.setState({ isLoading: false });
@@ -115,6 +119,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
   }
 
   render() {
+    console.log('Movies|render()');
     let moviesList: any;
     if(this.state.isLoading) {
       moviesList = (
@@ -126,7 +131,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
     if (!this.state.isLoading && this.state.movies) {
       if(!this.props.searchParams) {
         moviesList = (
-          <p>It´s not finding this.props.searchParams !!</p>
+          <p>.</p>
         );
       } else {
         moviesList = (
@@ -165,12 +170,14 @@ class Movies extends Component<MoviesProps, MoviesState> {
 }
 
 const mapStateToProps = (state: any) => {
+  console.log('Movies|mapStateToProps()');
   return {
     searchParams: state.searchParams,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
+  console.log('Movies|mapDispatchToProps()');
   return {
     onSearchParamChanged: (paramKey: string, paramValue: string) =>
       dispatch(actions.updateSearchParam(paramKey, paramValue)),

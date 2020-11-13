@@ -44,7 +44,7 @@ const reducer = (state = initialState, action) => {
         const savedWatchlist = JSON.parse(
           localStorage.getItem('watchList'),
         );
-        // console.log('savedWatchlist: ', savedWatchlist);
+        console.log('savedWatchlist: ', savedWatchlist);
         return updatedObject(state, { watchList: savedWatchlist });
       } else {
         localStorage.setItem('watchList', JSON.stringify([]));
