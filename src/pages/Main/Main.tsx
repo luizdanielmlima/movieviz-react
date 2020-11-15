@@ -23,9 +23,9 @@ function Main() {
           <IonTabs>
             <IonRouterOutlet>
               <Route path="/main/movies" component={Movies} exact={true} />
-              <Route path="/main/movies/:id" component={MovieDetail} />
+              <Route path="/main/movies/:id" component={MovieDetail} exact={true}/>
               <Route path="/main/actors" component={Actors} exact={true} />
-              <Route path="/main/actors/:id" component={ActorDetail} />
+              <Route path="/main/actors/:id" component={ActorDetail} exact={true}/>
               <Route path="/main/watchlist" component={Watchlist} />
               <Route
                 path="/main/"

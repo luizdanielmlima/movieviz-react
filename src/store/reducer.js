@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 import { updatedObject } from './utility';
 
 const initialState = {
-  watchList: null,
+  watchList: [],
   isLoading: true,
   searchParams: {
     genre: 'all',

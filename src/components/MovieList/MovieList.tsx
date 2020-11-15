@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -15,39 +15,11 @@ import configuration from '../../shared/configuration';
 import { Movie  } from "../../shared/models";
 import './MovieList.css';
 
-// interface MovieListProps {
-//   isRanking?: boolean;
-//   movies?: Movie[];
-//   watchList?: Movie[];
-//   searchParams?: any;
-//   onSearchParamChanged?: any;
-//   loadWatchlistFromLS?: any;
-//   onUpdateWatchlist?: any;
-// }
-
 const MovieList = (props: any) => {
-  console.log('MovieList|props: ', props);
+  // console.log('MovieList|props: ', props);
   const history = useHistory();
   const baseURL = 'https://image.tmdb.org/t/p/';
   const posterSizes = configuration.images.poster_sizes;
-
-  const [windowWidth, setWindowWidth] = useState(0);
-
-  let resizeWindow = () => {
-    setWindowWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    console.log('MovieList|useEffect|props: ', props);
-    if (!props.watchList) {
-      props.loadWatchlistFromLS();
-    }
-
-    // use window w and h to resize movie title...
-    resizeWindow();
-    window.addEventListener('resize', resizeWindow);
-    return () => window.removeEventListener('resize', resizeWindow);
-  });
 
   const getMovieRatingPct = (movie: Movie) => {
     return movie.vote_average ? movie.vote_average * 10 + '%' : 0;
@@ -75,7 +47,7 @@ const MovieList = (props: any) => {
   };
 
   const shortenTitle = (text: string) => {
-    const maxTextLength = windowWidth / 16;
+    const maxTextLength = window.innerWidth / 16;
     if (text.length > maxTextLength) {
       const croppedText = text.substring(0, maxTextLength);
       const shortenedText = `${croppedText} ...`;
@@ -87,29 +59,31 @@ const MovieList = (props: any) => {
 
   const setFavClasses = (movie: Movie) => {
     if (props.watchList) {
-      const founItems = [...props.watchList].filter(
+      const foundItems = [...props.watchList].filter(
         (item: any) => movie.id === item.id,
       ).length;
-      if (founItems > 0) {
+      if (foundItems > 0) {
         return 'fav-btn-bg fav-btn-bg-on';
       } else {
         return 'fav-btn-bg';
       }
+    } else {
+      return 'fav-btn-bg';
     }
   };
 
   let movies: any;
+  movies = <p>wait...</p>
+
   if (props.movies && props.movies.length === 0) {
-    console.log('has props.movies, length = 0');
     movies = (
       <div className="no-movies">
         <p>No movies found</p>
       </div>
     );
   }
-  if (props.movies && props.movies.length !== 0) {
-    console.log('has props.movies, length > 0');
-    console.log('props.movies: ', props.movies);
+
+  if (props.movies && props.movies.length > 0) {
     movies = props.movies.map((movie: any, index: number) => {
       return (
         // <div key={`${movie.id}_${index}`}>

@@ -23,13 +23,15 @@ import { fetchMovies } from '../../shared/data';
 interface MoviesProps {
   searchParams?: any;
   onSearchParamChanged?: any;
+  onSaveMovies?: any;
+  movies?: Movie[]
 }
 
 interface MoviesState {
-  movies?: Movie[] | null;
   localParams?: any;
   firstLoad?: boolean;
   isLoading: boolean;
+  movies?: Movie[] | null;
 }
 
 class Movies extends Component<MoviesProps, MoviesState> {
@@ -47,14 +49,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
     };
   }
 
-  componentDidMount() {
-    console.log('Movies|componentDidMount()');
-    console.log('Movies|componentDidMount()|props:', this.props);
-  }
-
   ionViewDidEnter() {
-    console.log('Movies|ionViewDidEnter()');
-    console.log('Movies|ionViewDidEnter()|props:', this.props);
     // Logic to avoid getting unnecessary new data from API, if searchParams haven´t changed...
     if (this.state.firstLoad) {
       this.setState({ firstLoad: false });
@@ -77,7 +72,6 @@ class Movies extends Component<MoviesProps, MoviesState> {
 
   updateLocalParams() {
     const paramsCopy = {...this.props.searchParams};
-    console.log('paramsCopy: ', paramsCopy);
     const newParams = {
       genre: paramsCopy.genre,
       sortBy: paramsCopy.sortBy,
@@ -95,23 +89,11 @@ class Movies extends Component<MoviesProps, MoviesState> {
   }
 
   getNewMoviesData = () => {
-    this.setState({ movies: [] });
     this.setState({ isLoading: true });
 
-    //  start: did this to see if I avoid a strange error in props.searchParams (null)
-    let genre = 'all';
-    let sortBy = 'revenue.desc';
-    let year = '2020-01-01';
-
-    if (this.props.searchParams) {
-      genre = this.props.searchParams.genre;
-      sortBy = this.props.searchParams.sortBy;
-      year = this.props.searchParams.year;
-    }
-    // end
+    let {genre, sortBy, year} = this.props.searchParams;
     
     fetchMovies(genre, sortBy, year).then((moviesData: any) => {
-      console.log('Movies|fetchMovies()|movies:', moviesData);
       this.setState({ movies: moviesData });
       this.updateLocalParams();
       this.setState({ isLoading: false });
@@ -119,8 +101,8 @@ class Movies extends Component<MoviesProps, MoviesState> {
   }
 
   render() {
-    console.log('Movies|render()');
     let moviesList: any;
+
     if(this.state.isLoading) {
       moviesList = (
         <div className="loading-container">
@@ -128,16 +110,13 @@ class Movies extends Component<MoviesProps, MoviesState> {
         </div>
       );
     }    
-    if (!this.state.isLoading && this.state.movies) {
-      if(!this.props.searchParams) {
+
+    if (!this.state.isLoading) {
+      if (this.state.movies) {
         moviesList = (
-          <p>.</p>
-        );
-      } else {
-        moviesList = (
-          <MovieList movies={this.state.movies} isRanking={true} />
-        );
-      }      
+          <MovieList isRanking={true} movies={this.state.movies} />
+        );  
+      }
     }
 
     return (
@@ -170,14 +149,12 @@ class Movies extends Component<MoviesProps, MoviesState> {
 }
 
 const mapStateToProps = (state: any) => {
-  console.log('Movies|mapStateToProps()');
   return {
     searchParams: state.searchParams,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
-  console.log('Movies|mapDispatchToProps()');
   return {
     onSearchParamChanged: (paramKey: string, paramValue: string) =>
       dispatch(actions.updateSearchParam(paramKey, paramValue)),

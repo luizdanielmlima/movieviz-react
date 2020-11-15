@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonCol,
   IonContent,
@@ -21,6 +21,14 @@ import * as actions from '../../store/actions';
 
 const Watchlist = (props: any) => {
   const [curGenre, setcurGenre] = useState('all');
+
+  // TO-DO: this is generating a redux error, left commented, investigate why !!!
+  // useEffect(() => {
+  //   console.log('WatchList|useEffect|props: ', props);
+  //   if (!props.watchList) {
+  //     props.loadWatchlistFromLS();
+  //   }
+  // });
 
   const genreOptions = genres.map((genre) => {
     return (
@@ -117,7 +125,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    loadWatchlistFromLS: (movie: any) =>
+    loadWatchlistFromLS: () =>
       dispatch(actions.loadWatchlistFromLS()),
   };
 };

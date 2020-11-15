@@ -8,7 +8,7 @@ function Home() {
     const history = useHistory();
 
     const navToMovies = () => {
-        history.push('/main');
+        history.push('/main/movies');
     };
 
     return (
