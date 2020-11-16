@@ -25,6 +25,8 @@ interface MoviesProps {
   onSearchParamChanged?: any;
   onSaveMovies?: any;
   movies?: Movie[]
+  watchList?: Movie[];
+  loadWatchlistFromLS?: any;
 }
 
 interface MoviesState {
@@ -47,6 +49,11 @@ class Movies extends Component<MoviesProps, MoviesState> {
       firstLoad: true,
       isLoading: false
     };
+
+    // TO-DO: the only problem with loading from LS here is if user refreshes page in the watchlist page, should also check there
+    if (!this.props.watchList) {
+      this.props.loadWatchlistFromLS();
+    }
   }
 
   ionViewDidEnter() {
@@ -151,6 +158,7 @@ class Movies extends Component<MoviesProps, MoviesState> {
 const mapStateToProps = (state: any) => {
   return {
     searchParams: state.searchParams,
+    watchList: state.watchList,
   };
 };
 
@@ -158,6 +166,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     onSearchParamChanged: (paramKey: string, paramValue: string) =>
       dispatch(actions.updateSearchParam(paramKey, paramValue)),
+    loadWatchlistFromLS: () =>
+      dispatch(actions.loadWatchlistFromLS()),
   };
 };
 

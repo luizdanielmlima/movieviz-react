@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 import { updatedObject } from './utility';
 
 const initialState = {
-  watchList: [],
+  watchList: null,
   isLoading: true,
   searchParams: {
     genre: 'all',
@@ -44,7 +44,7 @@ const reducer = (state = initialState, action) => {
         const savedWatchlist = JSON.parse(
           localStorage.getItem('watchList'),
         );
-        console.log('savedWatchlist: ', savedWatchlist);
+        // console.log('savedWatchlist: ', savedWatchlist);
         return updatedObject(state, { watchList: savedWatchlist });
       } else {
         localStorage.setItem('watchList', JSON.stringify([]));
