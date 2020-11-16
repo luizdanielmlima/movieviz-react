@@ -16,7 +16,7 @@ import { Movie  } from "../../shared/models";
 import './MovieList.css';
 
 const MovieList = (props: any) => {
-  // console.log('MovieList|props: ', props);
+  console.log('MovieList|props: ', props);
   const history = useHistory();
   const baseURL = 'https://image.tmdb.org/t/p/';
   const posterSizes = configuration.images.poster_sizes;
@@ -73,7 +73,7 @@ const MovieList = (props: any) => {
   };
 
   let movies: any;
-  movies = <p>wait...</p>
+  movies = <p>...</p>
 
   if (props.movies && props.movies.length === 0) {
     movies = (

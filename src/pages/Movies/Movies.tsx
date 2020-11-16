@@ -49,11 +49,6 @@ class Movies extends Component<MoviesProps, MoviesState> {
       firstLoad: true,
       isLoading: false
     };
-
-    // TO-DO: the only problem with loading from LS here is if user refreshes page in the watchlist page, should also check there
-    if (!this.props.watchList) {
-      this.props.loadWatchlistFromLS();
-    }
   }
 
   ionViewDidEnter() {
@@ -71,6 +66,12 @@ class Movies extends Component<MoviesProps, MoviesState> {
         this.getNewMoviesData();
       }
     }
+
+    // TO-DO: the only problem with loading from LS here is if user refreshes page in the watchlist page, should also check there
+    // ALSO this generates a redux error, I think doing LS stuff is causing side effects... investigate!!
+    // if (!this.props.watchList) {
+    //   this.props.loadWatchlistFromLS();
+    // }
   }
 
   changeTheme() {

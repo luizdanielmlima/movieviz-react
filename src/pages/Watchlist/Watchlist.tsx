@@ -20,6 +20,7 @@ import genres from '../../shared/genres';
 import * as actions from '../../store/actions';
 
 const Watchlist = (props: any) => {
+  console.log('Watchlist|props: ', props);
   const [curGenre, setcurGenre] = useState('all');
 
   const genreOptions = genres.map((genre) => {

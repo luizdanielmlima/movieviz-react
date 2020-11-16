@@ -13,6 +13,13 @@ export const loadWatchlistFromLS = () => {
   };
 };
 
+export const saveWatchlist = (watchList) => {
+  return {
+    type: actionTypes.SAVE_WATCHLIST,
+    watchList: watchList
+  };
+};
+
 export const updateSearchParam = (paramKey, paramValue) => {
   return {
     type: actionTypes.UPDATE_SEARCH_PARAM,
