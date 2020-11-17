@@ -27,6 +27,7 @@ interface MoviesProps {
   movies?: Movie[]
   watchList?: Movie[];
   loadWatchlistFromLS?: any;
+  onSavedWatchlist?: any;
 }
 
 interface MoviesState {
@@ -56,6 +57,12 @@ class Movies extends Component<MoviesProps, MoviesState> {
     if (this.state.firstLoad) {
       this.setState({ firstLoad: false });
       this.getNewMoviesData();
+
+      const watchlistOnLS = localStorage.getItem('watchList');
+      if (watchlistOnLS != null) {
+        const savedWatchlist = JSON.parse(watchlistOnLS);
+        this.props.onSavedWatchlist(savedWatchlist);
+      }
     } else {
       const globalParams = { ...this.props.searchParams };
       const paramsAreEqual = this.paramsAreEqual(
@@ -66,12 +73,6 @@ class Movies extends Component<MoviesProps, MoviesState> {
         this.getNewMoviesData();
       }
     }
-
-    // TO-DO: the only problem with loading from LS here is if user refreshes page in the watchlist page, should also check there
-    // ALSO this generates a redux error, I think doing LS stuff is causing side effects... investigate!!
-    // if (!this.props.watchList) {
-    //   this.props.loadWatchlistFromLS();
-    // }
   }
 
   changeTheme() {
@@ -169,6 +170,8 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(actions.updateSearchParam(paramKey, paramValue)),
     loadWatchlistFromLS: () =>
       dispatch(actions.loadWatchlistFromLS()),
+    onSavedWatchlist: (watchList:Movie[]) =>
+      dispatch(actions.saveWatchlist(watchList)),
   };
 };
 

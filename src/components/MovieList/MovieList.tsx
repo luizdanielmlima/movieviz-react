@@ -16,7 +16,7 @@ import { Movie  } from "../../shared/models";
 import './MovieList.css';
 
 const MovieList = (props: any) => {
-  console.log('MovieList|props: ', props);
+  // console.log('MovieList|props: ', props);
   const history = useHistory();
   const baseURL = 'https://image.tmdb.org/t/p/';
   const posterSizes = configuration.images.poster_sizes;

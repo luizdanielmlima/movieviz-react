@@ -21,7 +21,6 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.UPDATE_WATCHLIST:
       let updatedWatchlist;
-      // const movieIndex = state.watchList.indexOf(action.movie);
       const founItemsNum = [...state.watchList].filter(
         (item) => action.movie.id === item.id,
       ).length;
@@ -33,10 +32,10 @@ const reducer = (state = initialState, action) => {
       } else {
         updatedWatchlist = state.watchList.concat(action.movie);
       }
-      // localStorage.setItem(
-      //   'watchList',
-      //   JSON.stringify(updatedWatchlist),
-      // );
+      localStorage.setItem(
+        'watchList',
+        JSON.stringify(updatedWatchlist),
+      );
       return updatedObject(state, { watchList: updatedWatchlist });
 
     case actionTypes.LOAD_WATCHLIST_FROM_LSTORAGE:
@@ -51,7 +50,7 @@ const reducer = (state = initialState, action) => {
         return null;
       }
     case actionTypes.SAVE_WATCHLIST:
-      console.log('reducer|SAVE_WATCHLIST:', action.watchList);
+      // console.log('reducer|SAVE_WATCHLIST:', action.watchList);
       return updatedObject(state, { watchList: action.watchList });
     default:
       return state;
