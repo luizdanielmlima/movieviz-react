@@ -71,8 +71,8 @@ const ActorsList = (props: any) => {
   if (props.actors) {
     actors = props.actors.map((actor: any, index: number) => {
       return (
-        <IonList key={`${actor.id}_${index}`} className="actors-list" lines="none">
           <IonItem
+            key={`${actor.id}_${index}`}
             className="ion-no-padding actor-info-area"
             onClick={() => navToActor(actor.id)}
           >
@@ -88,12 +88,15 @@ const ActorsList = (props: any) => {
               {getSubText(actor)}
             </div>
           </IonItem>
-        </IonList>
       );
     });
   }
 
-  return <div>{actors}</div>;
+  return <div>
+      <IonList className="actors-list" lines="none">
+          {actors}
+      </IonList>
+  </div>;
 };
 
 export default ActorsList;

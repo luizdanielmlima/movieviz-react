@@ -17,15 +17,10 @@ describe('<MovieContent />', () => {
         wrapper = shallow(<ActorContent />);
         wrapper.setProps({
             actor: {
-                adult: false,
                 biography: "Willard Christopher Smith, Jr. (born September 25, 1968) is an American actor, ...",
                 birthday: "1968-09-25",
-                deathday: null,
-                gender: 2,
-                homepage: "http://www.willsmith.com",
                 id: 2888,
                 imdb_id: "nm0000226",
-                known_for_department: "Acting",
                 name: "Will Smith",
                 place_of_birth: "Philadelphia, Pennsylvania, USA ",
                 popularity: 29.601,

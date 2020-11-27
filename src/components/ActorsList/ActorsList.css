@@ -22,7 +22,7 @@ ion-thumbnail {
 .actor-info-area {
   cursor: pointer;
   position: relative;
-  margin: 6px 12px;
+  margin: 20px 12px;
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   --background: linear-gradient(
